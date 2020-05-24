@@ -72,11 +72,20 @@ struct RemoteUser: Decodable, CustomStringConvertible {
               try container.encode(string)
             }
           }
+            
+            var wrappedValue: Any {
+                switch self {
+                case .int(let int):
+                  return int
+                case .string(let string):
+                  return string
+                }
+            }
         }
 
         var description: String {
-            return ([street.number, street.name, city, state, country, postcode] as [Any?])
-                .compactMap { $0 != nil ? "\($0 ?? "")" : nil }
+            return ([street.number, street.name, city, state, country, postcode?.wrappedValue] as [Any?])
+                .compactMap { $0 != nil ? "\($0!)" : nil }
                 .joined(separator: " ")
         }
     }
