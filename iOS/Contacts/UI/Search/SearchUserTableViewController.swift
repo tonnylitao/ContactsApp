@@ -1,0 +1,56 @@
+//
+//  SearchUserTableViewController.swift
+//  Contacts
+//
+//  Created by TonnyLi on 23/05/20.
+//  Copyright © 2020 tonnysunm. All rights reserved.
+//
+
+import UIKit
+import SVPullToRefresh
+import CoreData
+
+
+class SearchUserTableViewController: UITableViewController {
+    
+    private let filters: [Filter] = [.all, .byNationality("NZ"), .byNationality("US")]
+        
+    weak var nav: UINavigationController?
+    
+    lazy var viewModel: UserTableViewModel = {
+      let viewModel = UserTableViewModel()
+        viewModel.tableView = self.tableView
+        return viewModel
+    }()
+    
+    
+    @IBAction func filterChanged(_ sender: UISegmentedControl) {
+        viewModel.searchWith(filters[sender.selectedSegmentIndex])
+    }
+    
+    // MARK: - Table view data source
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.fetchedObjects?.count ?? 0
+    }
+
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: UserTableViewCell.identifier, for: indexPath) as! UserTableViewCell
+
+        cell.data = viewModel.fetchedObjects?[indexPath.row]
+
+        return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath) as? UserTableViewCell
+        
+        let vc = UIStoryboard.main.viewController("ProfileTableViewController") as! ProfileTableViewController
+        
+        vc.thumbnailImage = cell?.avatarImgView.image
+        vc.data = viewModel.fetchedObjects?[indexPath.row]
+        
+        nav?.pushViewController(vc, animated: true)
+    }
+    
+}

@@ -1,0 +1,10 @@
+platform :ios, '10.0'
+
+use_frameworks!
+
+target 'Contacts' do
+  pod 'AlamofireImage', '~> 4.1'
+  pod 'MBProgressHUD', '~> 1.2.0'
+  pod 'SVPullToRefresh', '~> 0.4'
+  pod 'FlagKit', '~> 2.2'
+end
