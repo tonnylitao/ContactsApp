@@ -23,7 +23,7 @@ class ContactsTests: XCTestCase {
         let count = 1
         
         Admin.get(.users, parameters: ["results": "\(count)", "seed": "office"]) {
-            target = $0.unwrapResult
+            target = $0.wrappedResult
             expects.fulfill()
         }
         

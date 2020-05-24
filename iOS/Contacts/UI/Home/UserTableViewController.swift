@@ -119,7 +119,7 @@ extension UserTableViewController {
             /*
             enable infinite scrolling if local has enough data
             */
-            footerView?.enabled = result.unwrapResult == ApiConfig.defaultPagingSize
+            footerView?.enabled = result.wrappedResult == ApiConfig.defaultPagingSize
 
         }) { result in
             

@@ -33,7 +33,7 @@ extension Result {
         return nil
     }
     
-    var unwrapResult: Success? {
+    var wrappedResult: Success? {
         if case let .success(result) = self {
             return result
         }
