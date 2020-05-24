@@ -1,0 +1,191 @@
+//
+//  DBEntity.swift
+//  Contacts
+//
+//  Created by TonnyLi on 23/05/20.
+//  Copyright © 2020 tonnysunm. All rights reserved.
+//
+
+import Foundation
+import CoreData
+
+/*
+             RemoteEntity    <------->    DBEntity
+                  /                           \
+                 /                             \
+    (Decodable data from api)            (NSManagedObject)
+ 
+    two protocols connect two differeent categories
+ */
+
+protocol DBEntity: class {
+    var uniqueId: TypeOfId { get }
+}
+
+typealias DBIdsResultCompletion = (Result<[TypeOfId], AppError>) -> ()
+
+extension DBEntity where Self: NSManagedObject {
+    
+    static func keepConsistencyWith<M: RemoteEntity>(previousPageLastId: TypeOfId?,
+                                                     remoteData: [M],
+                                                     condition: NSPredicate?,
+                                                     completion: @escaping DBIdsResultCompletion) {
+        
+        let count = remoteData.count
+        
+        if count == 0 {
+            completion(.success([]))
+            
+            deleteAllAfter(previousPageLastId, with: condition, completion)
+        }else if count == 1 {
+            deleteAllAfter(remoteData.last?.uniqueId, with: condition, completion)
+            
+            updateOrInsert(remoteData.first!, with: condition, completion)
+        }else {
+            updateOrInsertOrDeleteInRange(remoteData, with: condition, completion)
+            
+            if count < ApiConfig.defaultPagingSize {
+                deleteAllAfter(remoteData.last?.uniqueId, with: condition, completion)
+            }
+        }
+    }
+    
+    fileprivate static func deleteAllAfter(_ id: TypeOfId?,
+                                           with condition: NSPredicate?,
+                                           _ completion: @escaping DBIdsResultCompletion) {
+        
+        guard let id = id, let entityName = Self.entity().name else { return }
+        
+        CoreDataStack.performBackgroundTask({ context in
+            
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+            fetchRequest.predicate = NSPredicate(format: "id > %d", id) && condition
+            
+            let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+            do {
+                try context.execute(batchDeleteRequest)
+            }catch {
+                return .failure(.coredata(error.localizedDescription))
+            }
+            
+            print(context.nickName, "delete: \(String(describing: fetchRequest.predicate))")
+            
+            return .success([])
+        }, completion: completion)
+    }
+    
+    fileprivate static func updateOrInsert<M: RemoteEntity>(_ remoteData: M,
+                                                         with condition: NSPredicate?,
+                                                         _ completion: @escaping DBIdsResultCompletion) {
+        
+        guard let entityName = Self.entity().name else  {
+            completion(.failure(.coredata("Self.entity().name is nil")))
+            return
+        }
+        
+        let id = remoteData.uniqueId
+        
+        CoreDataStack.performBackgroundTask({ context in
+            
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName).apply {
+                $0.predicate = NSPredicate(format: "id == %d", id) && condition
+                $0.fetchLimit = 1
+            }
+            
+            let entities: [Self]
+            do {
+                entities = try context.fetch(fetchRequest) as! [Self]
+            }catch {
+                return .failure(.coredata(error.localizedDescription))
+            }
+            
+            if let object = entities.first {
+                print(context.nickName, "update: \(id)")
+                
+                remoteData.importInto(object)
+            }else {
+                print(context.nickName, "insert: \(id)")
+                
+                let entity = Self(context: context)
+                remoteData.importInto(entity)
+                
+                context.insert(entity)
+            }
+            
+            return .success([id])
+        }, completion: completion)
+        
+    }
+    
+    fileprivate static func updateOrInsertOrDeleteInRange<M: RemoteEntity>(_ remoteData: [M],
+                                                                        with condition: NSPredicate?,
+                                                                        _ completion: @escaping DBIdsResultCompletion) {
+        
+        guard remoteData.count >= 2,
+            let entityName = Self.entity().name else {
+                completion(.failure(.coredata("count <= 2 or Self.entity().name is nil")))
+                return
+        }
+        
+        CoreDataStack.performBackgroundTask({ context in
+            
+            let toUpdateFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+            toUpdateFetchRequest.predicate = NSPredicate(format: "id IN %@", remoteData.map { $0.uniqueId }) && condition
+
+            let toUpdateEntities: [Self]
+            do {
+                toUpdateEntities = try context.fetch(toUpdateFetchRequest) as! [Self]
+            }catch {
+                return .failure(.coredata(error.localizedDescription))
+            }
+            
+            let ids = remoteData.compactMap { $0.uniqueId } .sorted()
+            
+            let minId = ids.first!
+            let maxId = ids.last!
+            
+            /*
+             batch delete
+             */
+            let toDeleteFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+            toDeleteFetchRequest.predicate = NSPredicate(format: "id >= %d AND id <= %d AND NOT id IN %@", minId, maxId, ids) && condition
+            
+            let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: toDeleteFetchRequest)
+            batchDeleteRequest.resultType = .resultTypeCount
+            
+            let deletedResult: NSBatchDeleteResult
+            do {
+                deletedResult = try context.execute(batchDeleteRequest) as! NSBatchDeleteResult
+            } catch {
+                return .failure(.coredata(error.localizedDescription))
+            }
+            print(context.nickName, "delete: \(deletedResult.result as? Int ?? 0) entity which in [\(minId)...\(maxId)] and not in \(ids) and \(String(describing: condition))")
+            
+            /*
+             insert
+            */
+            let dbDataMapping = toUpdateEntities.dictionaryBy { $0.uniqueId }
+            let remoteDataMapping = remoteData.dictionaryBy { $0.uniqueId }
+            
+            for id in ids where dbDataMapping[id] == nil {
+                let entity = Self(context: context)
+                
+                remoteDataMapping[id]?.importInto(entity)
+                context.insert(entity)
+            }
+            
+            print(context.nickName, "insert: \(ids.filter { dbDataMapping[$0] == nil })")
+            
+            /*
+             update
+             */
+            toUpdateEntities.forEach { item in
+                remoteDataMapping[item.uniqueId]?.importInto(item)
+            }
+            
+            print(context.nickName, "update: \(toUpdateEntities.map { $0.uniqueId })")
+            
+            return .success(remoteData.map { $0.uniqueId })
+        }, completion: completion)
+    }
+}

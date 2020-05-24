@@ -1,0 +1,17 @@
+//
+//  RemoteEntity.swift
+//  Contacts
+//
+//  Created by TonnyLi on 22/05/20.
+//  Copyright © 2020 tonnysunm. All rights reserved.
+//
+
+import Foundation
+import CoreData
+
+protocol RemoteEntity {
+    
+    var uniqueId: TypeOfId { get }
+    
+    func importInto<DBEntity: NSManagedObject>(_ entiry: DBEntity)
+}
