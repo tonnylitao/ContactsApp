@@ -154,7 +154,7 @@ extension Result where Success == RemoteUserResponse, Failure == AppError {
             //create unique id for items in api's result
             let remoteData = remoteUserResponse.unsafeBuildFakeIds(pageIndex)
             
-            print("Remote ids:", remoteData.map { $0.fakeId ?? -1 })
+            print("Remote ids:", remoteData.map { $0.fakeId ?? TypeOfId(0) })
             
             DBUser.keepConsistencyWith(previousPageLastId: previousPagLastId,
                                        remoteData: remoteData,

@@ -123,7 +123,7 @@ struct RemoteUser: Decodable, CustomStringConvertible {
     }
     
     var description: String {
-        return "{fakeId: \(fakeId ?? -1)}"
+        return "{fakeId: \(fakeId ?? TypeOfId(0))}"
     }
 }
 
