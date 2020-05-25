@@ -14,7 +14,6 @@ class ProfileTableViewController: UITableViewController {
     @IBOutlet weak var genderImgView: UIImageView!
     @IBOutlet weak var nameLbl: UILabel!
     
-    
     @IBOutlet weak var dobLbl: UILabel!
     @IBOutlet weak var emailLbl: UILabel!
     @IBOutlet weak var phoneLbl: UILabel!
@@ -31,8 +30,7 @@ class ProfileTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        avatarImgView.image = thumbnailImage
-        avatarImgView.setUrl(data?.pictureLarge)
+        avatarImgView.setUrl(data?.pictureLarge, placeholder: thumbnailImage)
         
         genderImgView.image = data?.genderImage
         nameLbl.attributedText = data?.nameOfAttributedString(fontSize: 20)

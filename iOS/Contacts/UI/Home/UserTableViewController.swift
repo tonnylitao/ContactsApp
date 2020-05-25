@@ -10,48 +10,36 @@ import UIKit
 import SVPullToRefresh
 import CoreData
 
+func lazy<T>(_ block: () -> T) -> T {
+    return block()
+}
+
 class UserTableViewController: UITableViewController {
+    
+    fileprivate lazy var viewModel = UserTableViewModel().apply {
+        $0.tableView = self.tableView
+    }
+    
+    fileprivate lazy var mRefreshControl = UIRefreshControl().apply {
+        $0.addTarget(self, action: .refresh, for: .valueChanged)
+    }
 
-    fileprivate lazy var viewModel: UserTableViewModel = {
-        let viewModel = UserTableViewModel()
-        viewModel.tableView = self.tableView
-        return viewModel
-    }()
-    
-    
-    fileprivate lazy var mRefreshControl: UIRefreshControl = {
-        let controler = UIRefreshControl()
-        controler.addTarget(self, action: .refresh, for: .valueChanged)
-        return controler
-    }()
-    
-    
-    fileprivate lazy var searchController: UISearchController = {
-        let vc = UIStoryboard.main.viewController("SearchUserTableViewController") as! SearchUserTableViewController
-        vc.nav = self.navigationController
-        
-        let controller = UISearchController(searchResultsController: vc)
-        controller.searchResultsUpdater = self
-        
-        return controller
-    }()
-
-    
+    fileprivate lazy var searchController = UISearchController(searchResultsController: SearchUserTableViewController.buildWith(self.navigationController)).apply {
+        $0.searchResultsUpdater = self
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        definesPresentationContext = true
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
         
         tableView.refreshControl = mRefreshControl
-        setupInfiniteScrolling()
         
+        setupInfiniteScrolling()
+
         initialData()
     }
-
-    
     
     private func setupInfiniteScrolling() {
         
@@ -90,8 +78,7 @@ class UserTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: UserTableViewCell.identifier, for: indexPath) as! UserTableViewCell
+        let cell = UserTableViewCell.dequeueReusableCellFor(tableView, indexPath)
 
         cell.data = viewModel.fetchedObjects?[indexPath.row]
         return cell

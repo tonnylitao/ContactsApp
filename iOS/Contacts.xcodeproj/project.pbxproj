@@ -61,8 +61,10 @@
 		B5A70F1B2477BA91003923EA /* DaoInAnyWhere.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A70F1A2477BA91003923EA /* DaoInAnyWhere.swift */; };
 		B5A70F1D2477BFD4003923EA /* DBEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A70F1C2477BFD4003923EA /* DBEntity.swift */; };
 		B5A70F1F2477BFF2003923EA /* RemoteEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A70F1E2477BFF2003923EA /* RemoteEntity.swift */; };
-		B5C69FF12479F26D00BC4D62 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C69FF02479F26D00BC4D62 /* Filter.swift */; };
-		B5C69FF22479F27D00BC4D62 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C69FF02479F26D00BC4D62 /* Filter.swift */; };
+		B5C69FF12479F26D00BC4D62 /* SegmentFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C69FF02479F26D00BC4D62 /* SegmentFilter.swift */; };
+		B5C69FF22479F27D00BC4D62 /* SegmentFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C69FF02479F26D00BC4D62 /* SegmentFilter.swift */; };
+		B5C69FF4247BB96B00BC4D62 /* UITableViewEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C69FF3247BB96B00BC4D62 /* UITableViewEx.swift */; };
+		B5C69FF8247BC8A800BC4D62 /* FetchedResultsTableViewUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C69FF7247BC8A800BC4D62 /* FetchedResultsTableViewUpdater.swift */; };
 		BDDE98B0969D17BD30D95457 /* Pods_Contacts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DDD7FDBE919CC40E1707F6B /* Pods_Contacts.framework */; };
 /* End PBXBuildFile section */
 
@@ -128,7 +130,9 @@
 		B5A70F1A2477BA91003923EA /* DaoInAnyWhere.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaoInAnyWhere.swift; sourceTree = "<group>"; };
 		B5A70F1C2477BFD4003923EA /* DBEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBEntity.swift; sourceTree = "<group>"; };
 		B5A70F1E2477BFF2003923EA /* RemoteEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteEntity.swift; sourceTree = "<group>"; };
-		B5C69FF02479F26D00BC4D62 /* Filter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
+		B5C69FF02479F26D00BC4D62 /* SegmentFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentFilter.swift; sourceTree = "<group>"; };
+		B5C69FF3247BB96B00BC4D62 /* UITableViewEx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewEx.swift; sourceTree = "<group>"; };
+		B5C69FF7247BC8A800BC4D62 /* FetchedResultsTableViewUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchedResultsTableViewUpdater.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,7 +200,7 @@
 			isa = PBXGroup;
 			children = (
 				B55DA10E2478DE29006D240C /* SearchUserTableViewController.swift */,
-				B5C69FF02479F26D00BC4D62 /* Filter.swift */,
+				B5C69FF02479F26D00BC4D62 /* SegmentFilter.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -217,6 +221,7 @@
 				B5A70F0324772234003923EA /* Home */,
 				B5A70F0624772249003923EA /* Profile */,
 				B55DA1142478F578006D240C /* Search */,
+				B5C69FF7247BC8A800BC4D62 /* FetchedResultsTableViewUpdater.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -233,6 +238,7 @@
 				B55DA1192479B81F006D240C /* OptionalEx.swift */,
 				B5A70F0924772C5B003923EA /* UIImageViewEx.swift */,
 				B55DA1122478E054006D240C /* UIStoryboardEx.swift */,
+				B5C69FF3247BB96B00BC4D62 /* UITableViewEx.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -518,7 +524,7 @@
 				B524DC522479E4F500D8312D /* DBEntity.swift in Sources */,
 				B524DC662479E5F800D8312D /* ArrayEx.swift in Sources */,
 				B524DC4E2479E2E800D8312D /* RemoteUserResponse.swift in Sources */,
-				B5C69FF22479F27D00BC4D62 /* Filter.swift in Sources */,
+				B5C69FF22479F27D00BC4D62 /* SegmentFilter.swift in Sources */,
 				B524DC4A2479E1C000D8312D /* AppError.swift in Sources */,
 				B524DC492479E1C000D8312D /* ApiDecodable.swift in Sources */,
 				B524DC572479E5D100D8312D /* CoreDataStack.swift in Sources */,
@@ -540,7 +546,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B55DA11A2479B81F006D240C /* OptionalEx.swift in Sources */,
-				B5C69FF12479F26D00BC4D62 /* Filter.swift in Sources */,
+				B5C69FF12479F26D00BC4D62 /* SegmentFilter.swift in Sources */,
 				B57DAC81247664F3000FED15 /* UserTableViewController.swift in Sources */,
 				B58BF3B2247649A2003D9D49 /* AppError.swift in Sources */,
 				B55DA10F2478DE29006D240C /* SearchUserTableViewController.swift in Sources */,
@@ -549,8 +555,10 @@
 				B55DA1132478E054006D240C /* UIStoryboardEx.swift in Sources */,
 				B5A70F0A24772C5B003923EA /* UIImageViewEx.swift in Sources */,
 				B57DAC97247689D2000FED15 /* DBUser.swift in Sources */,
+				B5C69FF8247BC8A800BC4D62 /* FetchedResultsTableViewUpdater.swift in Sources */,
 				B57DAC9A24768AFB000FED15 /* CoreDataStack.swift in Sources */,
 				B5A70F1D2477BFD4003923EA /* DBEntity.swift in Sources */,
+				B5C69FF4247BB96B00BC4D62 /* UITableViewEx.swift in Sources */,
 				B57DAC9224767A83000FED15 /* UserTableViewModel.swift in Sources */,
 				B55DA11C2479CD69006D240C /* Contacts.xcdatamodel in Sources */,
 				B57DAC8E24767093000FED15 /* HUDEx.swift in Sources */,
@@ -810,7 +818,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = WYFLVU5F9U;
 				INFOPLIST_FILE = Contacts/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -830,7 +838,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = WYFLVU5F9U;
 				INFOPLIST_FILE = Contacts/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (

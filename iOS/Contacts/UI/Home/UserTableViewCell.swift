@@ -10,9 +10,7 @@ import UIKit
 import AlamofireImage
 
 class UserTableViewCell: UITableViewCell {
-    
-    static let identifier = "cell"
-    
+
     @IBOutlet weak var avatarImgView: UIImageView!
     @IBOutlet weak var titleAndNameLbl: UILabel!
     
@@ -34,3 +32,5 @@ class UserTableViewCell: UITableViewCell {
     }
 
 }
+
+extension UserTableViewCell: TableViewCell { }

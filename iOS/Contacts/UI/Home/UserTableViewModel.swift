@@ -14,16 +14,19 @@ typealias IntResultCompletion = ResultCompletion<Int>
 
 typealias DBEntityResultCompletion = ResultCompletion<[DBEntity]>
 
-class UserTableViewModel: NSObject {
-    
-    private var searchFilter: Filter = .all
-    private var searchTarget: String?
+typealias Search = (segmentFilter: SegmentFilter, text: String)
 
-    private var previousPagLastId: TypeOfId?
+class UserTableViewModel: NSObject {
     
     weak var tableView: UITableView?
     
     var currentPage: PageIndex = ApiConfig.firstPageIndex
+    private var previousPagLastId: TypeOfId?
+    
+    
+    private lazy var tableViewUpdater = FetchedResultsTableViewUpdater().apply {
+        $0.tableView = self.tableView
+    }
     
     var fetchedObjects: [DBUser]? {
         return fetchedResultsController.fetchedObjects
@@ -41,7 +44,7 @@ class UserTableViewModel: NSObject {
                                              managedObjectContext: context,
                                              sectionNameKeyPath: nil,
                                              cacheName: nil)
-        frc.delegate = self
+        frc.delegate = tableViewUpdater
         
         return frc as! NSFetchedResultsController<DBUser>
     }()
@@ -67,40 +70,10 @@ class UserTableViewModel: NSObject {
         
         return newCount - oldCount
     }
-}
-
-extension UserTableViewModel {
     
-    func searchWith(_ filter: Filter) {
-        guard let text = searchTarget else { return }
-        
-        searchFilter = filter
-        
-        search(filter, text)
-    }
-    
-    func searchWith(_ text: String) {
-        searchTarget = text
-        
-        search(searchFilter, text)
-    }
-    
-    fileprivate func search(_ filter: Filter, _ text: String) {
-        
-        fetchedResultsController.fetchRequest.apply {
-            $0.fetchLimit = 50
-            $0.predicate = NSPredicate(format: "firstName CONTAINS[cd] %@ OR lastName CONTAINS[cd] %@", text, text) && filter.predicate
-        }
-        
-        do {
-            try fetchedResultsController.performFetch()
-            tableView?.reloadData()
-            
-            print("fetched: \(fetchedResultsController.fetchedObjects?.count ?? 0)")
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
+    /* */
+    private var search: Search = (.all, "")
+    static let countInSearch = 50
 }
 
 extension UserTableViewModel {
@@ -194,47 +167,36 @@ extension Result where Success == RemoteUserResponse, Failure == AppError {
 }
 
 
-extension UserTableViewModel: NSFetchedResultsControllerDelegate {
-
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        print("controllerWillChangeContent")
+extension UserTableViewModel {
+    
+    func searchWith(_ segmentFilter: SegmentFilter) {
+        search.segmentFilter = segmentFilter
         
-        tableView?.beginUpdates()
+        doSearch(search)
     }
     
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-//        print("didChange at indexPath")
+    func searchWith(_ text: String) {
+        search.text = text
         
-        switch type {
-        case .insert:
-            tableView?.insertRows(at: [newIndexPath!], with: .fade)
-        case .delete:
-            tableView?.deleteRows(at: [indexPath!], with: .fade)
-        case .update:
-            tableView?.cellForRow(at: indexPath!)
-        case .move:
-            tableView?.deleteRows(at: [indexPath!], with: .fade)
-            tableView?.insertRows(at: [newIndexPath!], with: .fade)
-        default: break
+        doSearch(search)
+    }
+    
+    fileprivate func doSearch(_ search: Search) {
+        let (segmentFilter, text) = search
+        if segmentFilter == .all && text.isEmpty { return }
+        
+        fetchedResultsController.fetchRequest.apply {
+            $0.fetchLimit = UserTableViewModel.countInSearch
+            $0.predicate = NSPredicate(format: "firstName CONTAINS[cd] %@ OR lastName CONTAINS[cd] %@", text, text) && segmentFilter.predicate
         }
         
-    }
-    
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
-        print("didChange sectionInfo")
-        
-        switch type {
-        case .insert:
-            tableView?.insertSections(IndexSet(integer: sectionIndex) , with: .fade)
-        case .delete:
-            tableView?.deleteSections(IndexSet(integer: sectionIndex), with: .fade)
-        default: break
+        do {
+            try fetchedResultsController.performFetch()
+            tableView?.reloadData()
+            
+            print("fetched: \(fetchedResultsController.fetchedObjects?.count ?? 0)")
+        } catch {
+            print(error.localizedDescription)
         }
-    }
-    
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        print("controllerDidChangeContent")
-        
-        tableView?.endUpdates()
     }
 }

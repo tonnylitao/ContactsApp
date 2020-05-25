@@ -11,16 +11,16 @@ import AlamofireImage
 
 extension UIImageView {
     
-    func setUrl(_ string: String?) {
+    func setUrl(_ string: String?, placeholder: UIImage? = nil) {
         guard let string = string else {
-            image = nil
+            image = placeholder
             return
         }
         
         if let url = URL(string: string) {
-            af.setImage(withURL: url)
+            af.setImage(withURL: url, placeholderImage: placeholder)
         }else {
-            image = nil
+            image = placeholder
         }
     }
 }

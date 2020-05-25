@@ -1,5 +1,5 @@
 //
-//  Filter.swift
+//  SegmentFilter.swift
 //  Contacts
 //
 //  Created by TonnyLi on 24/05/20.
@@ -8,12 +8,12 @@
 
 import Foundation
 
-enum Filter {
+enum SegmentFilter {
     case all
     case byNationality(String)
 }
 
-extension Filter {
+extension SegmentFilter {
     
     var predicate: NSPredicate? {
         switch self {
@@ -33,12 +33,6 @@ extension Filter {
         }
     }
     
-    var isAll: Bool {
-        switch self {
-        case .all:
-            return true
-        default:
-            return false
-        }
-    }
 }
+
+extension SegmentFilter: Equatable {}

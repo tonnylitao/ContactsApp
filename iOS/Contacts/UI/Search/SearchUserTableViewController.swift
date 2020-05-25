@@ -13,16 +13,13 @@ import CoreData
 
 class SearchUserTableViewController: UITableViewController {
     
-    private let filters: [Filter] = [.all, .byNationality("NZ"), .byNationality("US")]
+    private let filters: [SegmentFilter] = [.all, .byNationality("NZ"), .byNationality("US")]
         
     weak var nav: UINavigationController?
     
-    lazy var viewModel: UserTableViewModel = {
-      let viewModel = UserTableViewModel()
-        viewModel.tableView = self.tableView
-        return viewModel
-    }()
-    
+    lazy var viewModel = UserTableViewModel().apply {
+        $0.tableView = self.tableView
+    }
     
     @IBAction func filterChanged(_ sender: UISegmentedControl) {
         viewModel.searchWith(filters[sender.selectedSegmentIndex])
@@ -35,7 +32,7 @@ class SearchUserTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: UserTableViewCell.identifier, for: indexPath) as! UserTableViewCell
+        let cell = UserTableViewCell.dequeueReusableCellFor(tableView, indexPath)
 
         cell.data = viewModel.fetchedObjects?[indexPath.row]
 
@@ -53,4 +50,10 @@ class SearchUserTableViewController: UITableViewController {
         nav?.pushViewController(vc, animated: true)
     }
     
+    
+    static func buildWith(_ navigationController: UINavigationController?) -> SearchUserTableViewController {
+        let vc = UIStoryboard.main.viewController("SearchUserTableViewController") as! SearchUserTableViewController
+        vc.nav = navigationController
+        return vc
+    }
 }

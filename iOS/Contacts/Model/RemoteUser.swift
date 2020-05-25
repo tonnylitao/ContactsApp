@@ -127,6 +127,13 @@ struct RemoteUser: Decodable, CustomStringConvertible {
     }
 }
 
+
+enum Gender: String, Decodable {
+    case female
+    case male
+}
+
+
 extension RemoteUser: RemoteEntity {
     
     var uniqueId: TypeOfId {
@@ -160,10 +167,4 @@ extension RemoteUser: RemoteEntity {
         entiry.nationality = nat
         entiry.address = location.description
     }
-}
-
-
-enum Gender: String, Decodable {
-    case female
-    case male
 }
