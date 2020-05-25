@@ -22,3 +22,7 @@ func print(_ item0: @autoclosure () -> Any, _ item1: @autoclosure () -> Any) {
     Swift.print([item0(), item1()].map { "\($0)" }.joined(separator: " "), terminator: "\n")
     #endif
 }
+
+func TODO(_ message: String = "") {
+    fatalError(message)
+}
