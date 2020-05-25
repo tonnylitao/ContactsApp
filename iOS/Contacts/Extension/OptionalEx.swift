@@ -10,13 +10,38 @@ import Foundation
 
 extension Optional {
     
-    typealias Decorator = (Wrapped) -> Void
+    /*
+     if let a = optional {
+     
+     }else {
+     
+     }
+     
+     switch optional {
+     case .some(let a) {
+     
+     }
+     case .none: {
+     
+     }
+     
+     --------------------------
+     
+     optional.ifSome {
+        
+     }
+     
+     optional.ifSome({
+        $0
+     }) {
+     
+     }
+     
+     */
     
-    @discardableResult
-    func ifSome(_ decorator: Decorator) -> Self {
+    func ifSome(_ transform: (Wrapped) throws -> Void, _ else: (() throws -> ())? = nil ) rethrows -> () {
+        try flatMap(transform)
         
-        self.flatMap(decorator)
-        
-        return self
+        try `else`?()
     }
 }
