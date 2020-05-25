@@ -11,37 +11,26 @@ import Foundation
 extension Optional {
     
     /*
+     
      if let a = optional {
-     
      }else {
-     
      }
      
      switch optional {
      case .some(let a) {
-     
      }
-     case .none: {
-     
+     default: break
      }
      
      --------------------------
      
      optional.ifSome {
-        
-     }
-     
-     optional.ifSome({
         $0
-     }) {
-     
      }
      
      */
     
-    func ifSome(_ transform: (Wrapped) throws -> Void, _ else: (() throws -> Void)? = nil ) rethrows -> () {
+    func ifSome(_ transform: (Wrapped) throws -> Void) rethrows {
         try flatMap(transform)
-        
-        try `else`?()
     }
 }
