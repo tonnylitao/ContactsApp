@@ -8,12 +8,14 @@
 
 import Foundation
 
+extension NSObject: Dao {}
+
 extension Dao where Self: NSObject {
     
-    typealias ObjectDecorator = (Self) -> Void
+    typealias Decorator = (Self) -> Void
     
     @discardableResult
-    func apply(_ decorators: ObjectDecorator...) -> Self {
+    func apply(_ decorators: Decorator...) -> Self {
         
         decorators.forEach { [unowned self] in
             $0(self)
@@ -23,5 +25,3 @@ extension Dao where Self: NSObject {
     }
     
 }
-
-extension NSObject: Dao {}
