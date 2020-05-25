@@ -37,7 +37,6 @@ class CoreDataStack: NSObject {
             return NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType).apply {
                 $0.name = "Root ctx"
                 TODO("persistentStoreCoordinator")
-                TODO()
             }
         }
     }()
@@ -52,7 +51,6 @@ class CoreDataStack: NSObject {
         }else {
             return NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType).apply {
                 $0.name = "Main ctx"
-                TODO()
                 TODO("persistentStoreCoordinator")
                 $0.parent = self.backgroundContext
                 $0.automaticallyMergesChangesFromParent = true
