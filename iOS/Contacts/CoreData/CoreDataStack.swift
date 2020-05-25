@@ -15,18 +15,15 @@ class CoreDataStack: NSObject {
     private override init() {}
     
 
+    @available(iOS 10.0, *)
     private lazy var persistentContainer: NSPersistentContainer = {
-        if #available(iOS 10.0, *) {
-            return NSPersistentContainer(name: "Contacts").apply {
-                $0.loadPersistentStores(completionHandler: { (storeDescription, error) in
-                    
-                    error.ifSome {
-                        fatalError("Unresolved error \($0)")
-                    }
-                })
-            }
-        }else {
-            TODO()
+        return NSPersistentContainer(name: "Contacts").apply {
+            $0.loadPersistentStores(completionHandler: { (storeDescription, error) in
+                
+                error.ifSome {
+                    fatalError("Unresolved error \($0)")
+                }
+            })
         }
     }()
     
@@ -39,7 +36,8 @@ class CoreDataStack: NSObject {
         }else {
             return NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType).apply {
                 $0.name = "Root ctx"
-                $0.persistentStoreCoordinator = self.persistentContainer.persistentStoreCoordinator
+                TODO("persistentStoreCoordinator")
+                TODO()
             }
         }
     }()
@@ -54,7 +52,8 @@ class CoreDataStack: NSObject {
         }else {
             return NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType).apply {
                 $0.name = "Main ctx"
-                $0.persistentStoreCoordinator = self.persistentContainer.persistentStoreCoordinator
+                TODO()
+                TODO("persistentStoreCoordinator")
                 $0.parent = self.backgroundContext
                 $0.automaticallyMergesChangesFromParent = true
             }
@@ -65,7 +64,7 @@ class CoreDataStack: NSObject {
     func childContext() -> NSManagedObjectContext {
         return NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType).apply {
             $0.name = "Child ctx"
-            $0.persistentStoreCoordinator = self.persistentContainer.persistentStoreCoordinator
+            TODO("persistentStoreCoordinator")
             $0.parent = self.mainContext
         }
     }
