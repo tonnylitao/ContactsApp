@@ -39,7 +39,7 @@ extension Optional {
      
      */
     
-    func ifSome(_ transform: (Wrapped) throws -> Void, _ else: (() throws -> ())? = nil ) rethrows -> () {
+    func ifSome(_ transform: (Wrapped) throws -> Void, _ else: (() throws -> Void)? = nil ) rethrows -> () {
         try flatMap(transform)
         
         try `else`?()
