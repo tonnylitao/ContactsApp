@@ -28,16 +28,31 @@ class CoreDataStack: NSObject {
     
     
     fileprivate lazy var backgroundContext: NSManagedObjectContext = {
-        return self.persistentContainer.newBackgroundContext().apply {
-            $0.name = "Background ctx"
+        if #available(iOS 10.0, *) {
+            return self.persistentContainer.newBackgroundContext().apply {
+                $0.name = "Background ctx"
+            }
+        }else {
+            return NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType).apply {
+                $0.name = "Root ctx"
+                $0.persistentStoreCoordinator = self.persistentContainer.persistentStoreCoordinator
+            }
         }
     }()
     
     
     lazy var mainContext: NSManagedObjectContext = {
-        return self.persistentContainer.viewContext.apply {
-            $0.name = "Main ctx"
-            $0.automaticallyMergesChangesFromParent = true
+        if #available(iOS 10.0, *) {
+            return self.persistentContainer.viewContext.apply {
+                $0.name = "Main ctx"
+                $0.automaticallyMergesChangesFromParent = true
+            }
+        }else {
+            return NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType).apply {
+                $0.name = "Main ctx"
+                $0.persistentStoreCoordinator = self.persistentContainer.persistentStoreCoordinator
+                $0.automaticallyMergesChangesFromParent = true
+            }
         }
     }()
 }
@@ -48,7 +63,28 @@ extension CoreDataStack {
     static func performBackgroundTask(_ task: @escaping (NSManagedObjectContext) throws -> Result<[TypeOfId], AppError>,
                                       completion: @escaping DBIdsResultCompletion) {
         
-        shared.persistentContainer.performBackgroundTask { context in
+        if #available(iOS 10.0, *) {
+            shared.persistentContainer.performBackgroundTask { context in
+                
+                let result: Result<[TypeOfId], AppError>
+                do {
+                    result = try task(context)
+                }catch {
+                    completion(.failure(.coredata(error.localizedDescription)))
+                    return
+                }
+                
+                
+                do {
+                    try context.save()
+                }catch {
+                    return completion(.failure(.coredata(error.localizedDescription)))
+                }
+                
+                completion(result)
+            }
+        } else {
+            let context = CoreDataStack.shared.backgroundContext
             
             let result: Result<[TypeOfId], AppError>
             do {
@@ -59,14 +95,18 @@ extension CoreDataStack {
             }
             
             
-            do {
-                try context.save()
-            }catch {
-                return completion(.failure(.coredata(error.localizedDescription)))
+            context.perform {
+                
+                do {
+                    try context.save()
+                }catch {
+                    return completion(.failure(.coredata(error.localizedDescription)))
+                }
+                
+                completion(result)
             }
-            
-            completion(result)
         }
+        
     }
 }
 
