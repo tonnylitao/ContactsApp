@@ -15,7 +15,7 @@ import CoreData
                  /                             \
     (Decodable data from api)            (NSManagedObject)
  
-    two protocols connect two differeent categories
+    two protocols connect differeent categories
  */
 
 protocol DBEntity: class {
@@ -26,33 +26,33 @@ typealias DBIdsResultCompletion = (Result<[TypeOfId], AppError>) -> ()
 
 extension DBEntity where Self: NSManagedObject {
     
-    static func keepConsistencyWith<M: RemoteEntity>(previousPageLastId: TypeOfId?,
+    static func keepConsistencyWith<M: RemoteEntity>(previousPageLastId id: TypeOfId?,
                                                      remoteData: [M],
                                                      condition: NSPredicate?,
-                                                     completion: @escaping DBIdsResultCompletion) {
+                                                     completion: @escaping DBIdsResultCompletion) where M.Entity == Self {
         
         let count = remoteData.count
         
         if count == 0 {
             completion(.success([]))
             
-            deleteAllAfter(previousPageLastId, with: condition, completion)
+            deleteAllAfter(id: id, with: condition, completion: completion)
         }else if count == 1 {
-            deleteAllAfter(remoteData.last?.uniqueId, with: condition, completion)
+            deleteAllAfter(id: remoteData.last?.uniqueId, with: condition, completion: completion)
             
-            updateOrInsert(remoteData.first!, with: condition, completion)
+            updateOrInsert(remoteData: remoteData.first!, with: condition, completion: completion)
         }else {
-            updateOrInsertOrDeleteInRange(remoteData, with: condition, completion)
+            updateOrInsertOrDeleteInRange(remoteData: remoteData, with: condition, completion: completion)
             
             if count < ApiConfig.defaultPagingSize {
-                deleteAllAfter(remoteData.last?.uniqueId, with: condition, completion)
+                deleteAllAfter(id: remoteData.last?.uniqueId, with: condition, completion: completion)
             }
         }
     }
     
-    fileprivate static func deleteAllAfter(_ id: TypeOfId?,
+    fileprivate static func deleteAllAfter(id: TypeOfId?,
                                            with condition: NSPredicate?,
-                                           _ completion: @escaping DBIdsResultCompletion) {
+                                           completion: @escaping DBIdsResultCompletion) {
         
         guard let id = id, let entityName = Self.entity().name else { return }
         
@@ -74,9 +74,9 @@ extension DBEntity where Self: NSManagedObject {
         }, completion: completion)
     }
     
-    fileprivate static func updateOrInsert<M: RemoteEntity>(_ remoteData: M,
-                                                         with condition: NSPredicate?,
-                                                         _ completion: @escaping DBIdsResultCompletion) {
+    fileprivate static func updateOrInsert<M: RemoteEntity>(remoteData: M,
+                                                            with condition: NSPredicate?,
+                                                            completion: @escaping DBIdsResultCompletion) where M.Entity == Self {
         
         guard let entityName = Self.entity().name else  {
             completion(.failure(.coredata("Self.entity().name is nil")))
@@ -99,10 +99,10 @@ extension DBEntity where Self: NSManagedObject {
                 return .failure(.coredata(error.localizedDescription))
             }
             
-            if let object = entities.first {
+            if let entity = entities.first {
                 print(context.nickName, "update: \(id)")
                 
-                remoteData.importInto(object)
+                remoteData.importInto(entity)
             }else {
                 print(context.nickName, "insert: \(id)")
                 
@@ -117,9 +117,9 @@ extension DBEntity where Self: NSManagedObject {
         
     }
     
-    fileprivate static func updateOrInsertOrDeleteInRange<M: RemoteEntity>(_ remoteData: [M],
-                                                                        with condition: NSPredicate?,
-                                                                        _ completion: @escaping DBIdsResultCompletion) {
+    fileprivate static func updateOrInsertOrDeleteInRange<M: RemoteEntity>(remoteData: [M],
+                                                                           with condition: NSPredicate?,
+                                                                           completion: @escaping DBIdsResultCompletion) where M.Entity == Self {
         
         guard remoteData.count >= 2,
             let entityName = Self.entity().name else {

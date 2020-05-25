@@ -137,29 +137,31 @@ extension RemoteUser: RemoteEntity {
         fatalError("id is nil")
     }
     
-    func importInto<DBEntity>(_ entiry: DBEntity) where DBEntity : NSManagedObject {
-        guard let user = entiry as? DBUser else { return }
+    
+    typealias Entity = DBUser
+    
+    func importInto(_ entiry: Entity) {
+        entiry.id = uniqueId
         
-        user.id = uniqueId
-        
-        user.title = name.title
-        user.firstName = name.first
-        user.lastName = name.last
+        entiry.title = name.title
+        entiry.firstName = name.first
+        entiry.lastName = name.last
 
-        user.gender = gender?.rawValue
-        user.dayOfBirth = dob.date
+        entiry.gender = gender?.rawValue
+        entiry.dayOfBirth = dob.date
 
-        user.pictureThumbnail = picture.thumbnail
-        user.pictureLarge = picture.large
+        entiry.pictureThumbnail = picture.thumbnail
+        entiry.pictureLarge = picture.large
 
-        user.cell = cell
-        user.phone = phone
-        user.email = email
+        entiry.cell = cell
+        entiry.phone = phone
+        entiry.email = email
 
-        user.nationality = nat
-        user.address = location.description
+        entiry.nationality = nat
+        entiry.address = location.description
     }
 }
+
 
 enum Gender: String, Decodable {
     case female

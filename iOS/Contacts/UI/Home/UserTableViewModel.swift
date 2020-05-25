@@ -157,7 +157,7 @@ extension UserTableViewModel {
                             }.onFailure {
                                 if !$0.isCoreDataError && count == ApiConfig.defaultPagingSize {
                                     /*
-                                     to enable infinite scrolling to load local data in next page
+                                     enable infinite scrolling to load local data in next page
                                      */
                                     self?.currentPage = pageIndex
                                 }

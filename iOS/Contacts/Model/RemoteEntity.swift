@@ -10,8 +10,10 @@ import Foundation
 import CoreData
 
 protocol RemoteEntity {
-    
     var uniqueId: TypeOfId { get }
     
-    func importInto<DBEntity: NSManagedObject>(_ entiry: DBEntity)
+    
+    associatedtype Entity: DBEntity
+    
+    func importInto(_ entiry: Entity)
 }

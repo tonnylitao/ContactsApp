@@ -42,6 +42,7 @@ class CoreDataStack: NSObject {
     }()
 }
 
+
 extension CoreDataStack {
     
     static func performBackgroundTask(_ task: @escaping (NSManagedObjectContext) throws -> Result<[TypeOfId], AppError>,
