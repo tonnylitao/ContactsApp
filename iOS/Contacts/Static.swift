@@ -24,5 +24,7 @@ func print(_ item0: @autoclosure () -> Any, _ item1: @autoclosure () -> Any) {
 }
 
 func TODO(_ message: String = "") {
+    #if DEBUG
     fatalError(message)
+    #endif
 }
