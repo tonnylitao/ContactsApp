@@ -23,6 +23,9 @@ func print(_ item0: @autoclosure () -> Any, _ item1: @autoclosure () -> Any) {
     #endif
 }
 
+/*
+ https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-t-o-d-o.html
+ */
 func TODO(_ message: String = "") {
     #if DEBUG
     fatalError(message)

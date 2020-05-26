@@ -15,10 +15,10 @@ extension DBUser {
     
     func nameOfAttributedString(fontSize: CGFloat) -> NSAttributedString {
         
-        let string = NSMutableAttributedString()
-        
-        title.ifSome {
-            string.append(NSAttributedString(string: "\($0). ", attributes: [
+        let title = self.title
+        let string = NSMutableAttributedString().applyIf(title != nil) {
+            
+            $0.append(NSAttributedString(string: "\(title!). ", attributes:[
                 .font: UIFont.systemFont(ofSize: fontSize-2),
                 .foregroundColor: UIColor(white: 105.0/255.0, alpha: 1 )
             ]))

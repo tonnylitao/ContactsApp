@@ -13,12 +13,27 @@ extension NSObject: Dao {}
 extension Dao where Self: NSObject {
     
     typealias Decorator = (Self) -> Void
+        
+    /*
+    https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/apply.html
+    */
     
     @discardableResult
     func apply(_ decorators: Decorator...) -> Self {
         
         decorators.forEach { [unowned self] in
             $0(self)
+        }
+        
+        return self
+    }
+    
+    @discardableResult
+    func applyIf(_ condition: Bool, _ decorators: Decorator...) -> Self {
+        if condition {
+            decorators.forEach { [unowned self] in
+                $0(self)
+            }
         }
         
         return self
