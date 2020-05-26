@@ -15,7 +15,7 @@ extension Dao where Self: NSObject {
     typealias Decorator = (Self) -> Void
         
     /*
-    https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/apply.html
+     https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/apply.html
     */
     
     @discardableResult

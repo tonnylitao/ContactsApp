@@ -85,9 +85,9 @@ extension UserTableViewModel {
         /*
          load data from local db
          */
-        let count: Int
+        let countFromLocalData: Int
         do {
-            count = try performFetch(pageIndex)
+            countFromLocalData = try performFetch(pageIndex)
         }catch {
             apiCompletion(.failure(.coredata(error.localizedDescription)))
             return
@@ -96,7 +96,7 @@ extension UserTableViewModel {
         /*
          reload tableview if local data existed
          */
-        dbCompletion(.success(count))
+        dbCompletion(.success(countFromLocalData))
         
         /*
          load from api
@@ -114,7 +114,7 @@ extension UserTableViewModel {
                 apiResult.syncWithDB(pageIndex, self?.previousPagLastId) { [weak self] idsResult in
                     
                     /*
-                     cache last id for delete local data in next page if necessory
+                     cache lastId to delete local data in next page if necessory
                      */
                     apiResult.onSuccess { remoteUserResponse in
                         self?.previousPagLastId = remoteUserResponse.results.last?.fakeId
@@ -123,17 +123,23 @@ extension UserTableViewModel {
                     DispatchQueue.main.async { [weak self] in
                         
                         if pageIndex > 1 {
-                            idsResult.onSuccess {
-                                if $0.count == ApiConfig.defaultPagingSize {
-                                    self?.currentPage = pageIndex
-                                }
-                            }.onFailure {
-                                if !$0.isCoreDataError && count == ApiConfig.defaultPagingSize {
-                                    /*
-                                     enable infinite scrolling to load local data in next page
-                                     */
-                                    self?.currentPage = pageIndex
-                                }
+                            
+                            switch idsResult {
+                            case .success(let array)
+                                where array.count == ApiConfig.defaultPagingSize:
+                                
+                                self?.currentPage = pageIndex
+                                
+                            case .failure(let error)
+                                where countFromLocalData == ApiConfig.defaultPagingSize && !error.isCoreDataError:
+                                
+                                /*
+                                 enable infinite scrolling to load local data in next page
+                                */
+                                
+                                self?.currentPage = pageIndex
+                                
+                            default: break
                             }
                         }
                         

@@ -10,12 +10,23 @@ import Foundation
 import CoreData
 
 /*
+    two protocols connect differeent categories
+ 
              RemoteEntity    <------->    DBEntity
                   /                           \
                  /                             \
-    (Decodable data from api)            (NSManagedObject)
+    Decodable data from api               NSManagedObject
+        api Message                      Core data Message
+        api Comment                      Core data Comment
+              .                                .
+              .                                .
  
-    two protocols connect differeent categories
+    protocol RemoteEntity {
+         var uniqueId: TypeOfId { get }
+ 
+         associatedtype Entity: DBEntity
+         func importInto(_ entiry: DBEntity)
+    }
  */
 
 protocol DBEntity: class {
@@ -26,6 +37,10 @@ typealias DBIdsResultCompletion = (Result<[TypeOfId], AppError>) -> ()
 
 extension DBEntity where Self: NSManagedObject {
     
+    /*
+     DBMessage sync with RemoteMessage
+     DBComment sync with RemoteComment
+     */
     static func keepConsistencyWith<M: RemoteEntity>(previousPageLastId id: TypeOfId?,
                                                      remoteData: [M],
                                                      condition: NSPredicate?,

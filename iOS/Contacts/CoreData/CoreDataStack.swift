@@ -85,7 +85,6 @@ extension CoreDataStack {
                     return
                 }
                 
-                
                 do {
                     try context.save()
                 }catch {
@@ -106,16 +105,16 @@ extension CoreDataStack {
             }
             
             
-            context.perform {
+            context.performAndWait {
                 
                 do {
                     try context.save()
                 }catch {
                     return completion(.failure(.coredata(error.localizedDescription)))
                 }
-                
-                completion(result)
             }
+            
+            completion(result)
         }
         
     }

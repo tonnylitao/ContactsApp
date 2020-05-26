@@ -10,10 +10,6 @@ import UIKit
 import SVPullToRefresh
 import CoreData
 
-func lazy<T>(_ block: () -> T) -> T {
-    return block()
-}
-
 class UserTableViewController: UITableViewController {
     
     fileprivate lazy var viewModel = UserTableViewModel().apply {

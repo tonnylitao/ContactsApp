@@ -8,8 +8,18 @@
 
 import Foundation
 
+/*
+ get rid of switch case
+ 
+ switch result {
+ case .success(let data):
+ case .failure(let error):
+ }
+ 
+ */
 
 extension Result {
+    
     @discardableResult
     func onSuccess(_ handler: (Success) -> ()) -> Self {
         if case let .success(value) = self { handler(value) }
