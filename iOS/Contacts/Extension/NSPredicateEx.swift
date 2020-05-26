@@ -14,4 +14,9 @@ extension NSPredicate {
         
         return NSCompoundPredicate(andPredicateWithSubpredicates: [lhs, try rhs()].compactMap { $0 })
     }
+    
+    static func || (lhs: NSPredicate, rhs: @autoclosure () throws -> NSPredicate?) rethrows -> NSPredicate {
+        
+        return NSCompoundPredicate(orPredicateWithSubpredicates: [lhs, try rhs()].compactMap { $0 })
+    }
 }
