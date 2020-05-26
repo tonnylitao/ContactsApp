@@ -35,17 +35,17 @@ extension Result {
 
 extension Result {
     
-    var error: AppError? {
-        if case let .failure(error) = self {
-            return error as? AppError
+    var wrappedResult: Success? {
+        if case let .success(result) = self {
+            return result
         }
         
         return nil
     }
     
-    var wrappedResult: Success? {
-        if case let .success(result) = self {
-            return result
+    var error: AppError? {
+        if case let .failure(error) = self {
+            return error as? AppError
         }
         
         return nil
