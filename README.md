@@ -3,11 +3,11 @@
  
 
 <p float="left">
- <img src="/Design/ios-screenshot/home.png" width="300">
+ <img src="/Design/ios-screenshot/home.png" width="250">
  
- <img src="/Design/ios-screenshot/search.png" width="300">
+ <img src="/Design/ios-screenshot/search.png" width="250">
  
- <img src="/Design/ios-screenshot/detail.png" width="300">
+ <img src="/Design/ios-screenshot/detail.png" width="250">
 </p>
 
 ### iOS
