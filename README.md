@@ -12,9 +12,9 @@
 
 ### iOS
 
+* best practise in Swift
 * Protocol-oriented Programming
 * Proper Extension
-* Other best practise in Swift
 * CoreData
 * JS bridge between web and native(Going on)
 * Reactive in Combine framework(TODO)
