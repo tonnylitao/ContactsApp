@@ -76,9 +76,9 @@ extension DBEntity where Self: NSManagedObject {
             fetchRequest.predicate = NSPredicate(format: "id > %d", id) && condition
             
             let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+            batchDeleteRequest.resultType = .resultTypeObjectIDs
             
             //
-            let context = CoreDataStack.shared.mainContext
             var result: NSBatchDeleteResult?
             do {
                 result = try context.execute(batchDeleteRequest) as? NSBatchDeleteResult
@@ -177,7 +177,7 @@ extension DBEntity where Self: NSManagedObject {
             toDeleteFetchRequest.predicate = NSPredicate(format: "id >= %d AND id <= %d AND NOT id IN %@", minId, maxId, ids) && condition
             
             let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: toDeleteFetchRequest)
-            batchDeleteRequest.resultType = .resultTypeCount
+            batchDeleteRequest.resultType = .resultTypeObjectIDs
             
             
             var deletedResult: NSBatchDeleteResult?
