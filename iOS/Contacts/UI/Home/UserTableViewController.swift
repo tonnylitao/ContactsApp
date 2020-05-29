@@ -12,15 +12,15 @@ import CoreData
 
 class UserTableViewController: UITableViewController {
     
-    fileprivate lazy var viewModel = UserTableViewModel().apply {
+    private lazy var viewModel = UserTableViewModel().apply {
         $0.tableView = self.tableView
     }
     
-    fileprivate lazy var mRefreshControl = UIRefreshControl().apply {
+    private lazy var mRefreshControl = UIRefreshControl().apply {
         $0.addTarget(self, action: .refresh, for: .valueChanged)
     }
 
-    fileprivate lazy var searchController = UISearchController(searchResultsController: SearchUserTableViewController.buildWith(self.navigationController)).apply {
+    private lazy var searchController = UISearchController(searchResultsController: SearchUserTableViewController.buildWith(self.navigationController)).apply {
         $0.searchResultsUpdater = self
     }
     
@@ -92,7 +92,7 @@ class UserTableViewController: UITableViewController {
 
 extension UserTableViewController {
     
-    fileprivate func loadData(_ pageIndex: PageIndex, _ completion: @escaping DBIdsResultCompletion) {
+    private func loadData(_ pageIndex: PageIndex, _ completion: @escaping DBIdsResultCompletion) {
         
         let footerView = self.tableView.infiniteScrollingView
         

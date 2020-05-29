@@ -39,15 +39,3 @@ extension AppError {
         }
     }
 }
-
-extension Error {
-    
-    var appError: AppError {
-        
-        if let err = self as? AppError {
-            return err
-        }
-        
-        return .other(self.localizedDescription)
-    }
-}

@@ -187,7 +187,7 @@ extension UserTableViewModel {
         doSearch(search)
     }
     
-    fileprivate func doSearch(_ search: Search) {
+    private func doSearch(_ search: Search) {
         let (segmentFilter, text) = search
         if segmentFilter == .all && text.isEmpty { return }
         

@@ -65,7 +65,7 @@ extension DBEntity where Self: NSManagedObject {
         }
     }
     
-    fileprivate static func deleteAllAfter(id: TypeOfId?,
+    private static func deleteAllAfter(id: TypeOfId?,
                                            with condition: NSPredicate?,
                                            completion: @escaping DBIdsResultCompletion) {
         
@@ -89,7 +89,7 @@ extension DBEntity where Self: NSManagedObject {
         }, completion: completion)
     }
     
-    fileprivate static func updateOrInsert<M: RemoteEntity>(remoteData: M,
+    private static func updateOrInsert<M: RemoteEntity>(remoteData: M,
                                                             with condition: NSPredicate?,
                                                             completion: @escaping DBIdsResultCompletion) where M.Entity == Self {
         
@@ -132,7 +132,7 @@ extension DBEntity where Self: NSManagedObject {
         
     }
     
-    fileprivate static func updateOrInsertOrDeleteInRange<M: RemoteEntity>(remoteData: [M],
+    private static func updateOrInsertOrDeleteInRange<M: RemoteEntity>(remoteData: [M],
                                                                            with condition: NSPredicate?,
                                                                            completion: @escaping DBIdsResultCompletion) where M.Entity == Self {
         

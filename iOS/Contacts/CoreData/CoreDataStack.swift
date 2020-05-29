@@ -28,7 +28,7 @@ class CoreDataStack: NSObject {
     }()
     
     
-    fileprivate lazy var backgroundContext: NSManagedObjectContext = {
+    private lazy var backgroundContext: NSManagedObjectContext = {
         if #available(iOS 10.0, *) {
             return self.persistentContainer.newBackgroundContext().apply {
                 $0.name = "Background ctx"
