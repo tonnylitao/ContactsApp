@@ -72,18 +72,29 @@ extension DBEntity where Self: NSManagedObject {
         guard let id = id, let entityName = Self.entity().name else { return }
         
         CoreDataStack.performBackgroundTask({ context in
-            
             let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
             fetchRequest.predicate = NSPredicate(format: "id > %d", id) && condition
             
             let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+            
+            //
+            let context = CoreDataStack.shared.mainContext
+            var result: NSBatchDeleteResult?
             do {
-                try context.execute(batchDeleteRequest)
+                result = try context.execute(batchDeleteRequest) as? NSBatchDeleteResult
             }catch {
                 return .failure(.coredata(error.localizedDescription))
             }
             
-            print(context.nickName, "delete: \(String(describing: fetchRequest.predicate))")
+            //
+            var count = 0
+            if let ids = result?.result as? [NSManagedObjectID] {
+                NSManagedObjectContext.mergeChanges(fromRemoteContextSave: [NSDeletedObjectsKey: ids], into: [CoreDataStack.shared.mainContext])
+                
+                count = ids.count
+            }
+            
+            print(context.nickName, "delete: \(String(describing: fetchRequest.predicate)) \(count)")
             
             return .success([])
         }, completion: completion)
@@ -168,13 +179,21 @@ extension DBEntity where Self: NSManagedObject {
             let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: toDeleteFetchRequest)
             batchDeleteRequest.resultType = .resultTypeCount
             
-            let deletedResult: NSBatchDeleteResult
+            
+            var deletedResult: NSBatchDeleteResult?
             do {
-                deletedResult = try context.execute(batchDeleteRequest) as! NSBatchDeleteResult
-            } catch {
+                deletedResult = try context.execute(batchDeleteRequest) as? NSBatchDeleteResult
+            }catch {
                 return .failure(.coredata(error.localizedDescription))
             }
-            print(context.nickName, "delete: \(deletedResult.result as? Int ?? 0) entity which in [\(minId)...\(maxId)] and not in \(ids) and \(String(describing: condition))")
+            
+            var count = 0
+            if let ids = deletedResult?.result as? [NSManagedObjectID] {
+                NSManagedObjectContext.mergeChanges(fromRemoteContextSave: [NSDeletedObjectsKey: ids], into: [CoreDataStack.shared.mainContext])
+                
+                count = ids.count
+            }
+            print(context.nickName, "delete: \(count) entity which in [\(minId)...\(maxId)] and not in \(ids) and \(String(describing: condition))")
             
             /*
              insert
