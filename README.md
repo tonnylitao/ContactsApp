@@ -29,3 +29,8 @@ a small mobile app in: iOS UIKit, iOS SwiftUI, Android, Android Compose and Reac
 - Next.js
 - Redux & Redux-saga
 - JS bridge between web and native.
+
+### Programming in multiple languages(Going on)
+
+- [What I leaned from Kotlin as iOS developer](/kotlin_for_ios.md)
+- What I leaned from Swift as Android developer
