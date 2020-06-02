@@ -2,15 +2,13 @@
 
 A small app will be implemented in iOS UIKit/SwiftUI, Android nonCompose/Compose and React SAP, it demostrates how to develop mobile apps in different platforms. It's not about cross-platform. it's about taking fully advantage of best part of Swift, Kotlin and JS.
 
+### iOS
+
 <p float="left">
  <img src="/Design/ios-screenshot/home.png" width="250">
-
  <img src="/Design/ios-screenshot/search.png" width="250">
-
  <img src="/Design/ios-screenshot/detail.png" width="250">
 </p>
-
-### iOS
 
 - [good practise in Swift](/swift.md)
 - Protocol-oriented Programming
