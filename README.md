@@ -1,6 +1,6 @@
-# Contacts
+# Contacts mobile app
 
-a small mobile app in: iOS UIKit, iOS SwiftUI, Android, Android Compose and React SAP, it's a demostrate how to programming for mobile rather than for platforms. It's not about cross-platform. it's about taking fully advantage of best part of Swift, Kotlin and JS.
+A small app will be implemented in iOS UIKit/SwiftUI, Android nonCompose/Compose and React SAP, it demostrates how to develop mobile apps in different platforms. It's not about cross-platform. it's about taking fully advantage of best part of Swift, Kotlin and JS.
 
 <p float="left">
  <img src="/Design/ios-screenshot/home.png" width="250">
