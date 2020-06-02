@@ -103,6 +103,7 @@ extension UserTableViewModel {
          */
         let para: Parameters = ["page": "\(pageIndex)", "results": "\(ApiConfig.defaultPagingSize)", "seed": ApiConfig.defaultSeed]
         
+        let previousPagLastId = self.previousPagLastId
         RemoteUserResponse.get(parameters: para) { [weak self] apiResult in
 
             DispatchQueue.global().async { [weak self] in
@@ -111,7 +112,7 @@ extension UserTableViewModel {
                  sync remote data with local db
                  may need to update, insert or delete
                  */
-                apiResult.syncWithDB(pageIndex, self?.previousPagLastId) { [weak self] idsResult in
+                apiResult.syncWithDB(pageIndex, previousPagLastId) { [weak self] idsResult in
                     
                     /*
                      cache lastId to delete local data in next page if necessory
