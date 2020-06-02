@@ -12,7 +12,7 @@ a small mobile app in: iOS UIKit, iOS SwiftUI, Android, Android Compose and Reac
 
 ### iOS
 
-- good practise in Swift
+- [good practise in Swift](/swift.md)
 - Protocol-oriented Programming
 - Proper Extension
 - CoreData
