@@ -2,7 +2,7 @@
 
 * Use compactMap to join optionals
 
-```
+```swift
 //old way
 
 var text = ""
@@ -19,7 +19,7 @@ if let value = reference {
 }
 ```
 
-```
+```swift
 //swift way
 
 var text = [particulars, code, reference]
