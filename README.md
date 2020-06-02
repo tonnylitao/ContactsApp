@@ -10,12 +10,12 @@ A small app will be implemented in iOS UIKit/SwiftUI, Android nonCompose/Compose
  <img src="/Design/ios-screenshot/detail.png" width="250">
 </p>
 
-- [good practise in Swift](/swift.md)
 - Protocol-oriented Programming
 - Proper Extension
 - CoreData
 - JS bridge between web and native(Going on)
 - Reactive in Combine framework(TODO)
+- [good practise in Swift](/swift.md)
 
 ### Android(Going on)
 
