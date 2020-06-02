@@ -103,25 +103,27 @@ extension UserTableViewModel {
          */
         let para: Parameters = ["page": "\(pageIndex)", "results": "\(ApiConfig.defaultPagingSize)", "seed": ApiConfig.defaultSeed]
         
+        weak var weakSelf = self
+        
         let previousPagLastId = self.previousPagLastId
-        RemoteUserResponse.get(parameters: para) { [weak self] apiResult in
+        RemoteUserResponse.get(parameters: para) { apiResult in
 
-            DispatchQueue.global().async { [weak self] in
+            DispatchQueue.global().async {
                 
                 /*
                  sync remote data with local db
                  may need to update, insert or delete
                  */
-                apiResult.syncWithDB(pageIndex, previousPagLastId) { [weak self] idsResult in
+                apiResult.syncWithDB(pageIndex, previousPagLastId) { idsResult in
                     
                     /*
                      cache lastId to delete local data in next page if necessory
                      */
                     apiResult.onSuccess { remoteUserResponse in
-                        self?.previousPagLastId = remoteUserResponse.results.last?.fakeId
+                        weakSelf?.previousPagLastId = remoteUserResponse.results.last?.fakeId
                     }
                     
-                    DispatchQueue.main.async { [weak self] in
+                    DispatchQueue.main.async {
                         
                         if pageIndex > 1 {
                             
@@ -129,7 +131,7 @@ extension UserTableViewModel {
                             case .success(let array)
                                 where array.count == ApiConfig.defaultPagingSize:
                                 
-                                self?.currentPage = pageIndex
+                                weakSelf?.currentPage = pageIndex
                                 
                             case .failure(let error)
                                 where countFromLocalData == ApiConfig.defaultPagingSize && !error.isCoreDataError:
@@ -138,7 +140,7 @@ extension UserTableViewModel {
                                  enable infinite scrolling to load local data in next page
                                 */
                                 
-                                self?.currentPage = pageIndex
+                                weakSelf?.currentPage = pageIndex
                                 
                             default: break
                             }
