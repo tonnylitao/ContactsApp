@@ -1,8 +1,8 @@
-package com.example.android
+package com.tonnysunm.contacts
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.android.ui.main.MainFragment
+import com.tonnysunm.contacts.ui.main.MainFragment
 
 class MainActivity : AppCompatActivity() {
 

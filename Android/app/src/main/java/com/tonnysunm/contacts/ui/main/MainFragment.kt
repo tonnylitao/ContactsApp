@@ -1,4 +1,4 @@
-package com.example.android.ui.main
+package com.tonnysunm.contacts.ui.main
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.android.R
+import com.tonnysunm.contacts.R
 
 class MainFragment : Fragment() {
 
