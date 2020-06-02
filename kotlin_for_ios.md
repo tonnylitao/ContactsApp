@@ -41,7 +41,7 @@ extension Dao where Self: NSObject {
     @discardableResult
     func apply(_ decorators: Decorator...) -> Self {
 
-        decorators.forEach { [unowned self] in
+        decorators.forEach {
             $0(self)
         }
 

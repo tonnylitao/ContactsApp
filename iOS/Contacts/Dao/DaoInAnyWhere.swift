@@ -21,7 +21,7 @@ extension Dao where Self: NSObject {
     @discardableResult
     func apply(_ decorators: Decorator...) -> Self {
         
-        decorators.forEach { [unowned self] in
+        decorators.forEach {
             $0(self)
         }
         
@@ -31,7 +31,7 @@ extension Dao where Self: NSObject {
     @discardableResult
     func applyIf(_ condition: Bool, _ decorators: Decorator...) -> Self {
         if condition {
-            decorators.forEach { [unowned self] in
+            decorators.forEach {
                 $0(self)
             }
         }
