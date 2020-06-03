@@ -1,5 +1,7 @@
 ### Kotlin for iOS developer
 
+Kotlin has a lot of amazing language features. Here are some small tricks borrowed from Kotlin in Swift coding.
+
 - [TODO](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-t-o-d-o.html)
 
 ```kotlin
