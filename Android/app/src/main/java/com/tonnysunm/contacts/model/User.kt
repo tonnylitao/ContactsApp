@@ -15,5 +15,9 @@ data class User(
     @ColumnInfo(name="last_name")
     var lastName: String,
 
-    var title: String
+    var title: String,
+
+    var avatar: String
+
+
 )

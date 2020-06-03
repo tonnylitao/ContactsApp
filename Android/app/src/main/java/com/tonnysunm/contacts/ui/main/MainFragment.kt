@@ -6,6 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.core.view.isGone
+import androidx.databinding.BindingAdapter
+import com.tonnysunm.contacts.GlideApp
 import com.tonnysunm.contacts.R
 
 class MainFragment : Fragment() {
@@ -27,4 +31,13 @@ class MainFragment : Fragment() {
         // TODO: Use the ViewModel
     }
 
+}
+
+@BindingAdapter("avatar")
+fun loadImage(view: ImageView, imageUrl: String?) {
+    if (view.isGone || imageUrl == null) return
+
+    GlideApp.with(view.context)
+        .load(imageUrl)
+        .into(view)
 }

@@ -1,17 +1,7 @@
 package com.tonnysunm.contacts.model
 
-import android.content.ContentValues
 import android.content.Context
-import android.database.sqlite.SQLiteDatabase
 import androidx.room.*
-import androidx.sqlite.db.SupportSQLiteDatabase
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import timber.log.Timber
-import java.lang.reflect.Type
-import java.util.*
-
-private val TAG = AppRoomDatabase::class.simpleName
 
 @Database(
     entities = [User::class],
