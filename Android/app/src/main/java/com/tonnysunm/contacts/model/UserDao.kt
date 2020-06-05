@@ -7,9 +7,9 @@ import androidx.room.Query
 
 
 @Dao
-interface UserDao : BaseDao<User> {
+interface UserDao: BaseDao<User>{
 
-    @Query("SELECT * FROM user_table")
+    @Query("SELECT * FROM user_table ORDER BY id ASC")
     fun getPagingAll(): DataSource.Factory<Int, User>
 
 }
