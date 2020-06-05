@@ -15,7 +15,7 @@ A small app will be implemented in iOS UIKit/SwiftUI, Android nonCompose/Compose
 - CoreData
 - JS bridge between web and native(Going on)
 - Reactive in Combine framework(TODO)
-- [good practise in Swift](/swift.md)
+- [good practise in iOS development](/swift.md)
 
 ### Android with Jetpack(Going on)
 
@@ -27,6 +27,7 @@ A small app will be implemented in iOS UIKit/SwiftUI, Android nonCompose/Compose
 - Room
 - Coroutine
 - Compose
+- [good practise in Android development](/kotlin.md)
 
 ### React SAP(TODO)
 
