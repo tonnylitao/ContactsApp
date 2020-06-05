@@ -5,9 +5,9 @@ A small app will be implemented in iOS UIKit/SwiftUI, Android nonCompose/Compose
 ### iOS
 
 <p float="left">
- <img src="/Design/ios-screenshot/home.png" width="250">
- <img src="/Design/ios-screenshot/search.png" width="250">
- <img src="/Design/ios-screenshot/detail.png" width="250">
+ <img src="/Design/ios/home.png" width="250">
+ <img src="/Design/ios/search.png" width="250">
+ <img src="/Design/ios/detail.png" width="250">
 </p>
 
 - Protocol-oriented Programming
@@ -17,9 +17,15 @@ A small app will be implemented in iOS UIKit/SwiftUI, Android nonCompose/Compose
 - Reactive in Combine framework(TODO)
 - [good practise in Swift](/swift.md)
 
-### Android(Going on)
+### Android with Jetpack(Going on)
 
-- Jetpack: Data-binding, MVVM, Room, Coroutine
+<img src="/Design/android/final-architecture.png" width="400">
+
+- MVVM
+- LiveData 
+- Data-binding
+- Room
+- Coroutine
 - Compose
 
 ### React SAP(TODO)

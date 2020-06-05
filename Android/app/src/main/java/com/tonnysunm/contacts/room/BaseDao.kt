@@ -1,4 +1,4 @@
-package com.tonnysunm.contacts.model
+package com.tonnysunm.contacts.room
 
 import androidx.room.Delete
 import androidx.room.Insert

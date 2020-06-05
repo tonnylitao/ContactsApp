@@ -1,12 +1,10 @@
-package com.tonnysunm.contacts.model
+package com.tonnysunm.contacts.room
 
-import android.content.ContentValues
 import android.content.Context
-import android.database.sqlite.SQLiteDatabase
-import androidx.room.*
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-import timber.log.Timber
-import java.util.*
 
 @Database(
     entities = [User::class],
