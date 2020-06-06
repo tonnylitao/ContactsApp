@@ -28,7 +28,7 @@ var text = [particulars, code, reference]
 
 ```
 
-#### use @autoclosure to wrap expression which doesn't need to be caculated in release environment
+#### Use @autoclosure to wrap expression which doesn't need to be caculated in release environment
 
 ```swift
 func print(_ item: @autoclosure () -> Any) {
