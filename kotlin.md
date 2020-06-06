@@ -1,6 +1,7 @@
 ### Good practise in Kotlin
 
-* one generic RecyclerAdapter rather than duplicated adapters
+---
+#### A generic RecyclerAdapter rather than duplicated adapters
 
 ```kotlin
 //users RecyclerView in Fragment
@@ -11,7 +12,8 @@ val adapter2 = RecyclerAdapter(RecyclerItem.diffCallback<Messages>())
 
 ```
 
-* utilize itemViewType with data-binding to simplify ViewHolder
+---
+#### Utilize itemViewType with data-binding to simplify ViewHolder
 
 ```kotlin
 override fun getItemViewType(position: Int) =
