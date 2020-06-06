@@ -63,14 +63,20 @@ A mechanism of updateing list view after data being inserted, updated or deleted
 
 | | iOS, UITableView | Android, RecyclerView |
 | ---- | ---- | ---- |
-Component(s) | NSFetchedResultsControllerDelegate | Paging Library<br>LiveData<br>PagedListAdapter
+Component(s) | NSFetchedResultsControllerDelegate | DataSource.Factory<br>LiveData<br>PagedListAdapter<br>PagedList<br>BoundaryCallback
 
 * Android
 
+The PagedList tries to get the first chunk of data from the DataSource. When the DataSource is empty, the BoundaryCallback requests from the network and inserts into db.
+
  <img src="/Design/android/paging_1.gif">
+ 
+After the inserting, a new LiveData\<PagedList> is created automatically and passed to ViewModel and PagedListAdapter to update UI.
  
  <img src="/Design/android/paging_2.gif">
  
+When load more, DataSource queries next page from db, and BoundaryCallback requests next page from the network and inserts/updates/deletes them into db. The UI then gets re-populated with the newly-loaded data.
+
  <img src="/Design/android/paging_3.gif">
 
 ### A summary of this app about mobile development. (on going)
