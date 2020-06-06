@@ -1,6 +1,6 @@
 # Contacts mobile app
 
-This demo shows how to develop mobile apps in different platforms. It's not about cross-platform. it's about taking fully advantage of best part of Swift, Kotlin and JS.
+This demo shows how to develop mobile apps in different platforms (iOS, Android, Web). It's not about cross-platform. it's about taking fully advantage of best part of Swift, Kotlin and JS.
 
 ### iOS
 
