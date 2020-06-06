@@ -34,7 +34,7 @@ class RecyclerAdapter<M : RecyclerItem>(
     inner class ViewHolder(val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root)
 }
 
-fun ViewDataBinding.bind(item: RecyclerItem) {
+private fun ViewDataBinding.bind(item: RecyclerItem) {
     setVariable(item.variableId, item)
     executePendingBindings()
 }

@@ -1,6 +1,5 @@
 package com.tonnysunm.contacts.room
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
@@ -12,23 +11,37 @@ import com.tonnysunm.contacts.library.RecyclerItem
     tableName = "user_table"
 )
 data class User(
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     var id: Int = 0,
 
-    @ColumnInfo(name = "first_name")
-    var firstName: String,
+    var title: String?,
 
-    @ColumnInfo(name = "last_name")
-    var lastName: String,
+    var firstName: String?,
 
-    var title: String,
+    var lastName: String?,
 
-    var avatar: String
+    var dayOfBirth: String?,
+
+    var gender: String?,
+
+    var email: String?,
+
+    var phone: String?,
+
+    var cell: String?,
+
+    var address: String?,
+
+    var nationality: String?,
+
+    var pictureThumbnail: String?,
+
+    var pictureLarge: String?
 ) : RecyclerItem {
 
     @Ignore
     val fullName = "$title $firstName $lastName"
-
+    
     override val layoutId: Int
         get() = R.layout.list_item_user
 

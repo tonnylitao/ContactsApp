@@ -13,18 +13,3 @@ interface WebService {
     ): RemoteUserResponse
 
 }
-
-data class RemoteUser(
-    var gender: String,
-//    var firstName: String,
-//
-//    var lastName: String,
-//
-//    var title: String,
-
-    var avatar: String
-)
-
-data class RemoteUserResponse(
-    var results: ArrayList<RemoteUser>
-)

@@ -20,7 +20,7 @@ override fun getItemViewType(position: Int) =
 	requireNotNull(getItem(position)?.layoutId, { "item at $position is null" })
             
 override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-    getItem(position)?.bind(holder.binding)
+    getItem(position)?.run(holder.binding::bind)
 }
 
 /* slim viewholder */

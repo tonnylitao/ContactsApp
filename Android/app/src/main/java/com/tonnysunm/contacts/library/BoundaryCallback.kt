@@ -3,8 +3,8 @@ package com.tonnysunm.contacts.library
 import androidx.paging.PagedList
 import com.tonnysunm.contacts.Constant
 import com.tonnysunm.contacts.api.WebService
+import com.tonnysunm.contacts.api.toDBUser
 import com.tonnysunm.contacts.room.DBRepository
-import com.tonnysunm.contacts.room.User
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -31,9 +31,9 @@ class BoundaryCallback<T : RecyclerItem>(
             )
 
             val users = result.results.mapIndexed { index, remoteUser ->
-                User(id = index + 1, title = "", firstName = "", lastName = "", avatar = "")
+                remoteUser.toDBUser(index + 1)
             }
-            
+
             localRepository.userDao.insert(users)
         }
     }

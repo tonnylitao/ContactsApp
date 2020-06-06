@@ -1,4 +1,4 @@
-package com.tonnysunm.contacts.library;
+package com.tonnysunm.contacts.library
 
 import androidx.recyclerview.widget.DiffUtil
 
