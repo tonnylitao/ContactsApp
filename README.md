@@ -52,7 +52,7 @@ Concurrency | GCD (iOS 8) | Coroutine 🆕
 
 Which one seem more challenging to you?
 
-### Programming in multiple languages(Going on)
+### A summary of this app about mobile development
 
 - [Good practices in iOS development](/swift.md)
 - [Good practices in Android development](/kotlin.md)
