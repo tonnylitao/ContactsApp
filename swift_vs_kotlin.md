@@ -3,7 +3,7 @@ There are many similarities and differences between Swift and Kotlin. I'll pick 
 
 #### Swift's @autoclosure
 
-In Swift. An autoclosure is a closure that is automatically created to wrap an expression that’s being passed as an argument to a function.
+In Swift. An autoclosure is a closure that is automatically created to wrap an expression that’s being passed as an argument to a function. And the advantage is to lazy the caculation of closure.
 
 ```swift
 func require(_ value: Bool, _ lazyMessage: @autoclosure () -> String) {
@@ -32,3 +32,45 @@ fun require(value: Boolean, lazyMessage: () -> Any): Unit {
 require(count >= 0) { "Count must be non-negative, was $count" }
 ```
 
+#### Dance with IO background thread and UI main thread
+
+In swift, the task cannot be canceld once it enque.
+
+```swift
+DispatchQueue.global().async {
+    //background task
+    
+    DispatchQueue.main.async {
+        //ui thread    
+    }
+}
+```
+
+if you need to cancel it:
+
+```swift
+let workItem = DispatchWorkItem {
+    //background task
+    
+    DispatchQueue.main.async {
+        //ui thread
+    }
+}
+
+DispatchQueue.global().async(execute: workItem)
+
+workItem.cancel()
+```
+
+In Kotlin, 
+
+```kotlin
+viewModelScope.launch(Dispatchers.IO) {
+    //background task
+    
+    viewModelScope.launch(Dispatchers.Main) {
+        //ui thread    
+    }
+}
+```
+if you cancel scope, all the routines with that scope will be canceled automatically. And the life owner of viewModel will cancel the scope when necessary, e.g. when the activity or fragment is destroyed.
