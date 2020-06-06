@@ -15,7 +15,6 @@ This demo shows how to develop mobile apps in different platforms (iOS, Android,
 - CoreData
 - JS bridge between web and native(Going on)
 - Reactive in Combine framework(TODO)
-- [good practise in iOS development](/swift.md)
 
 ### Android with Jetpack(Going on)
 
@@ -28,7 +27,6 @@ This demo shows how to develop mobile apps in different platforms (iOS, Android,
 - Room
 - Coroutine
 - Compose
-- [good practise in Android development](/kotlin.md)
 
 ### React SAP(TODO)
 
@@ -56,6 +54,7 @@ Which one seem more challenging to you?
 
 ### Programming in multiple languages(Going on)
 
+- [good practise in iOS development](/swift.md)
+- [good practise in Android development](/kotlin.md)
 - [What I've learned from Kotlin as iOS developer](/kotlin_for_ios.md)
 - [Comparison between Swift and Kotlin](/swift_vs_kotlin.md)
-- Comparison between iOS and Android
