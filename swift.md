@@ -1,6 +1,6 @@
 ### Good practise in Swift
 
-* Use compactMap to join optionals
+#### Use compactMap to join optionals
 
 ```swift
 //old way
@@ -28,7 +28,7 @@ var text = [particulars, code, reference]
 
 ```
 
-* use @autoclosure to wrap expression which doesn't need to be caculated in release environment
+#### use @autoclosure to wrap expression which doesn't need to be caculated in release environment
 
 ```swift
 func print(_ item: @autoclosure () -> Any) {
@@ -38,7 +38,7 @@ func print(_ item: @autoclosure () -> Any) {
 }
 ```
 
-* Result in chain
+#### Result in chain
 
 ```swift
 extension Result {
