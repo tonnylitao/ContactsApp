@@ -2,7 +2,8 @@
 
 Kotlin has a lot of amazing language features. Here are some small tricks borrowed from Kotlin in Swift coding.
 
-- [TODO](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-t-o-d-o.html)
+---
+#### [TODO](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-t-o-d-o.html)
 
 ```kotlin
 //kotlin
@@ -21,7 +22,8 @@ func TODO(_ message: String = "") {
 
 ```
 
-- [apply scope function](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/apply.html)
+---
+#### [apply scope function](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/apply.html)
 
 ```kotlin
 //kotlin
