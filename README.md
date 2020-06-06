@@ -22,6 +22,7 @@ A small app will be implemented in iOS UIKit/SwiftUI, Android nonCompose/Compose
 <img src="/Design/android/final-architecture.png" width="400">
 
 - MVVM
+- Paging Library
 - LiveData 
 - Data-binding
 - Room
@@ -35,7 +36,26 @@ A small app will be implemented in iOS UIKit/SwiftUI, Android nonCompose/Compose
 - Redux & Redux-saga
 - JS bridge between web and native.
 
+### What do you need to build a modern table in iOS and Android?
+The following graphic lists the basic MVC knowledge of table or list UI in iOS and Android, which is supported by platform's framework. For iOS, there is no any big change in both architect and api since iOS 2.0 (12 yrs). 
+
+But Android brings a huge change, and the change is constantly going with next releases. The 🆕 features comes in a new version of the support library called androiX (Android 9.0, API level 28, 2018), in other kotlinx library (kotlinx-coroutines-android 2018), or in new version of Android Studio (DataBinding needs Android Studio 3.4 2019).
+
+ | iOS | Android
+---- | --- | ---
+Controller | UITableViewController | Activiy<br> AppCompatActivity  🆕<br> ViewModel 🆕 or<br>AndroidViewModel 🆕
+UI components | UITableView<br>UITableViewCell | Fragment 🆕<br>ListView / RecyclerView 🆕<br>RecyclerView.ViewHolder 🆕<br>Lifecycle and LifecycleOwner 🆕
+Layout | .xib or .storyboard (iOS 5)<br>AutoLayout (iOS 6) | .xml<br>ConstraintLayout 🆕
+View access | viewWithTag or<br>IBOutlet | findViewById or<br>synthetic 🆕<br>View Binding 🆕
+Delegate<br>DataSource | UITableViewDelegate<br>UITableViewDataSource | PagedListAdapter 🆕<br>Paging library (DataSource.Factory, PagedList.BoundaryCallback) 🆕
+Bind data to UI | | Data Binding 🆕<br>LiveData 🆕
+Model | CoreData (iOS 3) | Room 🆕
+Concurrency | GCD (iOS 8) | Coroutine 🆕
+
+Which one seem more challenging to you?
+
 ### Programming in multiple languages(Going on)
 
-- [What I leaned from Kotlin as iOS developer](/kotlin_for_ios.md)
+- [What I've learned from Kotlin as iOS developer](/kotlin_for_ios.md)
 - [Comparison between Swift and Kotlin](/swift_vs_kotlin.md)
+- Comparison between iOS and Android
