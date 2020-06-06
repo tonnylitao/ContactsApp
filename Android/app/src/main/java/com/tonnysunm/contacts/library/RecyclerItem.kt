@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.DiffUtil
 
 interface RecyclerItem {
     /**
-     * layout of item in recycler view
+     * layout of item in recycler view, layoutId presents the itemType of recyclerview
      */
     val layoutId: Int
 
@@ -15,12 +15,12 @@ interface RecyclerItem {
     val variableId: Int
 
     /**
-     * equality in areItemsTheSame
+     * make sure equality in areItemsTheSame
      */
     val uniqueId: Int
-    
+
     /**
-     * equality in areContentsTheSame
+     * make sure equality in areContentsTheSame
      */
     override fun equals(other: Any?): Boolean
 

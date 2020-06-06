@@ -1,6 +1,5 @@
 package com.tonnysunm.contacts.api
 
-import com.tonnysunm.contacts.room.User
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -8,13 +7,24 @@ interface WebService {
 
     @GET("/api")
     suspend fun getUsers(
-        @Query("page") page: Int,
-        @Query("results") results: Int,
+        @Query("page") pageIndex: Int,
+        @Query("results") pageSize: Int,
         @Query("seed") seed: String
     ): RemoteUserResponse
-    
+
 }
 
+data class RemoteUser(
+    var gender: String,
+//    var firstName: String,
+//
+//    var lastName: String,
+//
+//    var title: String,
+
+    var avatar: String
+)
+
 data class RemoteUserResponse(
-    var results: ArrayList<User>
+    var results: ArrayList<RemoteUser>
 )

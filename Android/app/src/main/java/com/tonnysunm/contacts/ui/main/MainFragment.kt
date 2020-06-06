@@ -43,6 +43,7 @@ class MainFragment : Fragment() {
         }
 
         viewModel.data.observe(this.viewLifecycleOwner, Observer {
+//            showEmptyList(it?.size == 0)
             adapter.submitList(it)
         })
 

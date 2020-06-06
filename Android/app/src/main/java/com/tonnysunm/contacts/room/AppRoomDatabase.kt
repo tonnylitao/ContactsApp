@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.sqlite.db.SupportSQLiteDatabase
 
 @Database(
     entities = [User::class],
@@ -31,15 +30,16 @@ abstract class AppRoomDatabase : RoomDatabase() {
                         context.applicationContext,
                         AppRoomDatabase::class.java,
                         "contacts_db"
-                    ).addCallback(object : RoomDatabase.Callback() {
-                        override fun onCreate(db: SupportSQLiteDatabase) {
-                            val data =
-                                "(1,'Mr.','Tonny','L','male','https://www.avis.co.nz/content/dam/avis/oc/nz/common/offers/avis-nz-social-tag-2440x1600.jpg')"
-                            db.execSQL("INSERT INTO user_table (id, title, first_name, last_name, avatar, gender) VALUES $data;")
-
-                            super.onCreate(db)
-                        }
-                    })
+                    )
+//                    .addCallback(object : RoomDatabase.Callback() {
+//                        override fun onCreate(db: SupportSQLiteDatabase) {
+//                            val data =
+//                                "(1,'Mr.','Tonny','L','male','https://www.avis.co.nz/content/dam/avis/oc/nz/common/offers/avis-nz-social-tag-2440x1600.jpg')"
+//                            db.execSQL("INSERT INTO user_table (id, title, first_name, last_name, avatar, gender) VALUES $data;")
+//
+//                            super.onCreate(db)
+//                        }
+//                    })
                     .build()
 
                 INSTANCE = instance
