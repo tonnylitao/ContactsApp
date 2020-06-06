@@ -16,7 +16,7 @@ This demo shows how to develop mobile apps in different platforms (iOS, Android,
 - JS bridge between web and native(Going on)
 - Reactive in Combine framework(TODO)
 
-### Android with Jetpack(Going on)
+### Android with Jetpack (on going)
 
 <img src="/Design/android/final-architecture.png" width="400">
 
@@ -52,7 +52,28 @@ Concurrency | GCD (iOS 8) | Coroutine 🆕
 
 Which one seem more challenging to you?
 
-### A summary of this app about mobile development
+### How to sync data or keep consistency between remote datasouce and local database? (on going)
+
+* Two important points
+	1. uniqueId
+	2. same order in api and sqlite fetch
+
+### Data-driven UI. (on going)
+A mechanism of updateing list view after data being inserted, updated or deleted.
+
+| | iOS, UITableView | Android, RecyclerView |
+| ---- | ---- | ---- |
+Component(s) | NSFetchedResultsControllerDelegate | Paging Library<br>LiveData<br>PagedListAdapter
+
+* Android
+
+ <img src="/Design/android/paging_1.gif">
+ 
+ <img src="/Design/android/paging_2.gif">
+ 
+ <img src="/Design/android/paging_3.gif">
+
+### A summary of this app about mobile development. (on going)
 
 - [Good practices in iOS development](/swift.md)
 - [Good practices in Android development](/kotlin.md)
