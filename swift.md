@@ -1,4 +1,4 @@
-### Good practise in Swift
+### Good practices in Swift
 ---
 #### Use compactMap to join optionals
 
