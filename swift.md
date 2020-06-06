@@ -1,5 +1,5 @@
 ### Good practise in Swift
-
+---
 #### Use compactMap to join optionals
 
 ```swift
@@ -27,7 +27,7 @@ var text = [particulars, code, reference]
     .joined(separator: " ")
 
 ```
-
+---
 #### Use @autoclosure to wrap expression which doesn't need to be caculated in release environment
 
 ```swift
@@ -37,7 +37,7 @@ func print(_ item: @autoclosure () -> Any) {
     #endif
 }
 ```
-
+---
 #### Result in chain
 
 ```swift
