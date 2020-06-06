@@ -33,7 +33,9 @@ abstract class AppRoomDatabase : RoomDatabase() {
                         "contacts_db"
                     ).addCallback(object : RoomDatabase.Callback() {
                         override fun onCreate(db: SupportSQLiteDatabase) {
-                            db.execSQL("INSERT INTO user_table (id, first_name, last_name, title, avatar) VALUES (1, 'Tonny', 'L', 'Mr.', 'https://www.avis.co.nz/content/dam/avis/oc/nz/common/offers/avis-nz-social-tag-2440x1600.jpg');")
+                            val data =
+                                "(1,'Mr.','Tonny','L','male','https://www.avis.co.nz/content/dam/avis/oc/nz/common/offers/avis-nz-social-tag-2440x1600.jpg')"
+                            db.execSQL("INSERT INTO user_table (id, title, first_name, last_name, avatar, gender) VALUES $data;")
 
                             super.onCreate(db)
                         }
