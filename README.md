@@ -54,7 +54,7 @@ Which one seem more challenging to you?
 
 ### Programming in multiple languages(Going on)
 
-- [Good practises in iOS development](/swift.md)
-- [Good practises in Android development](/kotlin.md)
+- [Good practices in iOS development](/swift.md)
+- [Good practices in Android development](/kotlin.md)
 - [What I've learned from Kotlin as iOS developer](/kotlin_for_ios.md)
 - [Comparison between Swift and Kotlin](/swift_vs_kotlin.md)
