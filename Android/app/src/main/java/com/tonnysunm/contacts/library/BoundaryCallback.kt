@@ -15,8 +15,7 @@ class BoundaryCallback<T : RecyclerItem>(
     private val localRepository: DBRepository,
     private val seed: String,
     private val scope: CoroutineScope
-) :
-    PagedList.BoundaryCallback<T>() {
+) : PagedList.BoundaryCallback<T>() {
 
     /**
      * first time load data from db
@@ -34,7 +33,7 @@ class BoundaryCallback<T : RecyclerItem>(
             val users = result.results.mapIndexed { index, remoteUser ->
                 User(id = index + 1, title = "", firstName = "", lastName = "", avatar = "")
             }
-
+            
             localRepository.userDao.insert(users)
         }
     }

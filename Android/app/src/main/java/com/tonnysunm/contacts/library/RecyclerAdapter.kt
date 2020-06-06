@@ -27,10 +27,14 @@ class RecyclerAdapter<M : RecyclerItem>(
         requireNotNull(getItem(position)?.layoutId) { "item at $position is null" }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        getItem(position)?.bind(holder.binding)
+        getItem(position)?.run(holder.binding::bind)
     }
 
     /* ViewHolder */
     inner class ViewHolder(val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root)
 }
 
+fun ViewDataBinding.bind(item: RecyclerItem) {
+    setVariable(item.variableId, item)
+    executePendingBindings()
+}

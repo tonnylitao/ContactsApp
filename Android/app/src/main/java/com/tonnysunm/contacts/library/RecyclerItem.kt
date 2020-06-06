@@ -1,6 +1,5 @@
 package com.tonnysunm.contacts.library;
 
-import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
 
 interface RecyclerItem {
@@ -35,10 +34,5 @@ interface RecyclerItem {
 
         }
 
-    }
-
-    fun bind(binding: ViewDataBinding) {
-        binding.setVariable(variableId, this)
-        binding.executePendingBindings()
     }
 }
