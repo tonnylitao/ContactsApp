@@ -1,6 +1,7 @@
 ### Comparison between Swift and Kotlin
 There are many similarities and differences between Swift and Kotlin. I'll pick some good parts of each language and compare them.
 
+---
 #### Swift's @autoclosure
 
 In Swift. An autoclosure is a closure that is automatically created to wrap an expression that’s being passed as an argument to a function. And the advantage is to lazy the caculation of closure.
@@ -32,6 +33,7 @@ fun require(value: Boolean, lazyMessage: () -> Any): Unit {
 require(count >= 0) { "Count must be non-negative, was $count" }
 ```
 
+---
 #### Dance with IO background thread and UI main thread
 
 In swift, the task cannot be canceld once it enque.
