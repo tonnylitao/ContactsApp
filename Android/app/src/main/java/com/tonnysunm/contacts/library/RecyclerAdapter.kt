@@ -24,14 +24,10 @@ class RecyclerAdapter<M : RecyclerItem>(
         }
 
     override fun getItemViewType(position: Int) =
-        getItem(position)?.layoutId ?: throw IllegalArgumentException("position $position")
+        requireNotNull(getItem(position)?.layoutId, { "item at $position is null" })
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = getItem(position) ?: return
-
-        holder.binding.setVariable(item.variableId, item)
-        holder.binding.executePendingBindings()
-
+        getItem(position)?.bind(holder.binding)
     }
 
     /* ViewHolder */

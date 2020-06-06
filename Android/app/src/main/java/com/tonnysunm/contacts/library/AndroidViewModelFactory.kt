@@ -7,10 +7,9 @@ import kotlin.reflect.full.primaryConstructor
 class AndroidViewModelFactory(private vararg val args: Any) :
     ViewModelProvider.NewInstanceFactory() {
 
-    override fun <T : ViewModel> create(modelClass: Class<T>) =
-        modelClass.kotlin.primaryConstructor?.call(*args)
-            ?: throw IllegalArgumentException(
-                "$modelClass primaryConstructor is null"
-            )
+    override fun <T : ViewModel> create(modelClass: Class<T>) = requireNotNull(
+        modelClass.kotlin.primaryConstructor?.call(*args),
+        { "$modelClass primaryConstructor is null" })
+
 }
 

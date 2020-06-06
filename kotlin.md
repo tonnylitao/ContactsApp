@@ -14,14 +14,11 @@ val adapter2 = RecyclerAdapter(RecyclerItem.diffCallback<Messages>())
 * utilize itemViewType with data-binding to simplify ViewHolder
 
 ```kotlin
-override fun getItemViewType(position: Int) = 
-	getItem(position)?.layoutId ?: throw IllegalArgumentException("position $position")
-
+override fun getItemViewType(position: Int) =
+	requireNotNull(getItem(position)?.layoutId, { "item at $position is null" })
+            
 override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-    val item = getItem(position) ?: return
-
-    holder.binding.setVariable(item.variableId, item)
-    holder.binding.executePendingBindings()
+    getItem(position)?.bind(holder.binding)
 }
 
 /* slim viewholder */

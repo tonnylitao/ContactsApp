@@ -25,16 +25,16 @@ data class User(
 
     var avatar: String
 ) : RecyclerItem {
-    
+
     @Ignore
     val fullName = "$title $firstName $lastName"
-
-    override val uniqueId: Int
-        get() = id
 
     override val layoutId: Int
         get() = R.layout.list_item_user
 
     override val variableId: Int
         get() = BR.user
+
+    override val uniqueId: Int
+        get() = id
 }
