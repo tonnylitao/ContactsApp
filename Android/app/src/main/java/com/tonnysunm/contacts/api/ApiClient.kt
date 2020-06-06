@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class ApiClient {
 
     companion object {
-
+        /* disable github text search */
         private val BASE_URL =
             "\\u68\\u74\\u74\\u70\\u73\\u3a\\u2f\\u2f\\u72\\u61\\u6e\\u64\\u6f\\u6d\\u75\\u73\\u65\\u72\\u2e\\u6d\\u65\\u2f"
                 .split("\\u")
