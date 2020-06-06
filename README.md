@@ -38,4 +38,4 @@ A small app will be implemented in iOS UIKit/SwiftUI, Android nonCompose/Compose
 ### Programming in multiple languages(Going on)
 
 - [What I leaned from Kotlin as iOS developer](/kotlin_for_ios.md)
-- What I leaned from Swift as Android developer
+- [Comparison between Swift and Kotlin](/swift_vs_kotlin.md)
