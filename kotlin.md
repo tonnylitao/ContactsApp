@@ -1,4 +1,4 @@
-### Good practise in Kotlin
+### Good practices in Kotlin
 
 ---
 #### A generic RecyclerAdapter rather than duplicated adapters
