@@ -61,7 +61,14 @@ Which one seem more challenging to you?
 ### Data-driven UI. (on going)
 A mechanism of updateing list view after data being inserted, updated or deleted. 
 
-Data flows from Api --decode/deserialize--> Api model --mapping--> Entity model --save--> db --query--> UI model --update--> UI
+Data flows from api to UI:
+``` 
+Api decode/deserialize  -> Api model 
+    mapping		-> Entity model 
+    save		-> db 
+    query		-> UI model 
+    update		-> UI
+```
 
 | | iOS, UITableView | Android, RecyclerView |
 | ---- | ---- | ---- |
