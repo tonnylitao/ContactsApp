@@ -59,7 +59,9 @@ Which one seem more challenging to you?
 	2. same order in api and sqlite fetch
 
 ### Data-driven UI. (on going)
-A mechanism of updateing list view after data being inserted, updated or deleted.
+A mechanism of updateing list view after data being inserted, updated or deleted. 
+
+Data flows from api --> api model (codable) --> entity model --> db --> entity model --> ui model --> UI
 
 | | iOS, UITableView | Android, RecyclerView |
 | ---- | ---- | ---- |
