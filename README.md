@@ -37,7 +37,7 @@ This demo shows how to develop mobile apps in different platforms (iOS, Android,
 ### What do you need to build a modern table in iOS and Android?
 The following graphic lists the basic MVC knowledge of table or list UI in iOS and Android, which is supported by platform's framework. For iOS, there is no any big change in both architect and api since iOS 2.0 (12 yrs). 
 
-However, Android brings a huge change, and the change is constantly going with next releases. The 🆕 features comes in a new version of the support library called androiX (Android 9.0, API level 28, 2018), in other kotlinx library (kotlinx-coroutines-android 2018), or in new version of Android Studio (DataBinding needs Android Studio 3.4 2019).
+However, Android brings a huge change, and the change is constantly going with next releases. The 🆕 features comes in a new version of the support library called androidX (Android 9.0, API level 28, 2018), in other kotlinx library (kotlinx-coroutines-android 2018), or in new version of Android Studio (DataBinding needs Android Studio 3.4 2019).
 
 | | iOS | Android |
 ---- | ---- | ---- |
