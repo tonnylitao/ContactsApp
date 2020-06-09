@@ -42,10 +42,18 @@ class MainFragment : Fragment() {
             recyclerView.adapter = adapter
         }
 
-        viewModel.data.observe(this.viewLifecycleOwner, Observer {
+        viewModel.getData().observe(this.viewLifecycleOwner, Observer {
 //            showEmptyList(it?.size == 0)
             adapter.submitList(it)
+
         })
+
+        binding.refresher.setOnRefreshListener {
+//            viewModel.invalidateDataSource()
+
+            binding.refresher.isRefreshing = false
+        }
+
 
         return binding.root
     }
