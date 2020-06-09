@@ -1,21 +1,19 @@
 package com.tonnysunm.contacts.room
 
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Update
+import androidx.room.*
 
 interface BaseDao<T> {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(obj: T): Long
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insert(entity: T): Long
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(entities: List<T>): List<Long>
 
-    @Update
-    suspend fun update(obj: T)
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun update(entity: T)
 
     @Delete
-    suspend fun delete(obj: T): Int
+    suspend fun delete(entity: T): Int
+
 }

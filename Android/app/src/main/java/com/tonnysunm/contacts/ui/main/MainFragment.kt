@@ -7,11 +7,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DefaultItemAnimator
 import com.tonnysunm.contacts.databinding.MainFragmentBinding
 import com.tonnysunm.contacts.library.AndroidViewModelFactory
 import com.tonnysunm.contacts.library.RecyclerAdapter
 import com.tonnysunm.contacts.library.RecyclerItem
 import com.tonnysunm.contacts.room.User
+
+//TODO: add networking state machine and initial state machine
 
 class MainFragment : Fragment() {
 
@@ -33,6 +36,7 @@ class MainFragment : Fragment() {
         val fragment = this
 
         val adapter = RecyclerAdapter(RecyclerItem.diffCallback<User>()) {
+
         }
 
         val binding = MainFragmentBinding.inflate(inflater, container, false).apply {
@@ -40,20 +44,21 @@ class MainFragment : Fragment() {
             viewModel = fragment.viewModel
 
             recyclerView.adapter = adapter
+            (recyclerView.itemAnimator as? DefaultItemAnimator)?.supportsChangeAnimations = false
         }
 
         viewModel.getData().observe(this.viewLifecycleOwner, Observer {
 //            showEmptyList(it?.size == 0)
-            adapter.submitList(it)
 
+            //TODO: submitList after api Load_Finished, otherwise blinking
+            adapter.submitList(it)
         })
 
         binding.refresher.setOnRefreshListener {
-//            viewModel.invalidateDataSource()
+            viewModel.invalidateDataSource()
 
             binding.refresher.isRefreshing = false
         }
-
 
         return binding.root
     }

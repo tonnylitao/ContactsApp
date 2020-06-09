@@ -68,7 +68,7 @@ extension DBEntity where Self: NSManagedObject {
     private static func deleteAllAfter(id: TypeOfId?,
                                            with condition: NSPredicate?,
                                            completion: @escaping DBIdsResultCompletion) {
-        
+        //TODO: when first page is empty, id is nil, need to delete all
         guard let id = id, let entityName = Self.entity().name else { return }
         
         CoreDataStack.performBackgroundTask({ context in
