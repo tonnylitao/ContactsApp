@@ -10,6 +10,7 @@ import com.tonnysunm.contacts.api.toDBUser
 import com.tonnysunm.contacts.room.DBRepository
 import com.tonnysunm.contacts.room.User
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -24,7 +25,8 @@ class UserDataSource(
         params: LoadInitialParams<Int>,
         callback: LoadInitialCallback<Int, User>
     ) {
-        scope.launch {
+        scope.launch(Dispatchers.IO) {
+
             if (BuildConfig.DEBUG && params.requestedLoadSize != Constant.defaultPagingSize) {
                 error("initialLoadSizeHint expected same as Constant.defaultPagingSize")
             }
@@ -58,7 +60,7 @@ class UserDataSource(
     }
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, User>) {
-        scope.launch {
+        scope.launch(Dispatchers.IO) {
             val offset = params.key.dec() * params.requestedLoadSize
             val limit = Constant.defaultPagingSize
 
