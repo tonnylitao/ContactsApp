@@ -3,15 +3,18 @@ package com.tonnysunm.contacts.library
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
 import androidx.paging.PageKeyedDataSource
+import androidx.room.withTransaction
 import com.tonnysunm.contacts.BuildConfig
 import com.tonnysunm.contacts.Constant
+import com.tonnysunm.contacts.api.RemoteUser
+import com.tonnysunm.contacts.api.RemoteUserResponse
 import com.tonnysunm.contacts.api.WebService
-import com.tonnysunm.contacts.api.toDBUser
 import com.tonnysunm.contacts.room.DBRepository
 import com.tonnysunm.contacts.room.User
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.lang.Exception
 
 class UserDataSource(
     private val localRepository: DBRepository,
@@ -24,68 +27,146 @@ class UserDataSource(
         params: LoadInitialParams<Int>,
         callback: LoadInitialCallback<Int, User>
     ) {
+        if (BuildConfig.DEBUG && params.requestedLoadSize != Constant.defaultPagingSize) {
+            error("initialLoadSizeHint expected same as Constant.defaultPagingSize")
+        }
+
+        val offset = 0
+        val limit = params.requestedLoadSize
+
+        val dao = localRepository.userDao
+
         scope.launch {
-            if (BuildConfig.DEBUG && params.requestedLoadSize != Constant.defaultPagingSize) {
-                error("initialLoadSizeHint expected same as Constant.defaultPagingSize")
-            }
-
-            val limit = params.requestedLoadSize
-            val list = localRepository.userDao.allUsersById(0, limit)
-
-            Timber.d("[0-${limit}] ${list.size}")
-
-            callback.onResult(list, null, 2)
-//            callback.onResult(list, 0, 5000, null, 2)
-
+            /**
+             * load data from local
+             */
+            val localData = dao.queryUsers(offset, limit)
 
             /**
              * load data from api
              */
-            val result = remoteRepository.getUsers(Constant.firstPageIndex, limit, seed)
+            val response: RemoteUserResponse
+            try {
+                response = remoteRepository.getUsers(Constant.firstPageIndex, limit, seed)
+            }catch (error: Exception) {
+                Timber.e(error)
 
-            val users = result.results.mapIndexed { index, remoteUser ->
-                remoteUser.toDBUser(index + 1)
+                val nextPageKey = if (localData.size == limit) 2 else null
+                callback.onResult(localData, null, nextPageKey)
+
+                Timber.d("local [0-${limit}] ${localData.size}")
+                return@launch
             }
 
-            if (list.isEmpty()) {
-                localRepository.userDao.insert(users)
-                //TODO create a new PagedList / DataSource pair
+            val remoteData = response.createDBUserWithFakeId(offset)
+
+            /**
+             * insert, update, delete the remoteData into db
+             */
+            if (localData.isEmpty()) {
+                dao.insert(remoteData)
             } else {
-                //update delete
+                val count = remoteData.size
+                localRepository.db.withTransaction {
+                    when (count) {
+                        0 -> {
+                            dao.deleteAll()
+                        }
+                        1 -> {
+                            val first = remoteData.first()
+
+                            dao.upsert(first)
+                            dao.deleteAllAfter(first.id)
+                        }
+                        else -> {
+                            dao.upsert(remoteData)
+
+                            val last = remoteData.last()
+                            if (count < limit) {
+                                dao.deleteAllAfter(last.id)
+                            }
+                        }
+                    }
+                }
             }
 
+            Timber.d("remote [0-${limit}] ${remoteData.size}")
+
+            /**
+             * use remoteData to update UI
+             */
+            val nextPageKey = if (remoteData.size == limit) 2 else null
+            callback.onResult(remoteData, null, nextPageKey)
         }
     }
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, User>) {
+        val pageIndex = params.key.dec()
+        val offset = pageIndex * params.requestedLoadSize
+        val limit = Constant.defaultPagingSize
+
+        val dao = localRepository.userDao
+
         scope.launch {
-            val pageIndex = params.key.dec()
-            val offset = pageIndex * params.requestedLoadSize
-            val limit = Constant.defaultPagingSize
+            val localData = dao.queryUsers(offset, limit)
 
-            val list = localRepository.userDao.allUsersById(offset, limit)
-
-            Timber.d("[${offset}-${offset + limit}] ${list.size}")
+            Timber.d("local [${offset}-${offset + limit}] ${localData.size}")
 
             /**
              * load data from api
              */
-            val result = remoteRepository.getUsers(pageIndex, limit, seed)
+            val response: RemoteUserResponse
+            try {
+                response = remoteRepository.getUsers(pageIndex, limit, seed)
+            }catch (error: Exception) {
+                Timber.e(error)
 
-            val users = result.results.mapIndexed { index, remoteUser ->
-                remoteUser.toDBUser(offset + index + 1)
+                val nextPageKey = if (localData.size == limit) params.key.inc() else null
+                callback.onResult(localData, nextPageKey)
+
+                Timber.d("local [0-${limit}] ${localData.size}")
+                return@launch
             }
 
+            val remoteData = response.createDBUserWithFakeId(offset)
 
-            callback.onResult(users, params.key.inc())
-
-            if (list.isEmpty()) {
-                localRepository.userDao.insert(users)
-                //TODO create a new PagedList / DataSource pair
+            /**
+             * insert, update, delete the remoteData into db
+             */
+            if (localData.isEmpty()) {
+                dao.insert(remoteData)
             } else {
-                //update delete
+                val count = remoteData.size
+                localRepository.db.withTransaction {
+                    when (count) {
+                        0 -> {
+                            dao.deleteAllOffset(offset-1)
+                        }
+                        1 -> {
+                            val first = remoteData.first()
+
+                            dao.upsert(first)
+                            dao.deleteAllAfter(first.id)
+                        }
+                        else -> {
+                            dao.upsert(remoteData)
+
+                            val last = remoteData.last()
+                            if (count < limit) {
+                                dao.deleteAllAfter(last.id)
+                            }
+                        }
+                    }
+                }
             }
 
+            Timber.d("remote [0-${limit}] ${remoteData.size}")
+
+            /**
+             * use remoteData to update UI
+             */
+            val nextPageKey = if (remoteData.size == limit) params.key.inc() else null
+            callback.onResult(remoteData, nextPageKey)
         }
     }
 
