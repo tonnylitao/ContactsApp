@@ -18,19 +18,11 @@ class Repository(app: Application, seed: String, scope: CoroutineScope) {
 
     private val localRepository by lazy { DBRepository(app) }
 
-//    private val diskIO = Executors.newSingleThreadExecutor()
-//
-//    // thread pool used for network requests
-//    private val netWorkIO = Executors.newFixedThreadPool(5)
-
-    /**
-     * recycler view's dataSource
-     * the data comes from local db which will be inserted, deleted and updated by the succeeding api
-     */
     val factory = UserDataSourceFactory(localRepository, remoteRepository, seed, scope)
 
     fun getUsers(pageSize: Int): LiveData<PagedList<User>> {
-        Timber.d("get new pair")
+        Timber.d("get new PagedList/DataSource pair")
+
         val config = Config(
             pageSize = pageSize,
             initialLoadSizeHint = Constant.defaultPagingSize

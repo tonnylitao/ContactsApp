@@ -14,7 +14,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.lang.Exception
 
 class UserDataSource(
     private val localRepository: DBRepository,
@@ -48,7 +47,7 @@ class UserDataSource(
             val response: RemoteUserResponse
             try {
                 response = remoteRepository.getUsers(Constant.firstPageIndex, limit, seed)
-            }catch (error: Exception) {
+            } catch (error: Exception) {
                 Timber.e(error)
 
                 val nextPageKey = if (localData.size == limit) 2 else null
@@ -119,13 +118,13 @@ class UserDataSource(
             val response: RemoteUserResponse
             try {
                 response = remoteRepository.getUsers(pageIndex, limit, seed)
-            }catch (error: Exception) {
+            } catch (error: Exception) {
                 Timber.e(error)
 
                 val nextPageKey = if (localData.size == limit) params.key.inc() else null
                 callback.onResult(localData, nextPageKey)
 
-                Timber.d("local [$offset-${offset+limit}] ${localData.size}")
+                Timber.d("local [$offset-${offset + limit}] ${localData.size}")
                 return@launch
             }
 
@@ -143,7 +142,7 @@ class UserDataSource(
                 localRepository.db.withTransaction {
                     when (count) {
                         0 -> {
-                            dao.deleteAllOffset(offset-1)
+                            dao.deleteAllOffset(offset - 1)
                         }
                         1 -> {
                             val first = remoteData.first()
@@ -163,7 +162,7 @@ class UserDataSource(
                 }
             }
 
-            Timber.d("remote [$offset-${offset+limit}] ${remoteData.size}")
+            Timber.d("remote [$offset-${offset + limit}] ${remoteData.size}")
 
             /**
              * use remoteData to update UI

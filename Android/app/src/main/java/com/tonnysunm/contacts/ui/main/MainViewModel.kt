@@ -12,8 +12,6 @@ import timber.log.Timber
 class MainViewModel(app: Application, val seed: String) : AndroidViewModel(app) {
     private val repository: Repository by lazy { Repository(app, seed, viewModelScope) }
 
-//    fun invalidateDataSource() = dataSourceFactory.sourceLiveData.value?.invalidate()
-
     var currentPage = MutableLiveData(Constant.firstPageIndex)
 
     fun getData() = repository.getUsers(Constant.defaultPagingSize)
