@@ -26,6 +26,7 @@ interface UserDao : BaseDao<User> {
     @Transaction
     suspend fun upsert(entity: User) {
         val id = insert(entity)
+
         if (id == -1L) {
             update(entity)
         }

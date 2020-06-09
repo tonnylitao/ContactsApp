@@ -6,7 +6,6 @@ import androidx.paging.PageKeyedDataSource
 import androidx.room.withTransaction
 import com.tonnysunm.contacts.BuildConfig
 import com.tonnysunm.contacts.Constant
-import com.tonnysunm.contacts.api.RemoteUser
 import com.tonnysunm.contacts.api.RemoteUserResponse
 import com.tonnysunm.contacts.api.WebService
 import com.tonnysunm.contacts.room.DBRepository
@@ -92,6 +91,7 @@ class UserDataSource(
 
             Timber.d("remote [0-${limit}] ${remoteData.size}")
 
+            Timber.d(remoteData.map { it.id }.joinToString(" "))
             /**
              * use remoteData to update UI
              */
@@ -124,11 +124,13 @@ class UserDataSource(
                 val nextPageKey = if (localData.size == limit) params.key.inc() else null
                 callback.onResult(localData, nextPageKey)
 
-                Timber.d("local [0-${limit}] ${localData.size}")
+                Timber.d("local [$offset-${offset+limit}] ${localData.size}")
                 return@launch
             }
 
             val remoteData = response.createDBUserWithFakeId(offset)
+
+            Timber.d(remoteData.map { it.id }.joinToString(" "))
 
             /**
              * insert, update, delete the remoteData into db
@@ -160,7 +162,7 @@ class UserDataSource(
                 }
             }
 
-            Timber.d("remote [0-${limit}] ${remoteData.size}")
+            Timber.d("remote [$offset-${offset+limit}] ${remoteData.size}")
 
             /**
              * use remoteData to update UI
