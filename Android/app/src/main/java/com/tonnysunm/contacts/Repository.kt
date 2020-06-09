@@ -10,6 +10,7 @@ import com.tonnysunm.contacts.library.UserDataSourceFactory
 import com.tonnysunm.contacts.room.DBRepository
 import com.tonnysunm.contacts.room.User
 import kotlinx.coroutines.CoroutineScope
+import timber.log.Timber
 
 class Repository(app: Application, seed: String, scope: CoroutineScope) {
 
@@ -26,16 +27,16 @@ class Repository(app: Application, seed: String, scope: CoroutineScope) {
      * recycler view's dataSource
      * the data comes from local db which will be inserted, deleted and updated by the succeeding api
      */
-    val userDataSource = UserDataSourceFactory(localRepository, remoteRepository, seed, scope)
+    val factory = UserDataSourceFactory(localRepository, remoteRepository, seed, scope)
 
     fun getUsers(pageSize: Int): LiveData<PagedList<User>> {
-
+        Timber.d("get new pair")
         val config = Config(
             pageSize = pageSize,
             initialLoadSizeHint = Constant.defaultPagingSize
         )
 
-        return LivePagedListBuilder(userDataSource, config).build()
+        return LivePagedListBuilder(factory, config).build()
     }
 
 }

@@ -59,14 +59,33 @@ class UserDataSource(
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, User>) {
         scope.launch {
-            val offset = params.key.dec() * params.requestedLoadSize
+            val pageIndex = params.key.dec()
+            val offset = pageIndex * params.requestedLoadSize
             val limit = Constant.defaultPagingSize
 
             val list = localRepository.userDao.allUsersById(offset, limit)
 
             Timber.d("[${offset}-${offset + limit}] ${list.size}")
 
-            callback.onResult(list, params.key.inc())
+            /**
+             * load data from api
+             */
+            val result = remoteRepository.getUsers(pageIndex, limit, seed)
+
+            val users = result.results.mapIndexed { index, remoteUser ->
+                remoteUser.toDBUser(offset + index + 1)
+            }
+
+
+            callback.onResult(users, params.key.inc())
+
+            if (list.isEmpty()) {
+                localRepository.userDao.insert(users)
+                //TODO create a new PagedList / DataSource pair
+            } else {
+                //update delete
+            }
+
         }
     }
 

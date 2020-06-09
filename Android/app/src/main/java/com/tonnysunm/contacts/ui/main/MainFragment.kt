@@ -12,6 +12,7 @@ import com.tonnysunm.contacts.library.AndroidViewModelFactory
 import com.tonnysunm.contacts.library.RecyclerAdapter
 import com.tonnysunm.contacts.library.RecyclerItem
 import com.tonnysunm.contacts.room.User
+import timber.log.Timber
 
 class MainFragment : Fragment() {
 
@@ -33,7 +34,10 @@ class MainFragment : Fragment() {
         val fragment = this
 
         val adapter = RecyclerAdapter(RecyclerItem.diffCallback<User>()) {
+
+            viewModel.invalidateDataSource()
         }
+        adapter.setHasStableIds(true)
 
         val binding = MainFragmentBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = fragment
@@ -43,13 +47,15 @@ class MainFragment : Fragment() {
         }
 
         viewModel.getData().observe(this.viewLifecycleOwner, Observer {
+            Timber.d("observe ${it.size}")
+
 //            showEmptyList(it?.size == 0)
             adapter.submitList(it)
 
         })
 
         binding.refresher.setOnRefreshListener {
-//            viewModel.invalidateDataSource()
+            viewModel.invalidateDataSource()
 
             binding.refresher.isRefreshing = false
         }
