@@ -205,3 +205,4 @@ React/.env.production.local
 React/npm-debug.log*
 React/yarn-debug.log*
 React/yarn-error.log*
+.idea
