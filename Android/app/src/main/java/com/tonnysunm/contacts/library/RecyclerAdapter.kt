@@ -30,6 +30,8 @@ class RecyclerAdapter<M : RecyclerItem>(
         getItem(position)?.run(holder.binding::bind)
     }
 
+    override fun getItemId(position: Int) = getItem(position)?.uniqueId?.toLong() ?: 0L
+
     /* ViewHolder */
     inner class ViewHolder(val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root)
 }

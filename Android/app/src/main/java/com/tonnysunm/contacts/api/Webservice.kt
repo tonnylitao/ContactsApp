@@ -9,7 +9,7 @@ interface WebService {
     suspend fun getUsers(
         @Query("page") pageIndex: Int,
         @Query("results") pageSize: Int,
-        @Query("seed") seed: String
+        @Query("seed") seed: String = "contacts"
     ): RemoteUserResponse
 
 }

@@ -2,24 +2,21 @@ package com.tonnysunm.contacts.ui.main
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.tonnysunm.contacts.Constant
-import com.tonnysunm.contacts.Repository
+import com.tonnysunm.contacts.library.Repository
 import timber.log.Timber
 
 
-class MainViewModel(app: Application, val seed: String) : AndroidViewModel(app) {
-    private val repository: Repository by lazy { Repository(app, seed, viewModelScope) }
+class MainViewModel(app: Application) : AndroidViewModel(app) {
 
-    var currentPage = MutableLiveData(Constant.firstPageIndex)
+    private val repository: Repository by lazy { Repository(app, viewModelScope) }
 
-    fun getData() = repository.getUsers(Constant.defaultPagingSize)
+    fun getListing() = repository.getUsers()
 
     fun invalidateDataSource() {
         Timber.d("invalidateDataSource")
 
-        repository.factory.sourceLiveData.value?.invalidate()
+        repository.factory.invalidate()
     }
 
 }

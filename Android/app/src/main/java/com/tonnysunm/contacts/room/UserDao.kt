@@ -25,16 +25,14 @@ interface UserDao : BaseDao<User> {
 
     @Transaction
     suspend fun upsert(entity: User) {
-        val id = insert(entity)
-
-        if (id == -1L) {
+        if (insertIfNotExisted(entity) == -1L) {
             update(entity)
         }
     }
 
     @Transaction
     suspend fun upsert(entities: List<User>) {
-        val rowIDs = insert(entities)
+        val rowIDs = insertIfNotExisted(entities)
         val toUpdate = rowIDs.mapIndexedNotNull { index, rowID ->
             if (rowID == -1L) entities[index] else null
         }
