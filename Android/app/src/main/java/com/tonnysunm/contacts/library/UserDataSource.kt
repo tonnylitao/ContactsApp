@@ -9,6 +9,7 @@ import com.tonnysunm.contacts.api.RemoteUserResponse
 import com.tonnysunm.contacts.api.WebService
 import com.tonnysunm.contacts.room.DBRepository
 import com.tonnysunm.contacts.room.User
+import com.tonnysunm.contacts.room.UserDao
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -40,6 +41,7 @@ class UserDataSource(
         callback: LoadInitialCallback<Int, User>
     ) {
         Timber.d("loadInitial")
+
         if (BuildConfig.DEBUG && params.requestedLoadSize != Constant.defaultPagingSize) {
             error("initialLoadSizeHint expected same as Constant.defaultPagingSize")
         }
@@ -82,39 +84,9 @@ class UserDataSource(
 
             val remoteData = response.createDBUserWithFakeId(offset)
 
-            /**
-             * insert, update, delete the remoteData into db
-             */
-            if (localData.isEmpty()) {
-                dao.insertIfNotExisted(remoteData)
-            } else {
-                val count = remoteData.size
-                localRepository.db.withTransaction {
-                    when (count) {
-                        0 -> {
-                            dao.deleteAll()
-                        }
-                        1 -> {
-                            val first = remoteData.first()
+            Timber.d("remote [0-${limit}] ${remoteData.size} ${remoteData.map { it.id }
+                .joinToString(" ")}")
 
-                            dao.upsert(first)
-                            dao.deleteAllAfter(first.id)
-                        }
-                        else -> {
-                            dao.upsert(remoteData)
-
-                            val last = remoteData.last()
-                            if (count < limit) {
-                                dao.deleteAllAfter(last.id)
-                            }
-                        }
-                    }
-                }
-            }
-
-            Timber.d("remote [0-${limit}] ${remoteData.size}")
-
-            Timber.d(remoteData.map { it.id }.joinToString(" "))
             /**
              * use remoteData to update UI
              */
@@ -123,6 +95,11 @@ class UserDataSource(
 
             initialState.postValue(true)
             networkState.postValue(NetworkState.LOADED)
+
+            /**
+             * update local db
+             */
+            updateLocalDB(dao, localData, remoteData, offset, limit)
         }
     }
 
@@ -141,7 +118,7 @@ class UserDataSource(
             val localData = dao.queryUsers(offset, limit)
 
             Timber.d("local [${offset}-${offset + limit}] ${localData.size}")
-            
+
             /**
              * load data from api
              */
@@ -162,39 +139,8 @@ class UserDataSource(
 
             val remoteData = response.createDBUserWithFakeId(offset)
 
-            Timber.d(remoteData.map { it.id }.joinToString(" "))
-
-            /**
-             * insert, update, delete the remoteData into db
-             */
-            if (localData.isEmpty()) {
-                dao.insertIfNotExisted(remoteData)
-            } else {
-                val count = remoteData.size
-                localRepository.db.withTransaction {
-                    when (count) {
-                        0 -> {
-                            dao.deleteAllOffset(offset - 1)
-                        }
-                        1 -> {
-                            val first = remoteData.first()
-
-                            dao.upsert(first)
-                            dao.deleteAllAfter(first.id)
-                        }
-                        else -> {
-                            dao.upsert(remoteData)
-
-                            val last = remoteData.last()
-                            if (count < limit) {
-                                dao.deleteAllAfter(last.id)
-                            }
-                        }
-                    }
-                }
-            }
-
-            Timber.d("remote [$offset-${offset + limit}] ${remoteData.size}")
+            Timber.d("remote [$offset-${offset + limit}] ${remoteData.size} ${remoteData.map { it.id }
+                .joinToString(" ")}")
 
             /**
              * use remoteData to update UI
@@ -203,10 +149,55 @@ class UserDataSource(
             callback.onResult(remoteData, nextPageKey)
 
             networkState.postValue(NetworkState.LOADED)
+
+
+            updateLocalDB(dao, localData, remoteData, offset, limit)
         }
     }
 
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, User>) {}
 
+    private suspend fun updateLocalDB(
+        dao: UserDao,
+        localData: List<User>,
+        remoteData: List<User>,
+        offset: Int,
+        limit: Int
+    ) {
+        /**
+         * insert, update, delete the remoteData into db
+         */
+        if (localData.isEmpty()) {
+            dao.insertIfNotExisted(remoteData)
+        } else {
+            val count = remoteData.size
+            localRepository.db.withTransaction {
+                when (count) {
+                    0 -> {
+                        val isInitial = offset == 0
+                        if (isInitial) {
+                            dao.deleteAll()
+                        } else {
+                            dao.deleteAllOffset(offset - 1)
+                        }
+                    }
+                    1 -> {
+                        val first = remoteData.first()
+
+                        dao.upsert(first)
+                        dao.deleteAllAfter(first.id)
+                    }
+                    else -> {
+                        dao.upsert(remoteData)
+
+                        val last = remoteData.last()
+                        if (count < limit) {
+                            dao.deleteAllAfter(last.id)
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
