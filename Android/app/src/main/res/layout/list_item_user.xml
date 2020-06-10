@@ -60,7 +60,7 @@
             app:layout_constraintBottom_toBottomOf="@id/avatarImgView"
             app:layout_constraintLeft_toLeftOf="@id/nameTxtView"
             app:layout_constraintRight_toRightOf="@id/nameTxtView"
-            android:text="@{user.dayOfBirth}"
+            app:ddMMyyyy="@{user.dayOfBirth}"
             tools:text="10/10/1910" />
 
         <androidx.appcompat.widget.AppCompatImageView

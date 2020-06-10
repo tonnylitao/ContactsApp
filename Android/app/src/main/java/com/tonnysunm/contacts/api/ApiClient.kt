@@ -1,6 +1,8 @@
 package com.tonnysunm.contacts.api
 
 import com.google.gson.GsonBuilder
+import com.simplemented.okdelay.DelayInterceptor
+import com.tonnysunm.contacts.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.logging.HttpLoggingInterceptor.Level
@@ -8,6 +10,7 @@ import okhttp3.logging.HttpLoggingInterceptor.Logger
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 
 
 class ApiClient {
@@ -32,12 +35,14 @@ class ApiClient {
                 }).apply {
                     level = Level.BASIC
                 })
-                .build()
 
+            if (BuildConfig.DEBUG) {
+                client.addInterceptor(DelayInterceptor(1000L, TimeUnit.MILLISECONDS))
+            }
 
             Retrofit.Builder()
                 .baseUrl(baseUrl)
-                .client(client)
+                .client(client.build())
                 .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
                 .build()
                 .create(WebService::class.java)

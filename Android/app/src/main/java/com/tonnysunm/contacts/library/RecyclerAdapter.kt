@@ -10,18 +10,18 @@ import androidx.recyclerview.widget.RecyclerView
 
 class RecyclerAdapter<M : RecyclerItem>(
     diffCallback: DiffUtil.ItemCallback<M>,
-    private val clickListener: ((M) -> Unit)? = null
+    private val clickListener: ((RecyclerAdapter<M>, Int, M) -> Unit)? = null
 ) : PagedListAdapter<M, RecyclerAdapter<M>.ViewHolder>(diffCallback) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ViewHolder(
-            DataBindingUtil.inflate(LayoutInflater.from(parent.context), viewType, parent, false)
-        ).apply {
-            itemView.setOnClickListener {
-                val item = getItem(this.absoluteAdapterPosition) ?: return@setOnClickListener
-                clickListener?.invoke(item)
-            }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
+        DataBindingUtil.inflate(LayoutInflater.from(parent.context), viewType, parent, false)
+    ).apply {
+        itemView.setOnClickListener {
+            val item = getItem(this.absoluteAdapterPosition) ?: return@setOnClickListener
+            
+            clickListener?.invoke(this@RecyclerAdapter, this.absoluteAdapterPosition, item)
         }
+    }
 
     override fun getItemViewType(position: Int) =
         requireNotNull(getItem(position)?.layoutId) { "item at $position is null" }
@@ -29,8 +29,6 @@ class RecyclerAdapter<M : RecyclerItem>(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         getItem(position)?.run(holder.binding::bind)
     }
-
-    override fun getItemId(position: Int) = getItem(position)?.uniqueId?.toLong() ?: 0L
 
     /* ViewHolder */
     inner class ViewHolder(val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root)

@@ -17,7 +17,6 @@ class Repository(app: Application, scope: CoroutineScope) {
 
     val factory = UserDataSourceFactory(localRepository, remoteRepository, scope)
 
-
     fun getUsers(): Listing<User> {
         val config = Config(
             pageSize = Constant.defaultPagingSize,
@@ -26,7 +25,7 @@ class Repository(app: Application, scope: CoroutineScope) {
 
         return Listing<User>(
             pagedList = LivePagedListBuilder(factory, config).build(),
-            refreshState = factory.sourceLiveData.switchMap {
+            initialState = factory.sourceLiveData.switchMap {
                 it.initialState
             },
             networkState = factory.sourceLiveData.switchMap {

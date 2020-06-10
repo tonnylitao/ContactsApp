@@ -2,12 +2,14 @@ package com.tonnysunm.contacts.ui
 
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.view.isGone
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.jwang123.flagkit.FlagKit
 import com.tonnysunm.contacts.GlideApp
 import com.tonnysunm.contacts.R
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -47,4 +49,28 @@ fun setFlag(view: ImageView, nationality: String?) {
 
     view.setImageDrawable(drawable)
 }
+
+@BindingAdapter("ddMMyyyy")
+fun dateFormat(view: TextView, date: String?) {
+    view.isGone = date == null
+
+    date ?: return
+
+    view.text = date.date()?.localString("dd/MM/yyyy")
+}
+
+fun String.date(): Date? {
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+    dateFormat.timeZone = TimeZone.getTimeZone("GMT")
+
+    return try {
+        dateFormat.parse(this)
+    } catch (e: java.lang.Exception) {
+        null
+    }
+}
+
+fun Date.localString(format: String): String =
+    SimpleDateFormat(format, Locale.getDefault()).format(this)
+
 
