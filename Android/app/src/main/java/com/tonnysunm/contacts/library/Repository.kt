@@ -15,9 +15,9 @@ class Repository(app: Application, scope: CoroutineScope) {
     private val remoteRepository = ApiClient.retrofit
     private val localRepository by lazy { DBRepository(app) }
 
-    val factory = UserDataSourceFactory(localRepository, remoteRepository, scope)
+    private val factory = UserDataSourceFactory(localRepository, remoteRepository, scope)
 
-    fun getUsers(): Listing<User> {
+    fun getUserListing(): Listing<User> {
         val config = Config(
             pageSize = Constant.defaultPagingSize,
             initialLoadSizeHint = Constant.defaultPagingSize
@@ -31,13 +31,9 @@ class Repository(app: Application, scope: CoroutineScope) {
             networkState = factory.sourceLiveData.switchMap {
                 it.networkState
             },
-            retry = {
-                factory.sourceLiveData.value?.retryAllFailed()
-            },
             refresh = {
                 factory.invalidate()
             })
-
     }
 
 }

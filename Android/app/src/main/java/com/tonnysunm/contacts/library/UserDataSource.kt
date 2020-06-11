@@ -21,25 +21,15 @@ class UserDataSource(
     private val scope: CoroutineScope
 ) : PageKeyedDataSource<Int, User>() {
 
-    val initialState = MutableLiveData(false)
-    val networkState = MutableLiveData<NetworkState>()
-
-    private var retry: (() -> Any)? = null
-
-    fun retryAllFailed() {
-        val prevRetry = retry; retry = null
-
-        prevRetry?.let {
-            scope.launch(Dispatchers.IO) {
-                it.invoke()
-            }
-        }
-    }
+    val initialState = MutableLiveData<State>()
+    val networkState = MutableLiveData<State>()
 
     override fun loadInitial(
         params: LoadInitialParams<Int>,
         callback: LoadInitialCallback<Int, User>
     ) {
+        initialState.postValue(State.Loading)
+
         Timber.d("loadInitial")
 
         if (BuildConfig.DEBUG && params.requestedLoadSize != Constant.defaultPagingSize) {
@@ -55,7 +45,7 @@ class UserDataSource(
             /**
              * load data from local
              */
-            networkState.postValue(NetworkState.LOADING)
+            networkState.postValue(State.Loading)
 
             val localData = dao.queryUsers(offset, limit)
 
@@ -73,12 +63,8 @@ class UserDataSource(
 
                 Timber.d("local [0-${limit}] ${localData.size}")
 
-                retry = {
-                    loadInitial(params, callback)
-                }
-
-                initialState.postValue(true)
-                networkState.postValue(NetworkState.error(error.message ?: "api unknown error"))
+                initialState.postValue(State.Success(Source.LOCAL))
+                networkState.postValue(State.Error(error.message ?: "api unknown error"))
                 return@launch
             }
 
@@ -93,8 +79,8 @@ class UserDataSource(
             val nextPageKey = if (remoteData.size == limit) 2 else null
             callback.onResult(remoteData, null, nextPageKey)
 
-            initialState.postValue(true)
-            networkState.postValue(NetworkState.LOADED)
+            initialState.postValue(State.Success(Source.REMOTE))
+            networkState.postValue(State.Success(Source.REMOTE))
 
             /**
              * update local db
@@ -112,12 +98,23 @@ class UserDataSource(
 
         val dao = localRepository.userDao
 
+        val state = initialState.value
+        if (state is State.Success && state.source == Source.LOCAL) {
+            scope.launch(Dispatchers.IO) {
+                val localData = dao.queryUsers(offset, limit)
+
+                Timber.d("local [${offset}-${offset + limit}] ${localData.size}")
+
+                val nextPageKey = if (localData.size == limit) params.key.inc() else null
+                callback.onResult(localData, nextPageKey)
+            }
+            return
+        }
+
+        networkState.postValue(State.Loading)
+
         scope.launch(Dispatchers.IO) {
-            networkState.postValue(NetworkState.LOADING)
-
             val localData = dao.queryUsers(offset, limit)
-
-            Timber.d("local [${offset}-${offset + limit}] ${localData.size}")
 
             /**
              * load data from api
@@ -131,7 +128,7 @@ class UserDataSource(
                 val nextPageKey = if (localData.size == limit) params.key.inc() else null
                 callback.onResult(localData, nextPageKey)
 
-                networkState.postValue(NetworkState.error(error.message ?: "api unknown error"))
+                networkState.postValue(State.Error(error.message ?: "api unknown error"))
 
                 Timber.d("local [$offset-${offset + limit}] ${localData.size}")
                 return@launch
@@ -148,8 +145,7 @@ class UserDataSource(
             val nextPageKey = if (remoteData.size == limit) params.key.inc() else null
             callback.onResult(remoteData, nextPageKey)
 
-            networkState.postValue(NetworkState.LOADED)
-
+            networkState.postValue(State.Success(Source.REMOTE))
 
             updateLocalDB(dao, localData, remoteData, offset, limit)
         }
