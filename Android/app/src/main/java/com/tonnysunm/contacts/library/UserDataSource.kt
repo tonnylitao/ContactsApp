@@ -3,7 +3,6 @@ package com.tonnysunm.contacts.library
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
 import androidx.room.withTransaction
-import com.tonnysunm.contacts.BuildConfig
 import com.tonnysunm.contacts.Constant
 import com.tonnysunm.contacts.api.RemoteUserResponse
 import com.tonnysunm.contacts.api.WebService
@@ -40,11 +39,12 @@ class UserDataSource(
         params: LoadInitialParams<Int>,
         callback: LoadInitialCallback<Int, User>
     ) {
-        Timber.d("loadInitial")
+        Timber.d("loadInitial ${params.requestedLoadSize}")
 
-        if (BuildConfig.DEBUG && params.requestedLoadSize != Constant.defaultPagingSize) {
-            error("initialLoadSizeHint expected same as Constant.defaultPagingSize")
-        }
+//        if (BuildConfig.DEBUG && params.requestedLoadSize != Constant.defaultPagingSize) {
+//            error("initialLoadSizeHint expected same as Constant.defaultPagingSize")
+//        }
+        Timber.d(params.requestedLoadSize.toString())
 
         val offset = 0
         val limit = params.requestedLoadSize
@@ -68,8 +68,10 @@ class UserDataSource(
             } catch (error: Exception) {
                 Timber.e(error)
 
-                val nextPageKey = if (localData.size == limit) 2 else null
-                callback.onResult(localData, null, nextPageKey)
+                val nextPageKey =
+                    if (localData.size == limit) limit / Constant.defaultPagingSize else null
+                callback.onResult(localData, 0, 5000, null, nextPageKey)
+//                callback.onResult(localData, null, nextPageKey)
 
                 Timber.d("local [0-${limit}] ${localData.size}")
 
@@ -90,8 +92,9 @@ class UserDataSource(
             /**
              * use remoteData to update UI
              */
-            val nextPageKey = if (remoteData.size == limit) 2 else null
-            callback.onResult(remoteData, null, nextPageKey)
+            val nextPageKey =
+                if (remoteData.size == limit) limit / Constant.defaultPagingSize else null
+            callback.onResult(remoteData, 0, 5000, null, nextPageKey)
 
             initialState.postValue(true)
             networkState.postValue(NetworkState.LOADED)
@@ -104,11 +107,11 @@ class UserDataSource(
     }
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, User>) {
-        Timber.d("loadAfter")
+        Timber.d("loadAfter ${params.key} ${params.requestedLoadSize}")
 
-        val pageIndex = params.key.dec()
+        val pageIndex = params.key
         val offset = pageIndex * params.requestedLoadSize
-        val limit = Constant.defaultPagingSize
+        val limit = params.requestedLoadSize
 
         val dao = localRepository.userDao
 
@@ -178,7 +181,7 @@ class UserDataSource(
                         if (isInitial) {
                             dao.deleteAll()
                         } else {
-                            dao.deleteAllOffset(offset - 1)
+                            dao.deleteAllOffset(offset)
                         }
                     }
                     1 -> {

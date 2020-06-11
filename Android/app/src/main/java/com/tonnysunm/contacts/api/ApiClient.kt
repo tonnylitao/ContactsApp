@@ -37,7 +37,7 @@ class ApiClient {
                 })
 
             if (BuildConfig.DEBUG) {
-                client.addInterceptor(DelayInterceptor(1000L, TimeUnit.MILLISECONDS))
+                client.addInterceptor(DelayInterceptor(2000L, TimeUnit.MILLISECONDS))
             }
 
             Retrofit.Builder()

@@ -59,6 +59,8 @@ class MainFragment : Fragment() {
             binding.refresher.isRefreshing = !it
 
             if (it) {
+                binding.shimmer.stopShimmer()
+                binding.shimmer.visibility = View.GONE
                 adapter.submitList(_temp)
             }
         })

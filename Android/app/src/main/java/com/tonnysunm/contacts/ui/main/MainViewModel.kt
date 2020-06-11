@@ -10,7 +10,7 @@ import timber.log.Timber
 class MainViewModel(app: Application) : AndroidViewModel(app) {
 
     private val repository: Repository by lazy { Repository(app, viewModelScope) }
-
+    
     fun getListing() = repository.getUsers()
 
     fun invalidateDataSource() {
