@@ -11,18 +11,63 @@
 
     </data>
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/refresher"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.main.MainFragment">
+        android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/refresher"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/list_item_user" />
+            tools:context=".ui.main.MainFragment">
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/list_item_user" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:clipChildren="true"
+            app:shimmer_highlight_alpha="0.5">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include layout="@layout/list_item_user_shimmer" />
+
+                <include layout="@layout/list_item_user_shimmer" />
+
+                <include layout="@layout/list_item_user_shimmer" />
+
+                <include layout="@layout/list_item_user_shimmer" />
+
+                <include layout="@layout/list_item_user_shimmer" />
+
+                <include layout="@layout/list_item_user_shimmer" />
+
+                <include layout="@layout/list_item_user_shimmer" />
+
+                <include layout="@layout/list_item_user_shimmer" />
+
+                <include layout="@layout/list_item_user_shimmer" />
+
+                <include layout="@layout/list_item_user_shimmer" />
+
+                <include layout="@layout/list_item_user_shimmer" />
+
+                <include layout="@layout/list_item_user_shimmer" />
+            </LinearLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
+    </FrameLayout>
+
 </layout>

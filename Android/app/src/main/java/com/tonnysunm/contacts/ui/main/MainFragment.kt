@@ -61,6 +61,8 @@ class MainFragment : Fragment() {
             binding.refresher.isRefreshing = it == State.Loading
 
             if (it is State.Success) {
+                binding.shimmer.stopShimmer()
+                binding.shimmer.visibility = View.GONE
                 adapter.submitList(_temp)
 
                 if (it.source == Source.LOCAL) {

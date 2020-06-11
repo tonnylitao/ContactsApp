@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/list_item_shimmer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/avatarImgView"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/shape_circle" />
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/genderImgView"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:translationX="3dp"
+            android:translationY="3dp"
+            app:layout_constraintRight_toRightOf="@+id/avatarImgView"
+            app:layout_constraintBottom_toBottomOf="@id/avatarImgView"
+            android:background="@drawable/shape_circle_dark" />
+
+        <TextView
+            android:id="@+id/nameTxtView"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/avatarImgView"
+            app:layout_constraintLeft_toRightOf="@id/avatarImgView"
+            app:layout_constraintBottom_toTopOf="@id/birthdayTxtView"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="#ddd" />
+
+        <TextView
+            android:id="@+id/birthdayTxtView"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/nameTxtView"
+            app:layout_constraintBottom_toBottomOf="@id/avatarImgView"
+            app:layout_constraintLeft_toLeftOf="@id/nameTxtView"
+            android:layout_marginTop="5dp"
+            android:background="#ddd" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/countryImgView"
+            android:layout_width="30dp"
+            android:layout_height="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginEnd="16dp"
+            android:background="#ddd" />
+
+        <View
+            android:id="@+id/lineView"
+            android:layout_width="0dp"
+            android:layout_height="0.5dp"
+            app:layout_constraintLeft_toLeftOf="@+id/nameTxtView"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="#ddd" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
