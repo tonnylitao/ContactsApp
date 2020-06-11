@@ -36,7 +36,7 @@ class MainFragment : Fragment() {
         val fragment = this
 
         val adapter =
-            RecyclerAdapter(RecyclerItem.diffCallback<User>()) { recyclerAdapter, index, user ->
+            RecyclerAdapter(RecyclerItem.diffCallback<User>()) { _, _, _ ->
 
             }
 

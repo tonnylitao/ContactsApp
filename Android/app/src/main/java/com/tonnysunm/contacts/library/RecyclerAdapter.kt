@@ -33,7 +33,8 @@ class RecyclerAdapter<M : RecyclerItem>(
         else ViewHolder(
             DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
-                R.layout.list_item_user_placeholder,
+                R.layout.list_item_user_shimmer,
+                //R.layout.list_item_user_placeholder,
                 parent,
                 false
             )
