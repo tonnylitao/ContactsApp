@@ -1,7 +1,6 @@
 package com.tonnysunm.contacts.api
 
 import com.tonnysunm.contacts.room.User
-import kotlin.random.Random
 
 
 data class RemoteUserResponse(
@@ -77,7 +76,7 @@ fun RemoteUser.toDBUser(id: Int): User {
         id = id,
         title = name?.title,
         firstName = name?.first,
-        lastName = name?.last + Random.nextInt(0, 100).toString(),
+        lastName = name?.last,
         dayOfBirth = dob?.date,
         gender = gender,
         email = email,

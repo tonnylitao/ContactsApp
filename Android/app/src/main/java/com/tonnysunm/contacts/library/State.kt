@@ -5,6 +5,13 @@ enum class Source {
     REMOTE
 }
 
+fun Source.tips() =
+    if (this == Source.LOCAL) {
+        "📴 OFFLINE"
+    } else {
+        "✅ ONLINE"
+    }
+
 sealed class State {
     object Loading : State()
 

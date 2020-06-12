@@ -69,13 +69,8 @@ class MainFragment : Fragment() {
                 binding.shimmer.visibility = View.GONE
                 adapter.submitList(_temp)
 
-                if (it.source == Source.LOCAL) {
-                    Snackbar.make(this.requireView(), "\uD83D\uDCF4 OFFLINE", Snackbar.LENGTH_SHORT)
-                        .show();
-                } else {
-                    Snackbar.make(this.requireView(), "\uD83D\uDCF3 ONLINE", Snackbar.LENGTH_SHORT)
-                        .show();
-                }
+                Snackbar.make(this.requireView(), it.source.tips(), Snackbar.LENGTH_SHORT)
+                    .show();
             }
         })
 
@@ -87,7 +82,7 @@ class MainFragment : Fragment() {
 
                 Snackbar.make(
                     this.requireView(),
-                    "\uD83D\uDE2DUsing Cached Data, $message",
+                    "💀Using Cached Data, $message",
                     Snackbar.LENGTH_LONG
                 ).show();
             }
