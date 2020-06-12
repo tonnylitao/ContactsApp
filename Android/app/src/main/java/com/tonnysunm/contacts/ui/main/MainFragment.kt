@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.paging.PagedList
 import com.google.android.material.snackbar.Snackbar
 import com.tonnysunm.contacts.R
@@ -40,8 +41,9 @@ class MainFragment : Fragment() {
             RecyclerAdapter(
                 RecyclerItem.diffCallback<User>(),
                 R.layout.list_item_user_placeholder
-            ) { _, _, _ ->
-
+            ) { _, _, item ->
+                val action = MainFragmentDirections.actionNavMainToNavDetail(item.id)
+                fragment.findNavController().navigate(action)
             }
 
         val binding = MainFragmentBinding.inflate(inflater, container, false).apply {
