@@ -144,10 +144,7 @@ extension RemoteUser: RemoteEntity {
         fatalError("id is nil")
     }
     
-    
-    typealias Entity = DBUser
-    
-    func importInto(_ entiry: Entity) {
+    func importInto(_ entiry: DBUser) {
         entiry.id = uniqueId
         
         entiry.title = name.title

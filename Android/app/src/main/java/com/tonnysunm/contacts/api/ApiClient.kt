@@ -11,6 +11,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
+import kotlin.random.Random
 
 
 class ApiClient {
@@ -37,7 +38,9 @@ class ApiClient {
                 })
 
             if (BuildConfig.DEBUG) {
-                client.addInterceptor(DelayInterceptor(2000L, TimeUnit.MILLISECONDS))
+                client.addInterceptor(
+                    DelayInterceptor(Random.nextLong(100L, 1000L), TimeUnit.MILLISECONDS)
+                )
             }
 
             Retrofit.Builder()
@@ -49,4 +52,3 @@ class ApiClient {
         }
     }
 }
-

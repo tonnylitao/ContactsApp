@@ -10,9 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.paging.PagedList
 import com.google.android.material.snackbar.Snackbar
 import com.tonnysunm.contacts.databinding.MainFragmentBinding
-import com.tonnysunm.contacts.library.AndroidViewModelFactory
-import com.tonnysunm.contacts.library.RecyclerAdapter
-import com.tonnysunm.contacts.library.RecyclerItem
+import com.tonnysunm.contacts.library.*
 import com.tonnysunm.contacts.room.User
 import timber.log.Timber
 
@@ -38,7 +36,7 @@ class MainFragment : Fragment() {
         val fragment = this
 
         val adapter =
-            RecyclerAdapter(RecyclerItem.diffCallback<User>()) { recyclerAdapter, index, user ->
+            RecyclerAdapter(RecyclerItem.diffCallback<User>()) { _, _, _ ->
 
             }
 
@@ -49,33 +47,46 @@ class MainFragment : Fragment() {
             recyclerView.adapter = adapter
         }
 
-        val listing = viewModel.getListing()
+        val listing = viewModel.getUserListing()
         listing.pagedList.observe(this.viewLifecycleOwner, Observer {
 //            updateEmptyTips(it?.size == 0)
+            /**
+             * submitList to adapter after data source initialization
+             * to avoid white screen (lack of data)
+             */
             _temp = it
         })
 
         listing.initialState.observe(this.viewLifecycleOwner, Observer {
-            binding.refresher.isRefreshing = !it
+            binding.refresher.isRefreshing = it == State.Loading
 
-            if (it) {
+            if (it is State.Success) {
                 binding.shimmer.stopShimmer()
                 binding.shimmer.visibility = View.GONE
                 adapter.submitList(_temp)
+
+                if (it.source == Source.LOCAL) {
+                    Snackbar.make(this.requireView(), "\uD83D\uDCF4 OFFLINE", Snackbar.LENGTH_SHORT)
+                        .show();
+                } else {
+                    Snackbar.make(this.requireView(), "\uD83D\uDCF3 ONLINE", Snackbar.LENGTH_SHORT)
+                        .show();
+                }
             }
         })
 
         listing.networkState.observe(this.viewLifecycleOwner, Observer { state ->
             Timber.d(state.toString())
 
-            val msg = state.msg ?: return@Observer
+            if (state is State.Error) {
+                val message = state.message ?: return@Observer
 
-            Snackbar.make(
-                this.requireView(),
-                "\uD83D\uDE2D $msg, Using Cached Data",
-                Snackbar.LENGTH_SHORT
-            ).show();
-
+                Snackbar.make(
+                    this.requireView(),
+                    "\uD83D\uDE2DUsing Cached Data, $message",
+                    Snackbar.LENGTH_LONG
+                ).show();
+            }
         })
 
         binding.refresher.setOnRefreshListener {

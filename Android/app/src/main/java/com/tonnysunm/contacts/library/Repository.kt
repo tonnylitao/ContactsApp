@@ -15,10 +15,10 @@ class Repository(app: Application, scope: CoroutineScope) {
     private val remoteRepository = ApiClient.retrofit
     private val localRepository by lazy { DBRepository(app) }
 
-    val factory = UserDataSourceFactory(localRepository, remoteRepository, scope)
+    private val factory = UserDataSourceFactory(localRepository, remoteRepository, scope)
 
-    fun getUsers(): Listing<User> {
-        
+    fun getUserListing(): Listing<User> {
+
         return Listing<User>(
             pagedList = LivePagedListBuilder(factory, Config(Constant.defaultPagingSize)).build(),
             initialState = factory.sourceLiveData.switchMap {
@@ -27,13 +27,9 @@ class Repository(app: Application, scope: CoroutineScope) {
             networkState = factory.sourceLiveData.switchMap {
                 it.networkState
             },
-            retry = {
-                factory.sourceLiveData.value?.retryAllFailed()
-            },
             refresh = {
                 factory.invalidate()
             })
-
     }
 
 }
