@@ -20,10 +20,6 @@ import timber.log.Timber
 
 class MainFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = MainFragment()
-    }
-
     private val viewModel by viewModels<MainViewModel> {
         AndroidViewModelFactory(requireActivity().application)
     }
