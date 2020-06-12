@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.paging.PagedList
 import com.google.android.material.snackbar.Snackbar
+import com.tonnysunm.contacts.R
 import com.tonnysunm.contacts.databinding.MainFragmentBinding
 import com.tonnysunm.contacts.library.*
 import com.tonnysunm.contacts.room.User
@@ -36,7 +37,10 @@ class MainFragment : Fragment() {
         val fragment = this
 
         val adapter =
-            RecyclerAdapter(RecyclerItem.diffCallback<User>()) { _, _, _ ->
+            RecyclerAdapter(
+                RecyclerItem.diffCallback<User>(),
+                R.layout.list_item_user_placeholder
+            ) { _, _, _ ->
 
             }
 
