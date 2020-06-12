@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/nav_main">
+
+    <fragment
+        android:id="@+id/nav_main"
+        android:name="com.tonnysunm.contacts.ui.main.MainFragment"
+        tools:layout="@layout/main_fragment" />
+
+    <fragment
+        android:id="@+id/nav_edit_label"
+        android:name="com.tonnysunm.contacts.ui.detail.DetailFragment"
+        android:label="Detail"
+        tools:layout="@layout/detail_fragment">
+        <argument
+            android:name="id"
+            app:argType="integer" />
+    </fragment>
+
+</navigation>
