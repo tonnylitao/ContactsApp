@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        app:shimmer_highlight_alpha="0.5">
+
+
+        <include layout="@layout/list_item_user_shimmer" />
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+</layout>
