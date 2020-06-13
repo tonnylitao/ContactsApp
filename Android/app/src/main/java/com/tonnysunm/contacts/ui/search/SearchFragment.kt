@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import com.tonnysunm.contacts.R
 import com.tonnysunm.contacts.databinding.SearchFragmentBinding
 import com.tonnysunm.contacts.library.AndroidViewModelFactory
@@ -40,8 +39,7 @@ class SearchFragment : Fragment() {
                 RecyclerItem.diffCallback<User>(),
                 R.layout.list_item_user_placeholder
             ) { _, _, item ->
-                val action = SearchFragmentDirections.actionNavSearchToNavDetail(item.id)
-                fragment.findNavController().navigate(action)
+                
             }
 
         val binding = SearchFragmentBinding.inflate(inflater, container, false).apply {
