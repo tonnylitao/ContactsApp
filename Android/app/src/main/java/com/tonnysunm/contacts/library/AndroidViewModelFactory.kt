@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import kotlin.reflect.full.primaryConstructor
 
-class AndroidViewModelFactory(private vararg val args: Any) :
+class AndroidViewModelFactory(private vararg val args: Any?) :
     ViewModelProvider.NewInstanceFactory() {
 
     override fun <T : ViewModel> create(modelClass: Class<T>) = requireNotNull(
@@ -12,4 +12,5 @@ class AndroidViewModelFactory(private vararg val args: Any) :
         { "$modelClass primaryConstructor is null" })
 
 }
+
 

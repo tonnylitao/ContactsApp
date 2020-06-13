@@ -15,6 +15,15 @@
     </fragment>
 
     <fragment
+        android:id="@+id/nav_search"
+        android:name="com.tonnysunm.contacts.ui.search.SearchFragment"
+        tools:layout="@layout/search_fragment">
+        <action
+            android:id="@+id/action_nav_search_to_nav_detail"
+            app:destination="@id/nav_detail" />
+    </fragment>
+
+    <fragment
         android:id="@+id/nav_detail"
         android:name="com.tonnysunm.contacts.ui.detail.DetailFragment"
         android:label="Detail"

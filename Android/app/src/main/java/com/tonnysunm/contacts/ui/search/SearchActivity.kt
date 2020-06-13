@@ -3,27 +3,46 @@ package com.tonnysunm.contacts.ui.search
 import android.content.Context
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.viewpager.widget.ViewPager
-import com.google.android.material.tabs.TabLayout
+import androidx.appcompat.widget.SearchView
 import com.tonnysunm.contacts.R
 import kotlinx.android.synthetic.main.activity_search.*
+import timber.log.Timber
 
-class SearchActivity : AppCompatActivity() {
+
+class SearchActivity : AppCompatActivity(R.layout.activity_search) {
+
+    private val sharedViewModel by viewModels<SearchSharedViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search)
 
         val imm =
             searchView.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+        searchView.requestFocus()
 
-        val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager)
-        val viewPager: ViewPager = findViewById(R.id.view_pager)
-        viewPager.adapter = sectionsPagerAdapter
+        searchView.setOnCloseListener {
+            Timber.d("setOnCloseListener")
 
-        val tabs: TabLayout = findViewById(R.id.tabs)
-        tabs.setupWithViewPager(viewPager)
+            return@setOnCloseListener false
+        }
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                sharedViewModel.setTarget(query)
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                sharedViewModel.setTarget(newText)
+                return true
+            }
+        })
+
+        view_pager.adapter = SectionsPagerAdapter(this, supportFragmentManager)
+
+        tabs.setupWithViewPager(view_pager)
     }
 }

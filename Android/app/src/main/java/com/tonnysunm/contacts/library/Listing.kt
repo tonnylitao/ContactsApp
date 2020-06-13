@@ -15,5 +15,5 @@ data class Listing<T>(
     val initialState: LiveData<State>,
 
     // refreshes the whole data and fetches it from scratch.
-    val refresh: () -> Unit
+    val refresh: (() -> Unit)?
 )

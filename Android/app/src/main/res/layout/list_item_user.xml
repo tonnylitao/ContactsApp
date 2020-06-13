@@ -74,7 +74,6 @@
             app:flag="@{user.nationality}"
             tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
-
         <View
             android:id="@+id/lineView"
             android:layout_width="0dp"

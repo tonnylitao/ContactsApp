@@ -16,7 +16,6 @@ import com.tonnysunm.contacts.library.*
 import com.tonnysunm.contacts.room.User
 import timber.log.Timber
 
-//TODO: add networking state machine and initial state machine
 
 class MainFragment : Fragment() {
 
@@ -49,7 +48,7 @@ class MainFragment : Fragment() {
             recyclerView.adapter = adapter
         }
 
-        val listing = viewModel.getUserListing()
+        val listing = viewModel.getPageKeyedListing()
         listing.pagedList.observe(this.viewLifecycleOwner, Observer {
 //            updateEmptyTips(it?.size == 0)
             /**
@@ -87,10 +86,9 @@ class MainFragment : Fragment() {
         })
 
         binding.refresher.setOnRefreshListener {
-            listing.refresh()
+            listing.refresh?.invoke()
         }
 
         return binding.root
     }
-
 }
