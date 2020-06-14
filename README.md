@@ -156,15 +156,15 @@ http
 |http|Session/Alamofire| Retrofit2 |
 |api Model| struct implement Decodable protocol | data class with deserialization | Optional or not, it's a question
 | Entity Model | CoreData's NSManagedObject | Room's Entity |
-| Create<br>Updata<br>Delete | CoreData's background context | Coroutine, Room's Dao |
+| Create<br>Updata<br>Delete | CoreData's background context | Coroutine, Room's Dao | Find-in-Batch<br>(Room) use sqlite conflict strategy
 | Query | NSFetchedResultsController, NSPredicate | DataSource.Factory, DataSource<br>(ItemKeyedDataSource,<br>PageKeyedDataSource,<br>PositionalDataSource) | Query columns only necessory
 | UI Model | CoreData's NSManagedObject | Room's Entity or<br> data class embedded Room's Entity  | Recommend to embed a slim Entity
 | Data Container | CoreData's view context | PagedList, LiveData | PagedList is immutable, a new PagedList/DataSource pair need to create when data change
-| To Update UI | NSFetchedResultsControllerDelegate | Adapter  |
+| To Update UI | NSFetchedResultsControllerDelegate | Adapter | Don't Repeat Delegates and Adapters
 | Controller | UITableViewController | Fragment, ViewModel |
 | UI | UITableView | RecyclerView |
 
-The newest Paging Library supports three kinds of DataSource. It depends on the user interaction of recycler view (scroll up or scroll down to load pages) and the web api (index paging or item paging). You have ItemKeyedDataSource, PageKeyedDataSource and PositionalDataSource to choose. Chill up, give youself a couple days to decide which you need to use. And if you are not satisfied about them, alternatively you can implement your own DataSource.
+The newest Paging Library supports three kinds of DataSource. It depends on the web api (index paging, item paging, load forward, load backward). You have ItemKeyedDataSource, PageKeyedDataSource and PositionalDataSource to choose. Chill up, give youself a couple days to decide which you need to use. And if you are not satisfied with them, alternatively you can implement your own DataSource.
 
 In this Android demo, I used PageKeyedDataSource and customized the data provider which serves local data and remote data depends on network status.
 
