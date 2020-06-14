@@ -185,9 +185,8 @@ class UserDataSource(
                     else -> {
                         dao.upsert(remoteData)
 
-                        val last = remoteData.last()
                         if (count < limit) {
-                            dao.deleteAllAfter(last.id)
+                            dao.deleteAllAfter(remoteData.last().id)
                         }
                     }
                 }

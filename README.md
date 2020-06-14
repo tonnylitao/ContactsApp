@@ -94,43 +94,80 @@ Programming in CoreData, there are some good and popular practices:
 * perform all I/O operation in background thread, merge updates into UI thread
 * delete first, update later. to get avoid of unnecessory query job
 
-iOS supports NSFetchedResultsController which can update table view automatically when data is inserted, updated or deleted. Forget about the child-main-root 3 layer contexts which is main stream in years ago, iOS 10 simplifies the contexts and thread operation, Thanks to CoreData framework, iOS developer has fewer things to do. But in Android, it goes wild.
+iOS supports NSFetchedResultsController which can update table view automatically when data is inserted, updated or deleted. Forget about the child-main-root 3 layer contexts which is main stream in years ago, iOS 10 simplifies the contexts and thread operation, Thanks to CoreData framework, iOS developer has fewer things to do.
 
 ##### Android sync mechanism
-The newest Paging Library supports three kinds of DataSource. It depends on the user interaction of recycler view (scroll up or scroll down to load pages) and the web api (index paging or item paging). You have ItemKeyedDataSource, PageKeyedDataSource and PositionalDataSource to choose. Chill up, give youself a couple days to decide which you need to use. And if you are not satisfied about them, alternatively you can implement your own DataSource.
+To simplify the task, this Android project does not implement fetch-update or fetch-insert like iOS. The api items are upserted by hitting database which is polished by Room/Sqlite conflict strategy. Thanks to Room and Coroutine, it's only a few lines of code.
 
+```kotlin
+@Insert(onConflict = OnConflictStrategy.IGNORE)
+suspend fun insertIfNotExisted(entities: List<T>): List<Long>
 
-
-
-### Data-driven UI. (on going)
-A mechanism of updateing list view after data being inserted, updated or deleted. Data flows from api to UI:
-``` 
-Api decode/deserialize  -> Api model 
-    mapping		-> Entity model 
-    save		-> db 
-    query		-> UI model 
-    update		-> UI
+@Transaction
+suspend fun upsert(entities: List<User>) {
+    val rowIDs = insertIfNotExisted(entities)
+    val toUpdate = rowIDs.mapIndexedNotNull { index, rowID ->
+        if (rowID == -1L) entities[index] else null
+    }
+    toUpdate.forEach { update(it) }
+}
 ```
 
-| | iOS, UITableView | Android, RecyclerView |
+```kotlin
+suspend fun syncToDBWith(apiData: List<ApiUser>, offset: Int) {
+
+    val count = apiData.size
+    db.withTransaction {
+        when (count) {
+            0 -> {
+            	dao.deleteAllOffset(offset) //hitting db
+            }
+            1 -> {
+                val first = apiData.first()
+
+                dao.upsert(first) 	//hitting db
+                dao.deleteAllAfter(first.id)
+            }
+            else -> {
+                dao.upsert(apiData) //hitting db
+
+                if (count < pagingSize) {
+                    dao.deleteAllAfter(apiData.last().id)
+                }
+            }
+        }
+    }
+}
+```
+
+### Data-driven UI
+A mechanism of updateing table view after data being inserted, updated or deleted. Data flows from api to UI:
+
+``` 
+http
+				decode/deserialize  -> api Model 
+				mapping		-> Entity Model 
+				C_UD		-> db 
+				query		-> UI model in container 
+				update		-> UI
+```
+
+| | iOS, CoreData | Android, Room |
 | ---- | ---- | ---- |
-Model creation | NSManagedObjectContext.save()<br>(backgroundContext,viewContext) | RoomDao.upsert
-Update UI(1) | NSFetchedResultsControllerDelegate | DataSource.Factory<br>LiveData<br>PagedListAdapter<br>PagedList<br>BoundaryCallback
-Update UI(2) | | DataSource.Factory<br>LiveData<br>PagedListAdapter<br>PagedList<br>PageKeyedDataSource
+|http|Session/Alamofire| Retrofit2 |
+|api Model| struct implement Decodable protocol | data class with deserialization |
+| Entity Model | CoreData's NSManagedObject | Room's Entity |
+| Create<br>Updata<br>Delete | CoreData's background context | Coroutine, Room's Dao |
+| Query | NSFetchedResultsController, NSPredicate | DataSource.Factory, DataSource<br>(ItemKeyedDataSource,<br>PageKeyedDataSource,<br>PositionalDataSource) |
+| Data Container | CoreData's view context | PagedList, LiveData |
+| To Update UI | NSFetchedResultsControllerDelegate | Adapter  |
+| Controller | UITableViewController | Fragment, ViewModel |
+| UI | UITableView | RecyclerView |
 
-* Android
+The newest Paging Library supports three kinds of DataSource. It depends on the user interaction of recycler view (scroll up or scroll down to load pages) and the web api (index paging or item paging). You have ItemKeyedDataSource, PageKeyedDataSource and PositionalDataSource to choose. Chill up, give youself a couple days to decide which you need to use. And if you are not satisfied about them, alternatively you can implement your own DataSource.
 
-The PagedList tries to get the first chunk of data from the DataSource. When the DataSource is empty, the BoundaryCallback requests from the network and inserts into db.
+In this Android demo, I used PageKeyedDataSource and customized the data provider which serves local data and remote data depends on network status.
 
- <img src="/Design/android/paging_1.gif">
- 
-After the inserting, a new LiveData\<PagedList> is created automatically and passed to ViewModel and PagedListAdapter to update UI.
- 
- <img src="/Design/android/paging_2.gif">
- 
-When load more, DataSource queries next page from db, and BoundaryCallback requests next page from the network and inserts/updates/deletes them into db. The UI then gets re-populated with the newly-loaded data.
-
- <img src="/Design/android/paging_3.gif">
 
 ### A summary of this app about mobile development. (on going)
 
