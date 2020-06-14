@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="user"
+            type="com.tonnysunm.contacts.room.User" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/avatarImgView"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/avatars"
+            app:imageUrl="@{user.pictureThumbnail}" />
+
+
+        <TextView
+            android:id="@+id/nameTxtView"
+            style="@style/Text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{user.fullName}"
+            android:textSize="17sp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintLeft_toRightOf="@id/avatarImgView"
+            app:layout_constraintRight_toLeftOf="@id/countryImgView"
+            app:layout_constraintTop_toTopOf="@id/avatarImgView"
+            app:layout_constraintBottom_toBottomOf="@id/avatarImgView"
+            tools:text="@tools:sample/full_names" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/countryImgView"
+            android:layout_width="30dp"
+            android:layout_height="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginEnd="16dp"
+            app:flag="@{user.nationality}"
+            tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+        <View
+            android:id="@+id/lineView"
+            android:layout_width="0dp"
+            android:layout_height="0.5dp"
+            app:layout_constraintLeft_toLeftOf="@+id/nameTxtView"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="#DDDBDB" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

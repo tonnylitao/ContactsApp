@@ -14,6 +14,11 @@ interface RecyclerItem {
     val variableId: Int
 
     /**
+     * the real data to bind
+     */
+    val dataToBind: Any
+
+    /**
      * make sure equality in areItemsTheSame
      */
     val uniqueId: Int

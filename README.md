@@ -18,7 +18,11 @@ This demo shows how to develop mobile apps in different platforms (iOS, Android,
 
 ### Android with Jetpack (on going)
 
-<img src="/Design/android/final-architecture.png" width="400">
+<p float="left">
+ <img src="/Design/android/app_home.png" width="250">
+ <img src="/Design/android/app_search.png" width="250">
+ <img src="/Design/android/app_detail.png" width="250">
+</p>
 
 - MVVM
 - Paging Library
@@ -27,6 +31,8 @@ This demo shows how to develop mobile apps in different platforms (iOS, Android,
 - Room
 - Coroutine
 - Compose
+
+<img src="/Design/android/final-architecture.png" width="400">
 
 ### React SAP(TODO)
 

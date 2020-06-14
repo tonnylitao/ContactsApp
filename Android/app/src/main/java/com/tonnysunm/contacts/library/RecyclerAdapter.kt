@@ -46,6 +46,6 @@ class RecyclerAdapter<M : RecyclerItem>(
 }
 
 private fun ViewDataBinding.bind(item: RecyclerItem) {
-    setVariable(item.variableId, item)
+    setVariable(item.variableId, item.dataToBind)
     executePendingBindings()
 }

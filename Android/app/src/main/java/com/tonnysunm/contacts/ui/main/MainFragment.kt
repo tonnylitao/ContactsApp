@@ -41,7 +41,7 @@ class MainFragment : Fragment() {
                 RecyclerItem.diffCallback<User>(),
                 R.layout.list_item_user_placeholder
             ) { _, _, item ->
-                val action = MainFragmentDirections.actionNavMainToNavDetail(item.id)
+                val action = MainFragmentDirections.actionNavMainToNavDetail(item.uniqueId)
                 fragment.findNavController().navigate(action)
             }
 

@@ -5,6 +5,7 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.text.style.RelativeSizeSpan
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
@@ -64,6 +65,26 @@ data class User(
     override val variableId: Int
         get() = BR.user
 
+    override val dataToBind: Any
+        get() = this
+
     override val uniqueId: Int
         get() = id
+}
+
+data class SearchedUser(
+    @Embedded val user: User
+) : RecyclerItem {
+
+    override val layoutId: Int
+        get() = R.layout.list_item_user_simple
+
+    override val variableId: Int
+        get() = BR.user
+
+    override val dataToBind: Any
+        get() = user
+
+    override val uniqueId: Int
+        get() = user.id
 }
