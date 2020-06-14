@@ -16,7 +16,7 @@ This demo shows how to develop mobile apps in different platforms (iOS, Android,
 - JS bridge between web and native(Going on)
 - Reactive in Combine framework(TODO)
 
-### Android with Jetpack (on going)
+### Android with Jetpack (90%)
 
 <p float="left">
  <img src="/Design/android/app_home.png" width="250">
