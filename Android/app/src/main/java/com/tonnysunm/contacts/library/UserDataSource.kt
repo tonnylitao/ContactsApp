@@ -167,30 +167,22 @@ class UserDataSource(
         } else {
             val count = remoteData.size
             localRepository.db.withTransaction {
-                when (count) {
-                    0 -> {
-                        val isInitial = offset == 0
-                        if (isInitial) {
-                            dao.deleteAll()
-                        } else {
-                            dao.deleteAllOffset(offset)
-                        }
+                if (count == 0) {
+                    val isInitial = offset == 0
+                    if (isInitial) {
+                        dao.deleteAll()
+                    } else {
+                        dao.deleteAllOffset(offset)
                     }
-                    1 -> {
-                        val first = remoteData.first()
+                } else {
+                    dao.upsert(remoteData)
 
-                        dao.upsert(first)
-                        dao.deleteAllAfter(first.id)
-                    }
-                    else -> {
-                        dao.upsert(remoteData)
-
-                        if (count < limit) {
-                            dao.deleteAllAfter(remoteData.last().id)
-                        }
+                    if (count < limit) {
+                        dao.deleteAllAfter(remoteData.last().id)
                     }
                 }
             }
         }
     }
+}
 }

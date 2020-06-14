@@ -126,23 +126,14 @@ suspend fun syncToDBWith(apiData: List<ApiUser>, offset: Int) {
 
     val count = apiData.size
     db.withTransaction {
-        when (count) {
-            0 -> {
-            	dao.deleteAllOffset(offset) //hitting db
-            }
-            1 -> {
-                val first = apiData.first()
-
-                dao.upsert(first) 	//hitting db
-                dao.deleteAllAfter(first.id)
-            }
-            else -> {
-                dao.upsert(apiData) //hitting db
-
-                if (count < pagingSize) {
-                    dao.deleteAllAfter(apiData.last().id)
-                }
-            }
+        if (count == 0) {
+        	dao.deleteAllOffset(offset) //hitting db
+        }else {
+        	dao.upsert(apiData) //hitting db
+        	
+			if (count < pagingSize) {
+				dao.deleteAllAfter(apiData.last().id)
+			}
         }
     }
 }
