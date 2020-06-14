@@ -160,14 +160,15 @@ http
 		update		-> UI
 ```
 
-| | iOS with CoreData | Android with Room |
-| ---- | ---- | ---- |
+| | iOS with CoreData | Android with Room | Tips |
+| ---- | ---- | ---- | ---- |
 |http|Session/Alamofire| Retrofit2 |
-|api Model| struct implement Decodable protocol | data class with deserialization |
+|api Model| struct implement Decodable protocol | data class with deserialization | Optional or not, it's a question
 | Entity Model | CoreData's NSManagedObject | Room's Entity |
 | Create<br>Updata<br>Delete | CoreData's background context | Coroutine, Room's Dao |
-| Query | NSFetchedResultsController, NSPredicate | DataSource.Factory, DataSource<br>(ItemKeyedDataSource,<br>PageKeyedDataSource,<br>PositionalDataSource) |
-| Data Container | CoreData's view context | PagedList, LiveData |
+| Query | NSFetchedResultsController, NSPredicate | DataSource.Factory, DataSource<br>(ItemKeyedDataSource,<br>PageKeyedDataSource,<br>PositionalDataSource) | Query columns only necessory
+| UI Model | CoreData's NSManagedObject | Room's Entity or<br> data class embedded Room's Entity  | Recommend to embed a slim Entity
+| Data Container | CoreData's view context | PagedList, LiveData | PagedList is immutable, a new PagedList/DataSource pair need to create when data change
 | To Update UI | NSFetchedResultsControllerDelegate | Adapter  |
 | Controller | UITableViewController | Fragment, ViewModel |
 | UI | UITableView | RecyclerView |
