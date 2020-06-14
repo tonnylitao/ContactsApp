@@ -48,7 +48,9 @@ Data Binding | | Data Binding 🆕<br>LiveData 🆕
 Model-to-DB | CoreData (iOS 3) | Room 🆕
 Concurrency | GCD (iOS 8) | Coroutine 🆕
 
-The new features(🆕) comes in either a new version of the support library called androidX (Android 9.0, API level 28, 2018), other kotlinx library (kotlinx-coroutines-android 2018), or new version of Android Studio (DataBinding needs Android Studio 3.4 2019). Which one seem more challenging to you?
+The new features(🆕) comes in either a new version of the support library called androidX (Android 9.0, API level 28, 2018), other kotlinx library (kotlinx-coroutines-android 2018), or new version of Android Studio (DataBinding needs Android Studio 3.4 2019). 
+
+Which one seem more challenging to you?
 
 ### How to sync data (or keep consistency) between local and remote database when presenting table UI to users?
 
@@ -56,7 +58,7 @@ The new features(🆕) comes in either a new version of the support library call
 	1. UniqueId in both local database and remote sevice
 	2. Same order in sqlite fetch and api (remote sql fetch)
 
-In this demo app, the sync mechanism I used in iOS and android slightly different.
+In this demo app, the sync mechanism I used in iOS and android are slightly different.
 
 ##### iOS sync mechanism
 
@@ -92,10 +94,12 @@ Programming in CoreData, there are some good and popular practices:
 * perform all I/O operation in background thread, merge updates into UI thread
 * delete first, update later. to get avoid of unnecessory query job
 
-iOS supports NSFetchedResultsController which can update table view automatically when data is inserted, updated or deleted. Forget about the child-main-root 3 contexts which is main stream in years ago, iOS 10 simplifies the contexts and thread operation, Thanks to CoreData framework, iOS developer has fewer things to do. But in Android, it goes wild.
+iOS supports NSFetchedResultsController which can update table view automatically when data is inserted, updated or deleted. Forget about the child-main-root 3 layer contexts which is main stream in years ago, iOS 10 simplifies the contexts and thread operation, Thanks to CoreData framework, iOS developer has fewer things to do. But in Android, it goes wild.
 
 ##### Android sync mechanism
-The newest Paging Library supports three kinds of DataSource. It depends on the user interaction of recycler view and the web api. You have ItemKeyedDataSource, PageKeyedDataSource and PositionalDataSource to choose. Chill up, give youself a couple days to decide which you need to use. And if you are not satisfied about them, alternatively you can implement your own DataSource.
+The newest Paging Library supports three kinds of DataSource. It depends on the user interaction of recycler view (scroll up or scroll down to load pages) and the web api (index paging or item paging). You have ItemKeyedDataSource, PageKeyedDataSource and PositionalDataSource to choose. Chill up, give youself a couple days to decide which you need to use. And if you are not satisfied about them, alternatively you can implement your own DataSource.
+
+
 
 
 ### Data-driven UI. (on going)
