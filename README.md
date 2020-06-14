@@ -2,6 +2,14 @@
 
 This demo shows how to develop mobile apps in different platforms (iOS, Android, Web). It's not about cross-platform. it's about taking fully advantage of best part of Swift, Kotlin and JS.
 
+### Featuers
+
+- api
+- sync local data with remote data
+- refresh, paging
+- search local data
+- offline
+
 ### iOS
 
 <p float="left">
@@ -152,7 +160,7 @@ http
 		update		-> UI
 ```
 
-| | iOS, CoreData | Android, Room |
+| | iOS with CoreData | Android with Room |
 | ---- | ---- | ---- |
 |http|Session/Alamofire| Retrofit2 |
 |api Model| struct implement Decodable protocol | data class with deserialization |
@@ -173,12 +181,13 @@ In this Android demo, I used PageKeyedDataSource and customized the data provide
 
 - [Good practices in iOS development](/swift.md)
 - [Good practices in Android development](/kotlin.md)
-- [What I've learned from Kotlin as iOS developer](/kotlin_for_ios.md)
 - [Comparison between Swift and Kotlin](/swift_vs_kotlin.md)
+- [What I've learned from Kotlin as iOS developer](/kotlin_for_ios.md)
+- What I've learned from Swift as Android developer
 
 ### TODO
 - JS bridge between web and native (ios and android)
-- Reactive in Combine framework
+- iOS SwiftUI with Combine framework
 - Android Compose
 - React SAP
 - Next.js
