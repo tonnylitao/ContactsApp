@@ -124,8 +124,8 @@
                                     </constraints>
                                     <segments>
                                         <segment title="ALL"/>
-                                        <segment title="NZ"/>
-                                        <segment title="US"/>
+                                        <segment title="NZ 🇳🇿"/>
+                                        <segment title="US 🇺🇸"/>
                                     </segments>
                                     <connections>
                                         <action selector="filterChanged:" destination="Rzh-hL-EKZ" eventType="valueChanged" id="XGU-C2-Phh"/>

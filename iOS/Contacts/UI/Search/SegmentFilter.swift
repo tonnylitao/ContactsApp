@@ -32,7 +32,6 @@ extension SegmentFilter {
             return ["nat": countryCode]
         }
     }
-    
 }
 
 extension SegmentFilter: Equatable {}
