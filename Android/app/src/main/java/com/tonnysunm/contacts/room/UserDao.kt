@@ -1,5 +1,6 @@
 package com.tonnysunm.contacts.room
 
+import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import androidx.room.Dao
 import androidx.room.Query
@@ -14,7 +15,7 @@ interface UserDao : BaseDao<User> {
     suspend fun queryUsers(offset: Int, limit: Int): List<User>
 
     @Query("SELECT * FROM user_table WHERE id = :id")
-    suspend fun queryUser(id: Int): User?
+    fun queryUser(id: Int): LiveData<User>
 
     @Query("SELECT id FROM user_table ORDER BY id ASC LIMIT 1 OFFSET :offset")
     suspend fun queryUserOffset(offset: Int): Int?

@@ -19,7 +19,8 @@ class Repository(app: Application, scope: CoroutineScope) {
     private val remoteRepository = ApiClient.retrofit
     private val localRepository by lazy { DBRepository(app) }
 
-    private val factory = UserDataSourceFactory(localRepository, remoteRepository, scope)
+    private val factory =
+        UserDataSourceFactory(localRepository, remoteRepository, scope)
 
     /**
      * from networking, and update local database through room for offline

@@ -220,7 +220,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="aVA-3C-Ocz" customClass="DesignableImageView" customModule="Contacts" customModuleProvider="target">
-                                    <rect key="frame" x="157" y="31" width="100" height="100"/>
+                                    <rect key="frame" x="157" y="30" width="100" height="100"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="100" id="bSH-Fk-uw3"/>
                                         <constraint firstAttribute="width" constant="100" id="rdj-Nd-p1Y"/>
@@ -232,13 +232,13 @@
                                     </userDefinedRuntimeAttributes>
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Miss. Afonso Pinto" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AnP-zF-F6j">
-                                    <rect key="frame" x="122.5" y="156" width="169" height="29"/>
+                                    <rect key="frame" x="122.5" y="155" width="169" height="30"/>
                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
                                     <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_female" highlightedImage="ic_male" translatesAutoresizingMaskIntoConstraints="NO" id="ElB-4v-pVr">
-                                    <rect key="frame" x="192" y="111" width="30" height="30"/>
+                                    <rect key="frame" x="192" y="110" width="30" height="30"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="30" id="3Pt-WJ-WS5"/>
                                         <constraint firstAttribute="width" constant="30" id="PSs-5R-Ql0"/>
@@ -253,7 +253,7 @@
                                 <constraint firstItem="AnP-zF-F6j" firstAttribute="centerX" secondItem="CIq-1I-Qqg" secondAttribute="centerX" id="cgl-pq-iWf"/>
                                 <constraint firstAttribute="bottom" secondItem="AnP-zF-F6j" secondAttribute="bottom" constant="15" id="fpU-GR-Iyt"/>
                                 <constraint firstItem="aVA-3C-Ocz" firstAttribute="centerX" secondItem="CIq-1I-Qqg" secondAttribute="centerX" id="tr8-HK-0wB"/>
-                                <constraint firstItem="aVA-3C-Ocz" firstAttribute="top" secondItem="CIq-1I-Qqg" secondAttribute="top" constant="31" id="zdA-y9-Sgy"/>
+                                <constraint firstItem="aVA-3C-Ocz" firstAttribute="top" secondItem="CIq-1I-Qqg" secondAttribute="top" constant="30" id="zdA-y9-Sgy"/>
                             </constraints>
                         </view>
                         <sections>

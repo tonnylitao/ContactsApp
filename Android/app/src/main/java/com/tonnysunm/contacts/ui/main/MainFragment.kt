@@ -84,7 +84,7 @@ class MainFragment : Fragment() {
                 Snackbar.make(
                     this.requireView(),
                     "💀Using Cached Data, $message",
-                    Snackbar.LENGTH_LONG
+                    Snackbar.LENGTH_SHORT
                 ).show();
             }
         })
