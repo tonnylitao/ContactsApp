@@ -30,21 +30,22 @@ class SearchFragment : Fragment() {
         )
     }
 
+    private val adapter by lazy {
+        RecyclerAdapter(
+            RecyclerItem.diffCallback<SearchedUser>(), R.layout.list_item_user_placeholder
+        ) { _, _, item ->
+            val action = SearchPagerFragmentDirections.actionNavSearchToNavDetail(item.uniqueId)
+            findNavController().navigate(action)
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         val fragment = this
-
-        val adapter =
-            RecyclerAdapter(
-                RecyclerItem.diffCallback<SearchedUser>(), R.layout.list_item_user_placeholder
-            ) { _, _, item ->
-                val action = SearchPagerFragmentDirections.actionNavSearchToNavDetail(item.uniqueId)
-                fragment.findNavController().navigate(action)
-            }
-
+        
         val binding = FragmentSearchBinding.inflate(
             inflater,
             container,

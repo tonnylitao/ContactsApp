@@ -35,7 +35,10 @@ class SearchPagerFragment : Fragment(R.layout.fragment_search_pager) {
         view_pager.adapter = SectionsPagerAdapter(requireContext(), childFragmentManager)
         tabs.setupWithViewPager(view_pager)
 
-        //
+        /**
+         * Support app bar variations
+         * https://developer.android.com/guide/navigation/navigation-ui#support_app_bar_variations
+         */
         val navController = findNavController()
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         toolbar.setupWithNavController(navController, appBarConfiguration)

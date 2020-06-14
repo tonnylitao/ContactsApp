@@ -14,7 +14,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.tonnysunm.contacts.R
 import com.tonnysunm.contacts.databinding.FragmentMainBinding
 import com.tonnysunm.contacts.library.*
-import com.tonnysunm.contacts.room.User
+import com.tonnysunm.contacts.room.HomeUser
 import kotlinx.android.synthetic.main.fragment_detail.*
 
 
@@ -30,7 +30,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     private val adapter by lazy {
         RecyclerAdapter(
-            RecyclerItem.diffCallback<User>(),
+            RecyclerItem.diffCallback<HomeUser>(),
             R.layout.list_item_user_placeholder
         ) { _, _, item ->
             val action = MainFragmentDirections.actionNavMainToNavDetail(item.uniqueId)
@@ -38,7 +38,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
     }
 
-    private var _temp: PagedList<User>? = null
+    private var _temp: PagedList<HomeUser>? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

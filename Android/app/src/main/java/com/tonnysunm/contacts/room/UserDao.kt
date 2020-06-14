@@ -8,11 +8,11 @@ import androidx.room.Transaction
 
 @Dao
 interface UserDao : BaseDao<User> {
-    @Query("SELECT * FROM user_table WHERE ('' = :nationality OR nationality = :nationality) AND '%%' != :target AND (firstName LIKE :target OR lastName LIKE :target) ORDER BY id ASC")
+    @Query("SELECT id, title, firstName, lastName, pictureThumbnail, nationality FROM user_table WHERE ('' = :nationality OR nationality = :nationality) AND '%%' != :target AND (firstName LIKE :target OR lastName LIKE :target) ORDER BY id ASC")
     fun searchUsers(target: String, nationality: String): DataSource.Factory<Int, SearchedUser>
 
-    @Query("SELECT * FROM user_table ORDER BY id ASC LIMIT :limit OFFSET :offset")
-    suspend fun queryUsers(offset: Int, limit: Int): List<User>
+    @Query("SELECT id, title, firstName, lastName, pictureThumbnail, nationality, gender FROM user_table ORDER BY id ASC LIMIT :limit OFFSET :offset")
+    suspend fun queryUsers(offset: Int, limit: Int): List<HomeUser>
 
     @Query("SELECT * FROM user_table WHERE id = :id")
     fun queryUser(id: Int): LiveData<User>

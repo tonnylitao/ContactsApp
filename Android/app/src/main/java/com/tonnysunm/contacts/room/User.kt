@@ -43,8 +43,7 @@ data class User(
     var pictureThumbnail: String?,
 
     var pictureLarge: String?
-) : RecyclerItem {
-
+) {
     @Ignore
     val fullName =
         SpannableString("$title. $firstName $lastName").apply {
@@ -58,7 +57,11 @@ data class User(
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
         }
+}
 
+data class HomeUser(
+    @Embedded val user: User
+) : RecyclerItem {
     override val layoutId: Int
         get() = R.layout.list_item_user
 
@@ -66,10 +69,10 @@ data class User(
         get() = BR.user
 
     override val dataToBind: Any
-        get() = this
+        get() = user
 
     override val uniqueId: Int
-        get() = id
+        get() = user.id
 }
 
 data class SearchedUser(
