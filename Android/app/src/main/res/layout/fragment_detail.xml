@@ -67,7 +67,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="30dp"
                 android:textSize="22sp"
-                android:textColor="@android:color/black"
+                style="@style/Text"
                 android:textStyle="bold"
                 tools:text="Mr Tonny L" />
 
@@ -94,9 +94,10 @@
                 android:layout_marginBottom="10dp"
                 app:ddMMyyyy="@{user.dayOfBirth}"
                 android:textSize="18sp"
+                android:textStyle="bold"
                 android:lineHeight="20sp"
                 tools:text="11/11/1990"
-                android:textColor="@android:color/black" />
+                style="@style/Text" />
 
             <View
                 android:layout_width="match_parent"
@@ -124,7 +125,8 @@
                 android:textSize="18sp"
                 android:lineHeight="20sp"
                 tools:text="hi@gmail.com"
-                android:textColor="@android:color/black" />
+                android:textStyle="bold"
+                style="@style/Text" />
 
             <View
                 android:layout_width="match_parent"
@@ -150,6 +152,7 @@
                 android:layout_marginBottom="10dp"
                 android:text="@{user.phone}"
                 android:textSize="18sp"
+                android:textStyle="bold"
                 android:lineHeight="20sp"
                 tools:text="123456789"
                 android:textColor="@color/link" />
@@ -178,6 +181,7 @@
                 android:layout_marginBottom="10dp"
                 android:text="@{user.cell}"
                 android:textSize="18sp"
+                android:textStyle="bold"
                 android:lineHeight="20sp"
                 android:textColor="@color/link"
                 tools:text="123456789" />
@@ -212,9 +216,10 @@
                     android:layout_marginBottom="10dp"
                     android:text="@{user.nationality}"
                     android:textSize="18sp"
+                    android:textStyle="bold"
                     android:lineHeight="20sp"
                     tools:text="NZ"
-                    android:textColor="@android:color/black" />
+                    style="@style/Text" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/countryImgView"
@@ -250,9 +255,10 @@
                 android:layout_marginBottom="10dp"
                 android:text="@{user.address}"
                 android:textSize="18sp"
+                android:textStyle="bold"
                 android:lineHeight="20sp"
                 tools:text="Queen St, Auckland, New Zealand"
-                android:textColor="@android:color/black" />
+                style="@style/Text" />
 
             <View
                 android:layout_width="match_parent"

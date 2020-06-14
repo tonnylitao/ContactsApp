@@ -41,6 +41,7 @@
 
         <TextView
             android:id="@+id/nameTxtView"
+            style="@style/Text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="@id/avatarImgView"
@@ -49,6 +50,7 @@
             app:layout_constraintBottom_toTopOf="@id/birthdayTxtView"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
+            android:textSize="17sp"
             tools:text="@tools:sample/full_names"
             android:text="@{user.fullName}" />
 
@@ -61,6 +63,8 @@
             app:layout_constraintLeft_toLeftOf="@id/nameTxtView"
             app:layout_constraintRight_toRightOf="@id/nameTxtView"
             app:ddMMyyyy="@{user.dayOfBirth}"
+            android:textSize="14sp"
+            android:textColor="#696969"
             tools:text="10/10/1910" />
 
         <androidx.appcompat.widget.AppCompatImageView

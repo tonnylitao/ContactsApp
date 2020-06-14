@@ -20,7 +20,6 @@ class SearchPagerFragment : Fragment(R.layout.fragment_search_pager) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 sharedViewModel.setTarget(query)
@@ -45,10 +44,10 @@ class SearchPagerFragment : Fragment(R.layout.fragment_search_pager) {
     override fun onResume() {
         super.onResume()
 
+        searchView.requestFocus()
         val imm =
             searchView.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.showSoftInput(searchView, 0)
-        searchView.requestFocus()
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
     }
 
     override fun onPause() {

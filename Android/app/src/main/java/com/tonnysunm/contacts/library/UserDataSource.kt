@@ -27,14 +27,9 @@ class UserDataSource(
         params: LoadInitialParams<Int>,
         callback: LoadInitialCallback<Int, User>
     ) {
-        initialState.postValue(State.Loading)
-
         Timber.d("loadInitial ${params.requestedLoadSize}")
 
-//        if (BuildConfig.DEBUG && params.requestedLoadSize != Constant.defaultPagingSize) {
-//            error("initialLoadSizeHint expected same as Constant.defaultPagingSize")
-//        }
-        Timber.d(params.requestedLoadSize.toString())
+        initialState.postValue(State.Loading)
 
         val offset = 0
         val limit = params.requestedLoadSize
