@@ -7,8 +7,9 @@
 
     <fragment
         android:id="@+id/nav_main"
+        android:label="@string/app_name"
         android:name="com.tonnysunm.contacts.ui.main.MainFragment"
-        tools:layout="@layout/main_fragment">
+        tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/action_nav_main_to_nav_detail"
             app:destination="@id/nav_detail" />
@@ -16,8 +17,8 @@
 
     <fragment
         android:id="@+id/nav_search"
-        android:name="com.tonnysunm.contacts.ui.search.SearchFragment"
-        tools:layout="@layout/search_fragment">
+        android:name="com.tonnysunm.contacts.ui.search.SearchPagerFragment"
+        tools:layout="@layout/fragment_search_pager">
         <action
             android:id="@+id/action_nav_search_to_nav_detail"
             app:destination="@id/nav_detail" />
@@ -27,7 +28,7 @@
         android:id="@+id/nav_detail"
         android:name="com.tonnysunm.contacts.ui.detail.DetailFragment"
         android:label="Detail"
-        tools:layout="@layout/detail_fragment">
+        tools:layout="@layout/fragment_detail">
         <argument
             android:name="id"
             app:argType="integer" />

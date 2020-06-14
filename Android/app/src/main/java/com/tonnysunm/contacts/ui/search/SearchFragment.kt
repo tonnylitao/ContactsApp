@@ -8,8 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.tonnysunm.contacts.R
-import com.tonnysunm.contacts.databinding.SearchFragmentBinding
+import com.tonnysunm.contacts.databinding.FragmentSearchBinding
 import com.tonnysunm.contacts.library.AndroidViewModelFactory
 import com.tonnysunm.contacts.library.RecyclerAdapter
 import com.tonnysunm.contacts.library.RecyclerItem
@@ -18,13 +19,15 @@ import com.tonnysunm.contacts.room.User
 class SearchFragment : Fragment() {
 
     private val searchSharedViewModel by lazy {
-        val activity = requireActivity() as SearchActivity
-        ViewModelProvider(activity).get(SearchSharedViewModel::class.java)
+        ViewModelProvider(requireParentFragment()).get(SearchSharedViewModel::class.java)
     }
 
     private val viewModel by viewModels<SearchViewModel> {
-        val activity = requireActivity() as SearchActivity
-        AndroidViewModelFactory(activity.application, searchSharedViewModel, arguments)
+        AndroidViewModelFactory(
+            requireActivity().application,
+            searchSharedViewModel,
+            requireNotNull(arguments)
+        )
     }
 
     override fun onCreateView(
@@ -36,13 +39,17 @@ class SearchFragment : Fragment() {
 
         val adapter =
             RecyclerAdapter(
-                RecyclerItem.diffCallback<User>(),
-                R.layout.list_item_user_placeholder
+                RecyclerItem.diffCallback<User>(), R.layout.list_item_user_placeholder
             ) { _, _, item ->
-                
+                val action = SearchPagerFragmentDirections.actionNavSearchToNavDetail(item.id)
+                fragment.findNavController().navigate(action)
             }
 
-        val binding = SearchFragmentBinding.inflate(inflater, container, false).apply {
+        val binding = FragmentSearchBinding.inflate(
+            inflater,
+            container,
+            false
+        ).apply {
             lifecycleOwner = fragment
             viewModel = fragment.viewModel
 

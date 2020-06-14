@@ -11,11 +11,11 @@ import com.tonnysunm.contacts.library.Repository
 class SearchViewModel(
     app: Application,
     sharedViewModel: SearchSharedViewModel,
-    arguments: Bundle?
+    arguments: Bundle
 ) : AndroidViewModel(app) {
 
     private val filter: Filter =
-        Filter.valueBy(requireNotNull(arguments).getInt(SearchFragment.ARG_FILTER_VALUE, -1))
+        Filter.valueBy(arguments.getInt(SearchFragment.ARG_FILTER_VALUE, -1))
 
     private val repository: Repository by lazy { Repository(app, viewModelScope) }
 

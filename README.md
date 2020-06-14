@@ -45,7 +45,7 @@ Controller | UITableViewController | Activiy<br> AppCompatActivity  🆕<br> Vie
 UI components | UITableView<br>UITableViewCell | Fragment 🆕<br>ListView / RecyclerView 🆕<br>RecyclerView.ViewHolder 🆕<br>Lifecycle and LifecycleOwner 🆕
 Layout | .xib or .storyboard (iOS 5)<br>AutoLayout (iOS 6) | .xml<br>ConstraintLayout 🆕
 View access | viewWithTag or<br>IBOutlet | findViewById or<br>synthetic 🆕<br>View Binding 🆕
-Delegate<br>DataSource | UITableViewDelegate<br>UITableViewDataSource | PagedListAdapter 🆕<br>Paging library (DataSource.Factory,<br>PagedList.BoundaryCallback) 🆕
+Delegate<br>DataSource | UITableViewDelegate<br>UITableViewDataSource | PagedListAdapter 🆕<br>Paging library (DataSource.Factory,<br>PageKeyedDataSource,<br>PositionalDataSource) 🆕
 Bind data to UI | | Data Binding 🆕<br>LiveData 🆕
 Model | CoreData (iOS 3) | Room 🆕
 Concurrency | GCD (iOS 8) | Coroutine 🆕
@@ -70,7 +70,9 @@ Api decode/deserialize  -> Api model
 
 | | iOS, UITableView | Android, RecyclerView |
 | ---- | ---- | ---- |
-Component(s) | NSFetchedResultsControllerDelegate | DataSource.Factory<br>LiveData<br>PagedListAdapter<br>PagedList<br>BoundaryCallback
+Model creation | NSManagedObjectContext.save()<br>(backgroundContext,viewContext) | RoomDao.upsert
+Update UI(1) | NSFetchedResultsControllerDelegate | DataSource.Factory<br>LiveData<br>PagedListAdapter<br>PagedList<br>BoundaryCallback
+Update UI(2) | | DataSource.Factory<br>LiveData<br>PagedListAdapter<br>PagedList<br>PageKeyedDataSource
 
 * Android
 
