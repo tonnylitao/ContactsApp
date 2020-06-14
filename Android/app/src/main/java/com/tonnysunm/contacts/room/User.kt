@@ -1,5 +1,10 @@
 package com.tonnysunm.contacts.room
 
+import android.graphics.Color
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
+import android.text.style.RelativeSizeSpan
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
@@ -40,8 +45,19 @@ data class User(
 ) : RecyclerItem {
 
     @Ignore
-    val fullName = "$title $firstName $lastName"
-    
+    val fullName =
+        SpannableString("$title. $firstName $lastName").apply {
+            val length = title?.length ?: return@apply
+
+            setSpan(RelativeSizeSpan(0.8f), 0, length + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            setSpan(
+                ForegroundColorSpan(Color.GRAY),
+                0,
+                length + 1,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        }
+
     override val layoutId: Int
         get() = R.layout.list_item_user
 

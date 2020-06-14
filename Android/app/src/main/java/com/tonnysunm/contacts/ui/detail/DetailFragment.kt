@@ -30,7 +30,6 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         toolbar.setupWithNavController(navController, appBarConfiguration)
 
         //
-
         val binding = FragmentDetailBinding.bind(view)
         viewModel.getUser(args.id).observe(this.viewLifecycleOwner, Observer {
             binding.user = it

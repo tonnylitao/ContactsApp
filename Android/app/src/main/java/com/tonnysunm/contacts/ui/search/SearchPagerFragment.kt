@@ -36,15 +36,6 @@ class SearchPagerFragment : Fragment(R.layout.fragment_search_pager) {
         view_pager.adapter = SectionsPagerAdapter(requireContext(), childFragmentManager)
         tabs.setupWithViewPager(view_pager)
 
-        //not recommend using search_close_btn id
-//        val closeButton = searchView.findViewById<ImageView>(R.id.search_close_btn)
-////        closeButton.setOnClickListener {
-
-////
-////            findNavController().navigateUp()
-////        }
-//        closeButton.isVisible = true
-
         //
         val navController = findNavController()
         val appBarConfiguration = AppBarConfiguration(navController.graph)
