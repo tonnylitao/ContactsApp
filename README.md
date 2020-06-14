@@ -145,11 +145,11 @@ A mechanism of updateing table view after data being inserted, updated or delete
 
 ``` 
 http
-				decode/deserialize  -> api Model 
-				mapping		-> Entity Model 
-				C_UD		-> db 
-				query		-> UI model in container 
-				update		-> UI
+		decode/deserialize  -> api Model 
+		mapping		-> Entity Model 
+		C_UD		-> db 
+		query		-> UI model in container 
+		update		-> UI
 ```
 
 | | iOS, CoreData | Android, Room |
