@@ -166,8 +166,28 @@ http
 
 The newest Paging Library supports three kinds of DataSource. It depends on the web api (index paging, item paging, load forward, load backward). You have ItemKeyedDataSource, PageKeyedDataSource and PositionalDataSource to choose. Chill up, give youself a couple days to decide which you need to use. And if you are not satisfied with them, alternatively you can implement your own DataSource.
 
-In this Android demo, I used PageKeyedDataSource and customized the data provider which serves local data and remote data depends on network status.
+#### Which DataSource should I use in Android Paging Library?
+| If API supports | DataSource | callback to serve data
+| ---- | ---- | ---- |
+| pageAfter:id| Dao's DataSource.Factory| PagedList.BoundaryCallback
+| pageIndex, pageSize | PageKeyedDataSource| LoadInitialCallback<br>LoadCallback
 
+* First solution: the data feeding UI directly domes from DB, and the UI will be updated automatically after DB operation (CUD). This is priority choice.
+* Second solution: LoadInitialCallback and LoadCallback cannot call twice, it means that returning cached data first and api data later is impossible. The datasouce has to be invalidated and new PagedList/DataSouce pair need to be created. There are two ways to fetch-update ui. 
+
+	The first way: 
+	* 1. cached data fetched
+	* 2. update UI with cache
+	* 3. web api called
+	* 4. when update existed, invaldate datasouce, go to first step, but get avoid of web api calling again, otherwise it may loop forever.
+	
+	The second way:
+	
+	* 1. web api called
+	* 2. update UI with remote data
+	* 3. cache data for offline only
+
+In this Android demo, because the api only support index+size paging, so I used PageKeyedDataSource with the second fetch-upate way.
 
 ### A summary of this app about mobile development. (on going)
 
