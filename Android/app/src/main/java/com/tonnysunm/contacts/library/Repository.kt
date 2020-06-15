@@ -23,7 +23,7 @@ class Repository(app: Application, scope: CoroutineScope) {
     private val factory by lazy { UserDataSourceFactory(localRepository, remoteRepository, scope) }
 
     /**
-     * from networking, and update local database through room for offline
+     * to fetch data from networking, present it to UI, and update local data through Room to support offline
      */
     fun getPageKeyedListing(): Listing<HomeUser> {
         return Listing(
@@ -43,8 +43,9 @@ class Repository(app: Application, scope: CoroutineScope) {
     }
 
     /**
-     * only from local database through room
-     * this api does not support search by like firstName and like LastName,
+     * to fetch local data only
+     *
+     * this web api does not support search by like firstName and like LastName,
      * otherwise use boundaryCallback to load remote data from api
      */
     fun getPositionalPageList(target: String, filter: Filter): LiveData<PagedList<SearchedUser>> {

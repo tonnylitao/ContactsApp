@@ -2,6 +2,7 @@ package com.tonnysunm.contacts.ui.main
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -70,7 +71,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         listing.pagedList.observe(this.viewLifecycleOwner, Observer {
             /**
              * submitList to adapter after data source initialization
-             * to avoid white screen (lack of data)
+             * a trick to avoid white screen (lack of data)
              */
             _temp = it
         })
@@ -80,12 +81,12 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
             if (it is State.Success) {
                 binding.shimmer.stopShimmer()
-                binding.shimmer.visibility = View.GONE
+                binding.shimmer.isVisible = false
 
                 adapter.submitList(_temp)
 
                 if (it.source == Source.LOCAL) {
-                    Snackbar.make(this.requireView(), "📴 OFFLINE", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(requireView(), "📴 OFFLINE", Snackbar.LENGTH_SHORT).show()
                 }
             }
         })

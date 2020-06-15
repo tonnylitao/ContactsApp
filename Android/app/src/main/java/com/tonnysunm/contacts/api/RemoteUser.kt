@@ -3,14 +3,14 @@ package com.tonnysunm.contacts.api
 import com.tonnysunm.contacts.room.User
 
 
-data class RemoteUserResponse(
-    var results: List<RemoteUser>
-) {
+data class RemoteUserResponse(var results: List<RemoteUser>) {
+
     fun createDBUserWithFakeId(offset: Int): List<User> {
         return results.mapIndexed { index, remoteUser ->
             remoteUser.toDBUser(offset + index + 1)
         }
     }
+    
 }
 
 data class RemoteUser(
