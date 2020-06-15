@@ -13,6 +13,45 @@ val adapter2 = RecyclerAdapter(RecyclerItem.diffCallback<Messages>())
 ```
 
 ---
+#### UI Model implement RecyclerItem
+
+```kotlin
+
+data class UserInHome(
+    @Embedded val user: User
+) : RecyclerItem {
+    override val layoutId: Int
+        get() = R.layout.list_item_user
+
+    override val variableId: Int
+        get() = BR.user
+
+    override val dataToBind: Any
+        get() = user
+
+    override val uniqueId: Int
+        get() = user.userId
+}
+
+data class AdminInSearch(
+    @Embedded val admin: Admin
+) : RecyclerItem {
+
+    override val layoutId: Int
+        get() = R.layout.list_item_admin
+
+    override val variableId: Int
+        get() = BR.admin
+
+    override val dataToBind: Any
+        get() = admin.mappingToOtherModel()
+
+    override val uniqueId: Int
+        get() = admin.adminId
+}
+```
+
+---
 #### Utilize itemViewType with data-binding to simplify ViewHolder
 
 ```kotlin
