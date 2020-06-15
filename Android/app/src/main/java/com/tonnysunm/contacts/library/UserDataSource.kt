@@ -7,9 +7,9 @@ import com.tonnysunm.contacts.Constant
 import com.tonnysunm.contacts.api.RemoteUserResponse
 import com.tonnysunm.contacts.api.WebService
 import com.tonnysunm.contacts.room.DBRepository
-import com.tonnysunm.contacts.room.HomeUser
 import com.tonnysunm.contacts.room.User
 import com.tonnysunm.contacts.room.UserDao
+import com.tonnysunm.contacts.ui.main.UserUIModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,14 +19,14 @@ class UserDataSource(
     private val localRepository: DBRepository,
     private val remoteRepository: WebService,
     private val scope: CoroutineScope
-) : PageKeyedDataSource<Int, HomeUser>() {
+) : PageKeyedDataSource<Int, UserUIModel>() {
 
     val initialState = MutableLiveData<State>()
     val networkState = MutableLiveData<State>()
 
     override fun loadInitial(
         params: LoadInitialParams<Int>,
-        callback: LoadInitialCallback<Int, HomeUser>
+        callback: LoadInitialCallback<Int, UserUIModel>
     ) {
         Timber.d("loadInitial ${params.requestedLoadSize}")
 
@@ -76,7 +76,7 @@ class UserDataSource(
              */
             val nextPageKey =
                 if (remoteData.size == limit) limit / Constant.defaultPagingSize else null
-            callback.onResult(remoteData.map { HomeUser(it) }, 0, 5000, null, nextPageKey)
+            callback.onResult(remoteData.map { UserUIModel(it) }, 0, 5000, null, nextPageKey)
 
             initialState.postValue(State.Success(Source.REMOTE))
             networkState.postValue(State.Success(Source.REMOTE))
@@ -88,7 +88,7 @@ class UserDataSource(
         }
     }
 
-    override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, HomeUser>) {
+    override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, UserUIModel>) {
         Timber.d("loadAfter ${params.key} ${params.requestedLoadSize}")
 
         val pageIndex = params.key
@@ -142,7 +142,7 @@ class UserDataSource(
              * use remoteData to update UI
              */
             val nextPageKey = if (remoteData.size == limit) params.key.inc() else null
-            callback.onResult(remoteData.map { HomeUser(it) }, nextPageKey)
+            callback.onResult(remoteData.map { UserUIModel(it) }, nextPageKey)
 
             networkState.postValue(State.Success(Source.REMOTE))
 
@@ -150,11 +150,11 @@ class UserDataSource(
         }
     }
 
-    override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, HomeUser>) {}
+    override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, UserUIModel>) {}
 
     private suspend fun updateLocalDB(
         dao: UserDao,
-        localData: List<HomeUser>,
+        localData: List<UserUIModel>,
         remoteData: List<User>,
         offset: Int,
         limit: Int

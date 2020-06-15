@@ -10,8 +10,8 @@ import androidx.paging.toLiveData
 import com.tonnysunm.contacts.Constant
 import com.tonnysunm.contacts.api.ApiClient
 import com.tonnysunm.contacts.room.DBRepository
-import com.tonnysunm.contacts.room.HomeUser
 import com.tonnysunm.contacts.room.SearchedUser
+import com.tonnysunm.contacts.ui.main.UserUIModel
 import com.tonnysunm.contacts.ui.search.Filter
 import kotlinx.coroutines.CoroutineScope
 
@@ -25,7 +25,7 @@ class Repository(app: Application, scope: CoroutineScope) {
     /**
      * to fetch data from networking, present it to UI, and update local data through Room to support offline
      */
-    fun getPageKeyedListing(): Listing<HomeUser> {
+    fun getPageKeyedListing(): Listing<UserUIModel> {
         return Listing(
             pagedList = LivePagedListBuilder(
                 factory,

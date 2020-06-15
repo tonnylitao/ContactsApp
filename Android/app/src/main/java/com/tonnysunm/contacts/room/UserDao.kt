@@ -5,6 +5,7 @@ import androidx.paging.DataSource
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
+import com.tonnysunm.contacts.ui.main.UserUIModel
 
 @Dao
 interface UserDao : BaseDao<User> {
@@ -12,7 +13,7 @@ interface UserDao : BaseDao<User> {
     fun searchUsers(target: String, nationality: String): DataSource.Factory<Int, SearchedUser>
 
     @Query("SELECT id, title, firstName, lastName, pictureThumbnail, nationality, gender FROM user_table ORDER BY id ASC LIMIT :limit OFFSET :offset")
-    suspend fun queryUsers(offset: Int, limit: Int): List<HomeUser>
+    suspend fun queryUsers(offset: Int, limit: Int): List<UserUIModel>
 
     @Query("SELECT * FROM user_table WHERE id = :id")
     fun queryUser(id: Int): LiveData<User>
