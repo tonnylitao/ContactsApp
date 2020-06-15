@@ -59,6 +59,9 @@ data class User(
         }
 }
 
+/**
+ * UI model of user in home recycler view
+ */
 data class UserInHome(
     @Embedded val user: User
 ) : RecyclerItem {
@@ -75,6 +78,9 @@ data class UserInHome(
         get() = user.id
 }
 
+/**
+ * UI model of user in search recycler view
+ */
 data class UserInSearch(
     @Embedded val user: User
 ) : RecyclerItem {
