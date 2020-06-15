@@ -15,6 +15,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.tonnysunm.contacts.R
 import com.tonnysunm.contacts.databinding.FragmentMainBinding
 import com.tonnysunm.contacts.library.*
+import com.tonnysunm.contacts.room.UserInHome
 import kotlinx.android.synthetic.main.fragment_detail.*
 
 
@@ -30,9 +31,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     private val adapter by lazy {
         RecyclerAdapter(
-            RecyclerItem.diffCallback<UserUIModel>(),
+            RecyclerItem.diffCallback<UserInHome>(),
             R.layout.list_item_user_placeholder
         ) { _, _, item ->
+
             val action = MainFragmentDirections.actionNavMainToNavDetail(item.uniqueId)
             findNavController().navigate(action)
         }
