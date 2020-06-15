@@ -10,7 +10,7 @@ import com.tonnysunm.contacts.ui.main.UserUIModel
 @Dao
 interface UserDao : BaseDao<User> {
     @Query("SELECT id, title, firstName, lastName, pictureThumbnail, nationality FROM user_table WHERE ('' = :nationality OR nationality = :nationality) AND '%%' != :target AND (firstName LIKE :target OR lastName LIKE :target) ORDER BY id ASC")
-    fun searchUsers(target: String, nationality: String): DataSource.Factory<Int, SearchedUser>
+    fun searchUsers(target: String, nationality: String): DataSource.Factory<Int, UserInSearch>
 
     @Query("SELECT id, title, firstName, lastName, pictureThumbnail, nationality, gender FROM user_table ORDER BY id ASC LIMIT :limit OFFSET :offset")
     suspend fun queryUsers(offset: Int, limit: Int): List<UserUIModel>

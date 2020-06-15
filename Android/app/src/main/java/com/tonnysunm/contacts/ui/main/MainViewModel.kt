@@ -4,9 +4,9 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.tonnysunm.contacts.library.Repository
-import com.tonnysunm.contacts.room.HomeUser
+import com.tonnysunm.contacts.room.UserInHome
 
-typealias UserUIModel = HomeUser
+typealias UserUIModel = UserInHome
 
 class MainViewModel(app: Application) : AndroidViewModel(app) {
 

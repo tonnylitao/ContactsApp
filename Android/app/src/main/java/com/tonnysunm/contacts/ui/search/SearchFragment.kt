@@ -14,7 +14,7 @@ import com.tonnysunm.contacts.databinding.FragmentSearchBinding
 import com.tonnysunm.contacts.library.AndroidViewModelFactory
 import com.tonnysunm.contacts.library.RecyclerAdapter
 import com.tonnysunm.contacts.library.RecyclerItem
-import com.tonnysunm.contacts.room.SearchedUser
+import com.tonnysunm.contacts.room.UserInSearch
 
 class SearchFragment : Fragment() {
 
@@ -32,7 +32,7 @@ class SearchFragment : Fragment() {
 
     private val adapter by lazy {
         RecyclerAdapter(
-            RecyclerItem.diffCallback<SearchedUser>(), R.layout.list_item_user_placeholder
+            RecyclerItem.diffCallback<UserInSearch>(), R.layout.list_item_user_placeholder
         ) { _, _, item ->
             val action = SearchPagerFragmentDirections.actionNavSearchToNavDetail(item.uniqueId)
             findNavController().navigate(action)
@@ -45,7 +45,7 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val fragment = this
-        
+
         val binding = FragmentSearchBinding.inflate(
             inflater,
             container,

@@ -59,7 +59,7 @@ data class User(
         }
 }
 
-data class HomeUser(
+data class UserInHome(
     @Embedded val user: User
 ) : RecyclerItem {
     override val layoutId: Int
@@ -75,7 +75,7 @@ data class HomeUser(
         get() = user.id
 }
 
-data class SearchedUser(
+data class UserInSearch(
     @Embedded val user: User
 ) : RecyclerItem {
 

@@ -10,7 +10,7 @@ import androidx.paging.toLiveData
 import com.tonnysunm.contacts.Constant
 import com.tonnysunm.contacts.api.ApiClient
 import com.tonnysunm.contacts.room.DBRepository
-import com.tonnysunm.contacts.room.SearchedUser
+import com.tonnysunm.contacts.room.UserInSearch
 import com.tonnysunm.contacts.ui.main.UserUIModel
 import com.tonnysunm.contacts.ui.search.Filter
 import kotlinx.coroutines.CoroutineScope
@@ -48,7 +48,7 @@ class Repository(app: Application, scope: CoroutineScope) {
      * this web api does not support search by like firstName and like LastName,
      * otherwise use boundaryCallback to load remote data from api
      */
-    fun getPositionalPageList(target: String, filter: Filter): LiveData<PagedList<SearchedUser>> {
+    fun getPositionalPageList(target: String, filter: Filter): LiveData<PagedList<UserInSearch>> {
         return localRepository.userDao.searchUsers("%$target%", filter.value())
             .toLiveData(pageSize = Constant.defaultPagingSize)
     }
