@@ -106,13 +106,13 @@ In Kotlin,
 fun someMethod() {
     id ?: return
     
-    //is is not null here
+    //id is not null here
 }
 
 completion {
     id ?: return@completion
 
-    //is is not null here
+    //id is not null here
 }
 
 ```
