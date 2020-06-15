@@ -76,3 +76,46 @@ viewModelScope.launch(Dispatchers.IO) {
 }
 ```
 if you cancel scope, all the routines with that scope will be canceled automatically. And the life owner of viewModel will cancel the scope when necessary, e.g. when the activity or fragment is destroyed.
+
+---
+#### guard
+
+In Swift,
+
+```swift
+
+func someMethod() {
+    guard let id = id else { return }
+    
+    //id is not nil here
+}
+
+
+completion { [weak self] in 
+    guard let self = self else { return }
+
+    //self is not nil here
+}
+
+```
+
+In Kotlin,
+
+```kotlin
+
+fun someMethod() {
+    id ?: return
+    
+    //id is not null here
+}
+
+completion {
+    id ?: return@completion
+
+    //id is not null here
+}
+
+```
+
+
+
