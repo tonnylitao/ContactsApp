@@ -83,15 +83,15 @@ static func syncToDBWith(previousPageLastId: Int?, apiData: [User] {
         deleteAllAfter(id: previousPageLastId)
         
     }else if count == 1 {
-        deleteAllAfter(id: apiData.last.id)
+        deleteAllAfter(id: apiData.last!.id)
         
         updateOrInsert(apiData.last)
     }else {
-        deleteOrUpdateOrInsert(apiData)
-        
         if count < pagingSize {
-            deleteAllAfter(id: apiData.last?.id)
+            deleteAllAfter(id: apiData.last!.id)
         }
+	
+	deleteOrUpdateOrInsert(apiData)
     }
 }
 ```
@@ -127,13 +127,13 @@ suspend fun syncToDBWith(apiData: List<ApiUser>, offset: Int) {
     val count = apiData.size
     db.withTransaction {
         if (count == 0) {
-        	dao.deleteAllOffset(offset) //hitting db
+		dao.deleteAllOffset(offset) //hitting db
         }else {
         	dao.upsert(apiData) //hitting db
         	
-			if (count < pagingSize) {
-				dao.deleteAllAfter(apiData.last().id)
-			}
+		if (count < pagingSize) {
+			dao.deleteAllAfter(apiData.last().id)
+		}
         }
     }
 }
