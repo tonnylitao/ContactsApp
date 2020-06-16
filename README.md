@@ -68,7 +68,7 @@ Which one seem more challenging to you?
 
 In this demo app, the sync mechanism I used in iOS and android are slightly different.
 
-##### iOS sync mechanism
+### iOS sync mechanism
 
 * If the api list is empty, it means there is no data in remote server, the local data need to be deleted with previous last id; 
 * If it has only 1 item, it needs to be updated or created, and all the data after it need to be deleted.
@@ -104,7 +104,7 @@ Programming in CoreData, there are some good and popular practices:
 
 iOS supports NSFetchedResultsController which can update table view automatically when data is inserted, updated or deleted. Forget about the child-main-root 3 layer contexts which is main stream in years ago, iOS 10 simplifies the contexts and thread operation, Thanks to CoreData framework, iOS developer has fewer things to do.
 
-##### Android sync mechanism
+### Android sync mechanism
 To simplify the task, this Android project does not implement fetch-update or fetch-insert like iOS. The api items are upserted by hitting database which is polished by Room/Sqlite conflict strategy. Thanks to Room and Coroutine, it's only a few lines of code.
 
 ```kotlin
@@ -166,7 +166,7 @@ http
 
 The newest Paging Library supports three kinds of DataSource. It depends on the web api (index paging, item paging, load forward, load backward). You have ItemKeyedDataSource, PageKeyedDataSource and PositionalDataSource to choose. Chill up, give youself a couple days to decide which you need to use. And if you are not satisfied with them, alternatively you can implement your own DataSource.
 
-#### Which DataSource should I use in Android Paging Library?
+## Which DataSource should I use in Android Paging Library?
 | If API supports | DataSource | callback to serve data
 | ---- | ---- | ---- |
 | pageAfter:id| Dao's DataSource.Factory| PagedList.BoundaryCallback
