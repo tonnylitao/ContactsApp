@@ -1,4 +1,4 @@
-# Contacts mobile app
+# ContactsApp
 
 This demo shows how to develop mobile apps in different platforms (iOS, Android, Web). It's not about cross-platform. it's about taking fully advantage of best part of Swift, Kotlin and JS.
 
@@ -196,6 +196,8 @@ In this Android demo, because the api only support index+size paging, so I used 
 - [Comparison between Swift and Kotlin](/swift_vs_kotlin.md)
 - [What I've learned from Kotlin as iOS developer](/kotlin_for_ios.md)
 - What I've learned from Swift as Android developer
+- [Android ViewModel 2020: create different viewModels in one place](https://medium.com/@tonny/android-viewmodel-with-variable-arguments-eb6cb028335d)
+- [Android ReyclerView 2020: create different Adapters in one place](https://medium.com/@tonny/recyclerview-2020-when-recyclerview-meets-data-binding-616ca5c2147d)
 
 ### TODO
 - JS bridge between web and native (ios and android)
