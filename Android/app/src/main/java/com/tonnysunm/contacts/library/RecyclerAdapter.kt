@@ -14,7 +14,7 @@ class RecyclerAdapter<M : RecyclerItem>(
     @LayoutRes val placeholderId: Int?,
     private val clickListener: ((RecyclerAdapter<M>, Int, M) -> Unit)? = null
 ) : PagedListAdapter<M, RecyclerAdapter<M>.ViewHolder>(diffCallback) {
-
+    
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
         DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),

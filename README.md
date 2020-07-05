@@ -2,7 +2,7 @@
 
 This demo shows how to develop mobile apps in different platforms (iOS, Android, Web). It's not about cross-platform. it's about taking fully advantage of best part of Swift, Kotlin and JS.
 
-### Featuers
+## Featuers
 
 - api
 - sync local data with remote data
@@ -10,7 +10,7 @@ This demo shows how to develop mobile apps in different platforms (iOS, Android,
 - search local data
 - offline
 
-### iOS
+## iOS
 
 <p float="left">
  <img src="/Design/ios/home.png" width="250">
@@ -22,7 +22,7 @@ This demo shows how to develop mobile apps in different platforms (iOS, Android,
 - Proper Extension
 - CoreData
 
-### Android with Jetpack
+## Android with Jetpack
 
 <p float="left">
  <img src="/Design/android/app_home.png" width="250">
@@ -40,7 +40,7 @@ This demo shows how to develop mobile apps in different platforms (iOS, Android,
 - Coroutine
 - other library: Material, Retrofit2, Glide, Shimmer, Timber, Flagkit
 
-### What do you need to build a modern table in iOS and Android?
+## What do you need to build a modern table in iOS and Android?
 The following graphic lists the basic MVC knowledge of table or list UI in iOS and Android, which is supported by platform's framework. For iOS, there is no any big change in both architecture and api since iOS 2.0 (12 yrs). 
 
 However, Android brings a huge change, and the change is constantly comming with next releases.
@@ -60,7 +60,7 @@ The new features(🆕) comes in either a new version of the support library call
 
 Which one seem more challenging to you?
 
-### How to sync data (or keep consistency) between local and remote database when presenting table UI to users?
+## How to sync data (or keep consistency) between local and remote database when presenting table UI to users?
 
 * There are two essential conditions for sync data properly. 
 	1. UniqueId in both local database and remote sevice
@@ -68,7 +68,7 @@ Which one seem more challenging to you?
 
 In this demo app, the sync mechanism I used in iOS and android are slightly different.
 
-##### iOS sync mechanism
+### iOS sync mechanism
 
 * If the api list is empty, it means there is no data in remote server, the local data need to be deleted with previous last id; 
 * If it has only 1 item, it needs to be updated or created, and all the data after it need to be deleted.
@@ -104,7 +104,7 @@ Programming in CoreData, there are some good and popular practices:
 
 iOS supports NSFetchedResultsController which can update table view automatically when data is inserted, updated or deleted. Forget about the child-main-root 3 layer contexts which is main stream in years ago, iOS 10 simplifies the contexts and thread operation, Thanks to CoreData framework, iOS developer has fewer things to do.
 
-##### Android sync mechanism
+### Android sync mechanism
 To simplify the task, this Android project does not implement fetch-update or fetch-insert like iOS. The api items are upserted by hitting database which is polished by Room/Sqlite conflict strategy. Thanks to Room and Coroutine, it's only a few lines of code.
 
 ```kotlin
@@ -139,7 +139,7 @@ suspend fun syncToDBWith(apiData: List<ApiUser>, offset: Int) {
 }
 ```
 
-### Data-driven UI
+## Data-driven UI
 A mechanism of updateing table view after data being inserted, updated or deleted. Data flows from api to UI:
 
 ``` 
@@ -166,7 +166,7 @@ http
 
 The newest Paging Library supports three kinds of DataSource. It depends on the web api (index paging, item paging, load forward, load backward). You have ItemKeyedDataSource, PageKeyedDataSource and PositionalDataSource to choose. Chill up, give youself a couple days to decide which you need to use. And if you are not satisfied with them, alternatively you can implement your own DataSource.
 
-#### Which DataSource should I use in Android Paging Library?
+## Which DataSource should I use in Android Paging Library?
 | If API supports | DataSource | callback to serve data
 | ---- | ---- | ---- |
 | pageAfter:id| Dao's DataSource.Factory| PagedList.BoundaryCallback
@@ -189,7 +189,7 @@ The newest Paging Library supports three kinds of DataSource. It depends on the 
 
 In this Android demo, because the api only support index+size paging, so I used PageKeyedDataSource with the second fetch-upate way.
 
-### A summary of this app about mobile development. (on going)
+## A summary of this app about mobile development. (on going)
 
 - [Good practices in iOS development](/swift.md)
 - [Good practices in Android development](/kotlin.md)
@@ -199,7 +199,7 @@ In this Android demo, because the api only support index+size paging, so I used 
 - [Android ViewModel 2020: create different viewModels in one place](https://medium.com/@tonny/android-viewmodel-with-variable-arguments-eb6cb028335d)
 - [Android ReyclerView 2020: create different Adapters in one place](https://medium.com/@tonny/recyclerview-2020-when-recyclerview-meets-data-binding-616ca5c2147d)
 
-### TODO
+## TODO
 - JS bridge between web and native (ios and android)
 - iOS SwiftUI with Combine framework
 - Android Compose
