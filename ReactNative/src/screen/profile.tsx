@@ -1,9 +1,10 @@
 import React from 'react';
 import {StyleSheet, ScrollView, View, Image, Text} from 'react-native';
 import {StackScreenProps} from '@react-navigation/stack';
-import {Contact} from '@model/Contact';
+import {Contact, Location} from '@model/Contact';
 //@ts-ignore
 import {Flag} from 'react-native-svg-flagkit';
+import {style as AppStyle, theme} from '../style';
 
 type ProfileStackParamList = {
   Profile: Contact;
@@ -11,13 +12,34 @@ type ProfileStackParamList = {
 
 type Props = StackScreenProps<ProfileStackParamList, 'Profile'>;
 
+const Cell = ({
+  title,
+  value,
+}: {
+  title: string;
+  value: string | (() => JSX.Element);
+}) => (
+  <View style={AppStyle.cell}>
+    <Text style={styles.cellTitle}>{title}</Text>
+    {typeof value === 'string' ? (
+      <Text style={styles.cellValue}>{value}</Text>
+    ) : (
+      value()
+    )}
+  </View>
+);
+
+function fullAddress({street, state, country, postcode}: Location) {
+  return `${street.number} ${street.name} ${state} ${country} ${postcode}`;
+}
+
 const Screen = ({route}: Props) => {
   const contact = route.params;
 
   return (
     <ScrollView>
       <View style={styles.header}>
-        <View style={styles.avatarContainer}>
+        <View style={styles.avatarCnt}>
           <Image
             style={styles.avatar}
             source={{uri: contact.picture.thumbnail}}
@@ -33,76 +55,46 @@ const Screen = ({route}: Props) => {
         </View>
 
         <Text style={styles.name}>
-          <Text style={styles.userTitle}>{contact.name.title} </Text>
+          <Text style={styles.nameTitle}>{contact.name.title} </Text>
           {contact.name.first} {contact.name.last}
         </Text>
       </View>
 
-      <View style={styles.cell}>
-        <Text style={styles.cellTitle}>Date of Birth</Text>
-        <Text>{contact.dobString}</Text>
-      </View>
-      <View style={styles.cell}>
-        <Text style={styles.cellTitle}>Email</Text>
-        <Text>{contact.email}</Text>
-      </View>
-      <View style={styles.cell}>
-        <Text style={styles.cellTitle}>Phone</Text>
-        <Text>{contact.phone}</Text>
-      </View>
-      <View style={styles.cell}>
-        <Text style={styles.cellTitle}>Cell</Text>
-        <Text>{contact.cell}</Text>
-      </View>
-      <View style={styles.cell}>
-        <Text style={styles.cellTitle}>Nationality</Text>
-        <View style={styles.flagCnt}>
-          <Text>{contact.nat}</Text>
-          <Flag id={contact.nat} width={30} height={20} />
-        </View>
-      </View>
-      <View style={styles.cell}>
-        <Text style={styles.cellTitle}>Address</Text>
-        <Text>
-          {contact.location.street.number} {contact.location.street.name}{' '}
-          {contact.location.state} {contact.location.country}{' '}
-          {contact.location.postcode}
-        </Text>
-      </View>
+      <Cell title="Date of Birth" value={contact.dobString} />
+      <Cell title="Email" value={contact.email} />
+      <Cell title="Phone" value={contact.phone} />
+      <Cell title="Cell" value={contact.cell} />
+
+      <Cell
+        title="Nationality"
+        value={() => (
+          <View style={styles.flagCnt}>
+            <Text>{contact.nat} </Text>
+            <Flag id={contact.nat} width={30} height={20} />
+          </View>
+        )}
+      />
+      <Cell title="Address" value={fullAddress(contact.location)} />
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   header: {
+    ...AppStyle.center,
     height: 200,
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     borderBottomColor: '#ccc',
     borderStyle: 'solid',
     borderBottomWidth: 0.5,
   },
 
-  avatarContainer: {
-    position: 'relative',
+  avatarCnt: {
     width: 100,
-    height: 100,
   },
   avatar: {
-    width: 100,
-    height: 100,
+    width: '100%',
+    aspectRatio: 1,
     borderRadius: 50,
-  },
-
-  name: {
-    fontSize: 18,
-    marginBottom: 5,
-    marginTop: 20,
-  },
-  userTitle: {
-    fontSize: 16,
-    color: 'rgb(105, 105, 105)',
   },
   gender: {
     width: 30,
@@ -113,18 +105,23 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
 
-  cell: {
-    marginLeft: 20,
+  name: {
+    fontSize: theme.fontSize.l,
+    marginBottom: 5,
     marginTop: 20,
-    paddingRight: 20,
-    paddingBottom: 20,
-    borderBottomColor: '#ccc',
-    borderStyle: 'solid',
-    borderBottomWidth: 0.5,
+  },
+  nameTitle: {
+    fontSize: theme.fontSize.m,
+    color: theme.color.lightText,
   },
 
   cellTitle: {
-    fontSize: 18,
+    fontSize: theme.fontSize.m,
+    color: theme.color.lightText,
+    marginBottom: 5,
+  },
+  cellValue: {
+    fontSize: theme.fontSize.l,
   },
 
   flagCnt: {

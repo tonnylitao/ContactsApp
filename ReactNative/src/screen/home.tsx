@@ -13,6 +13,7 @@ import {Contact} from '@model/Contact';
 // @ts-ignore
 import {Flag} from 'react-native-svg-flagkit';
 import {format} from 'date-fns';
+import {style as AppStyle, theme} from '../style';
 
 type RootStackParamList = {
   Home: undefined;
@@ -49,7 +50,7 @@ const Screen = ({navigation}: Props) => {
 
   if (isLoading) {
     return (
-      <View style={styles.container}>
+      <View style={AppStyle.center}>
         <ActivityIndicator size="large" />
       </View>
     );
@@ -64,7 +65,7 @@ const Screen = ({navigation}: Props) => {
             navigation.navigate('Profile', item);
           }}>
           <View style={styles.cell}>
-            <View style={styles.avatarContainer}>
+            <View style={styles.avatarCnt}>
               <Image
                 style={styles.avatar}
                 source={{uri: item.picture.thumbnail}}
@@ -79,9 +80,9 @@ const Screen = ({navigation}: Props) => {
               />
             </View>
 
-            <View style={styles.textContainer}>
+            <View style={styles.nameCnt}>
               <Text style={styles.name}>
-                <Text style={styles.userTitle}>{item.name.title} </Text>
+                <Text style={styles.nameTitle}>{item.name.title} </Text>
                 {item.name.first} {item.name.last}
               </Text>
 
@@ -98,44 +99,19 @@ const Screen = ({navigation}: Props) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-  },
   cell: {
-    marginLeft: 20,
-    marginTop: 20,
-    paddingRight: 20,
-    paddingBottom: 20,
+    ...AppStyle.cell,
     flexDirection: 'row',
-    borderBottomColor: '#ccc',
-    borderStyle: 'solid',
-    borderBottomWidth: 0.5,
-
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  avatarContainer: {
-    position: 'relative',
-    width: 44,
-    height: 44,
+  avatarCnt: {
+    width: theme.width.avatar,
   },
   avatar: {
-    width: 44,
-    height: 44,
+    width: '100%',
+    aspectRatio: 1,
     borderRadius: 22,
-  },
-  textContainer: {
-    flex: 1,
-    marginLeft: 20,
-  },
-  name: {
-    fontSize: 18,
-    marginBottom: 5,
-  },
-  userTitle: {
-    fontSize: 16,
-    color: 'rgb(105, 105, 105)',
   },
   gender: {
     width: 18,
@@ -145,9 +121,21 @@ const styles = StyleSheet.create({
     right: -5,
     bottom: 0,
   },
+  nameCnt: {
+    flex: 1,
+    marginLeft: theme.padding,
+  },
+  name: {
+    fontSize: theme.fontSize.l,
+    marginBottom: 5,
+  },
+  nameTitle: {
+    fontSize: theme.fontSize.m,
+    color: theme.color.lightText,
+  },
   dob: {
-    fontSize: 14,
-    color: 'rgb(105, 105, 105)',
+    fontSize: theme.fontSize.s,
+    color: theme.color.lightText,
   },
 });
 
