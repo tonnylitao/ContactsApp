@@ -2,7 +2,7 @@
 
 This demo shows how to develop mobile apps in different platforms (iOS, Android, Web). It's not about cross-platform. it's about taking fully advantage of best part of Swift, Kotlin and JS.
 
-## Shared Featuers
+## Featuers
 
 - api
 - sync local data with remote data
@@ -210,10 +210,8 @@ In this Android demo, because the api only support index+size paging, so I used 
 - [Android ReyclerView 2020: create different Adapters in one place](https://medium.com/@tonny/recyclerview-2020-when-recyclerview-meets-data-binding-616ca5c2147d)
 
 ## TODO
-- JS bridge between web and native (ios and android)
 - iOS SwiftUI with Combine framework
 - Android Compose
-- React SAP
+- React/Redux
 - Next.js
-- Redux & Redux-saga
 - Unit Testing
