@@ -144,24 +144,24 @@ extension RemoteUser: RemoteEntity {
         fatalError("id is nil")
     }
     
-    func importInto(_ entiry: DBUser) {
-        entiry.id = uniqueId
+    func importInto(_ entity: DBUser) {
+        entity.id = uniqueId
         
-        entiry.title = name.title
-        entiry.firstName = name.first
-        entiry.lastName = name.last
+        entity.title = name.title
+        entity.firstName = name.first
+        entity.lastName = name.last
 
-        entiry.gender = gender?.rawValue
-        entiry.dayOfBirth = dob.date
+        entity.gender = gender?.rawValue
+        entity.dayOfBirth = dob.date
 
-        entiry.pictureThumbnail = picture.thumbnail
-        entiry.pictureLarge = picture.large
+        entity.pictureThumbnail = picture.thumbnail
+        entity.pictureLarge = picture.large
 
-        entiry.cell = cell
-        entiry.phone = phone
-        entiry.email = email
+        entity.cell = cell
+        entity.phone = phone
+        entity.email = email
 
-        entiry.nationality = nat
-        entiry.address = location.description
+        entity.nationality = nat
+        entity.address = location.description
     }
 }

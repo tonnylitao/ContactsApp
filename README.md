@@ -12,24 +12,17 @@ This demo shows how to develop mobile apps in different platforms (iOS, Android,
 
 ## iOS
 
+- Protocol Oriented Programming
+- Proper Extension
+- CoreData
+
 <p float="left">
  <img src="/Design/ios/home.png" width="250">
  <img src="/Design/ios/search.png" width="250">
  <img src="/Design/ios/detail.png" width="250">
 </p>
 
-- Protocol Oriented Programming
-- Proper Extension
-- CoreData
-
 ## Android with Jetpack
-
-<p float="left">
- <img src="/Design/android/app_home.png" width="250">
- <img src="/Design/android/app_search.png" width="250">
- <img src="/Design/android/app_detail.png" width="250">
-</p>
-
 - MVVM Architecture
 - androidX
 - NavigationUI
@@ -39,6 +32,23 @@ This demo shows how to develop mobile apps in different platforms (iOS, Android,
 - Room
 - Coroutine
 - other library: Material, Retrofit2, Glide, Shimmer, Timber, Flagkit
+
+<p float="left">
+ <img src="/Design/android/app_home.png" width="250">
+ <img src="/Design/android/app_search.png" width="250">
+ <img src="/Design/android/app_detail.png" width="250">
+</p>
+
+## React Native
+- Typescript
+- library: @react-navigation, react-native-svg-flagkit
+
+<p float="left">
+ <img src="/Design/reactnative/app_home_ios.png" width="250">
+ <img src="/Design/reactnative/app_detail_ios.png" width="250">
+  <img src="/Design/reactnative/app_home_android.png" width="250">
+ <img src="/Design/reactnative/app_detail_android.png" width="250">
+</p>
 
 ## What do you need to build a modern table in iOS and Android?
 The following graphic lists the basic MVC knowledge of table or list UI in iOS and Android, which is supported by platform's framework. For iOS, there is no any big change in both architecture and api since iOS 2.0 (12 yrs). 
@@ -200,10 +210,8 @@ In this Android demo, because the api only support index+size paging, so I used 
 - [Android ReyclerView 2020: create different Adapters in one place](https://medium.com/@tonny/recyclerview-2020-when-recyclerview-meets-data-binding-616ca5c2147d)
 
 ## TODO
-- JS bridge between web and native (ios and android)
 - iOS SwiftUI with Combine framework
 - Android Compose
-- React SAP
+- React/Redux
 - Next.js
-- Redux & Redux-saga
 - Unit Testing
