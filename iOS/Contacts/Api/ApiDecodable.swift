@@ -26,9 +26,7 @@ extension RemoteResource where Self: Decodable {
             return
         }
 
-        components.queryItems = parameters?.map({ (key, value) -> URLQueryItem in
-            URLQueryItem(name: key, value: value)
-        })
+        components.queryItems = parameters?.map(URLQueryItem.init)
         
         var request = URLRequest(url: components.url!)
         request.setValue("application/json", forHTTPHeaderField: "accept")
