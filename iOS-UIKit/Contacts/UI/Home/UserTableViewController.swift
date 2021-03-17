@@ -9,18 +9,19 @@
 import UIKit
 import SVPullToRefresh
 import CoreData
+import SwiftInKotlinStyle
 
 class UserTableViewController: UITableViewController {
     
-    private lazy var viewModel = UserTableViewModel().apply {
+    private lazy var viewModel = UserTableViewModel().also {
         $0.tableView = self.tableView
     }
     
-    private lazy var mRefreshControl = UIRefreshControl().apply {
+    private lazy var mRefreshControl = UIRefreshControl().also {
         $0.addTarget(self, action: .refresh, for: .valueChanged)
     }
 
-    private lazy var searchController = UISearchController(searchResultsController: SearchUserTableViewController.buildWith(self.navigationController)).apply {
+    private lazy var searchController = UISearchController(searchResultsController: SearchUserTableViewController.buildWith(self.navigationController)).also {
         $0.searchResultsUpdater = self
     }
     

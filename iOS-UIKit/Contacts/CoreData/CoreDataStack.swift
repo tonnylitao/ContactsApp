@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import SwiftInKotlinStyle
 
 class CoreDataStack: NSObject {
     
@@ -17,7 +18,7 @@ class CoreDataStack: NSObject {
 
     @available(iOS 10.0, *)
     private lazy var persistentContainer: NSPersistentContainer = {
-        return NSPersistentContainer(name: "Contacts").apply {
+        return NSPersistentContainer(name: "Contacts").also {
             $0.loadPersistentStores(completionHandler: { (storeDescription, error) in
                 
                 error.ifSome {
@@ -30,11 +31,11 @@ class CoreDataStack: NSObject {
     
     private lazy var backgroundContext: NSManagedObjectContext = {
         if #available(iOS 10.0, *) {
-            return self.persistentContainer.newBackgroundContext().apply {
+            return self.persistentContainer.newBackgroundContext().also {
                 $0.name = "Background ctx"
             }
         }else {
-            return NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType).apply {
+            return NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType).also {
                 $0.name = "Root ctx"
                 TODO("persistentStoreCoordinator")
             }
@@ -44,12 +45,12 @@ class CoreDataStack: NSObject {
     
     lazy var mainContext: NSManagedObjectContext = {
         if #available(iOS 10.0, *) {
-            return self.persistentContainer.viewContext.apply {
+            return self.persistentContainer.viewContext.also {
                 $0.name = "Main ctx"
                 $0.automaticallyMergesChangesFromParent = true
             }
         }else {
-            return NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType).apply {
+            return NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType).also {
                 $0.name = "Main ctx"
                 TODO("persistentStoreCoordinator")
                 $0.parent = self.backgroundContext
@@ -60,7 +61,7 @@ class CoreDataStack: NSObject {
     
     
     func childContext() -> NSManagedObjectContext {
-        return NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType).apply {
+        return NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType).also {
             $0.name = "Child ctx"
             TODO("persistentStoreCoordinator")
             $0.parent = self.mainContext

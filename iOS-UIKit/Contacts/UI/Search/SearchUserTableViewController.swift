@@ -7,9 +7,9 @@
 //
 
 import UIKit
-import SVPullToRefresh
 import CoreData
-
+import SVPullToRefresh
+import SwiftInKotlinStyle
 
 class SearchUserTableViewController: UITableViewController {
     
@@ -17,7 +17,7 @@ class SearchUserTableViewController: UITableViewController {
         
     weak var nav: UINavigationController?
     
-    lazy var viewModel = UserTableViewModel().apply {
+    lazy var viewModel = UserTableViewModel().also {
         $0.tableView = self.tableView
     }
     

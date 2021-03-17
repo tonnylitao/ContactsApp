@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import SwiftInKotlinStyle
 
 /*
     two protocols connect differeent categories
@@ -113,7 +114,7 @@ extension DBEntity where Self: NSManagedObject {
         
         CoreDataStack.performBackgroundTask({ context in
             
-            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName).apply {
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName).also {
                 $0.predicate = NSPredicate(format: "id == %d", id) && condition
                 $0.fetchLimit = 1
             }

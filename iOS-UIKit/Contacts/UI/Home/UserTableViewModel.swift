@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import CoreData
+import SwiftInKotlinStyle
 
 typealias IntResultCompletion = ResultCompletion<Int>
 
@@ -24,7 +25,7 @@ class UserTableViewModel: NSObject {
     private var previousPagLastId: TypeOfId?
     
     
-    private lazy var tableViewUpdater = FetchedResultsTableViewUpdater().apply {
+    private lazy var tableViewUpdater = FetchedResultsTableViewUpdater().also {
         $0.tableView = self.tableView
     }
     
@@ -35,7 +36,7 @@ class UserTableViewModel: NSObject {
     lazy var fetchedResultsController: NSFetchedResultsController<DBUser> = {
         let context = CoreDataStack.shared.mainContext
         
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: DBUser.entity().name ?? "User").apply {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: DBUser.entity().name ?? "User").also {
             $0.fetchLimit = ApiConfig.defaultPagingSize
             $0.sortDescriptors = [NSSortDescriptor(key: #keyPath(DBUser.id), ascending: true)]
         }
@@ -51,7 +52,7 @@ class UserTableViewModel: NSObject {
     
     func performFetch(_ pageIndex: PageIndex) throws -> Int {
         
-        fetchedResultsController.fetchRequest.apply {
+        fetchedResultsController.fetchRequest.also {
             $0.fetchLimit = max(pageIndex * ApiConfig.defaultPagingSize, $0.fetchLimit)
         }
         
@@ -194,7 +195,7 @@ extension UserTableViewModel {
         let (segmentFilter, text) = search
         if segmentFilter == .all && text.isEmpty { return }
         
-        fetchedResultsController.fetchRequest.apply {
+        fetchedResultsController.fetchRequest.also {
             $0.fetchLimit = UserTableViewModel.countInSearch
             $0.predicate = NSPredicate(format: "firstName CONTAINS[cd] %@ OR lastName CONTAINS[cd] %@", text, text) && segmentFilter.predicate
         }

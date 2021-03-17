@@ -8,6 +8,7 @@
 
 import Foundation
 import MBProgressHUD
+import SwiftInKotlinStyle
 
 extension UIView {
     
@@ -21,7 +22,7 @@ extension UIView {
     
     func showHUDMessage(_ message: String) {
         
-        MBProgressHUD.showAdded(to: self, animated: true).apply {
+        MBProgressHUD.showAdded(to: self, animated: true).also {
             $0.mode = .customView
             
             $0.isUserInteractionEnabled = false

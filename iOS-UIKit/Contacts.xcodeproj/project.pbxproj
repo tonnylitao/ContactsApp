@@ -3,10 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A6B59E9D2601E0C100C62ED5 /* AlamofireImage in Frameworks */ = {isa = PBXBuildFile; productRef = A6B59E9C2601E0C100C62ED5 /* AlamofireImage */; };
+		A6B59EA32601E0D700C62ED5 /* MBProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = A6B59EA22601E0D700C62ED5 /* MBProgressHUD */; };
+		A6B59EA92601E0F400C62ED5 /* FlagKit in Frameworks */ = {isa = PBXBuildFile; productRef = A6B59EA82601E0F400C62ED5 /* FlagKit */; };
+		A6B59EAF2601E10F00C62ED5 /* SwiftInKotlinStyle in Frameworks */ = {isa = PBXBuildFile; productRef = A6B59EAE2601E10F00C62ED5 /* SwiftInKotlinStyle */; };
 		B524DC2B2479DFA300D8312D /* ContactsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B524DC2A2479DFA300D8312D /* ContactsUITests.swift */; };
 		B524DC472479E1C000D8312D /* ApiConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57DAC7E24766049000FED15 /* ApiConfig.swift */; };
 		B524DC482479E1C000D8312D /* RemoteResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58BF3AA2476488A003D9D49 /* RemoteResource.swift */; };
@@ -20,8 +24,6 @@
 		B524DC532479E4F500D8312D /* DBUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57DAC96247689D2000FED15 /* DBUser.swift */; };
 		B524DC562479E5BC00D8312D /* Contacts.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = B55DA11B2479CD69006D240C /* Contacts.xcdatamodel */; };
 		B524DC572479E5D100D8312D /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57DAC9824768AFB000FED15 /* CoreDataStack.swift */; };
-		B524DC582479E5EB00D8312D /* Dao.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57DAC8F24767364000FED15 /* Dao.swift */; };
-		B524DC592479E5EB00D8312D /* DaoInAnyWhere.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A70F1A2477BA91003923EA /* DaoInAnyWhere.swift */; };
 		B524DC632479E5F800D8312D /* ResultEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57DAC8B24766CBF000FED15 /* ResultEx.swift */; };
 		B524DC652479E5F800D8312D /* StringEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A70F0F24778BC6003923EA /* StringEx.swift */; };
 		B524DC662479E5F800D8312D /* ArrayEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A70F152477A993003923EA /* ArrayEx.swift */; };
@@ -43,7 +45,6 @@
 		B57DAC8A24766B18000FED15 /* UserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57DAC8924766B18000FED15 /* UserTableViewCell.swift */; };
 		B57DAC8C24766CBF000FED15 /* ResultEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57DAC8B24766CBF000FED15 /* ResultEx.swift */; };
 		B57DAC8E24767093000FED15 /* HUDEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57DAC8D24767093000FED15 /* HUDEx.swift */; };
-		B57DAC9024767365000FED15 /* Dao.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57DAC8F24767364000FED15 /* Dao.swift */; };
 		B57DAC9224767A83000FED15 /* UserTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57DAC9124767A83000FED15 /* UserTableViewModel.swift */; };
 		B57DAC97247689D2000FED15 /* DBUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57DAC96247689D2000FED15 /* DBUser.swift */; };
 		B57DAC9A24768AFB000FED15 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57DAC9824768AFB000FED15 /* CoreDataStack.swift */; };
@@ -58,7 +59,6 @@
 		B5A70F0A24772C5B003923EA /* UIImageViewEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A70F0924772C5B003923EA /* UIImageViewEx.swift */; };
 		B5A70F1024778BC6003923EA /* StringEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A70F0F24778BC6003923EA /* StringEx.swift */; };
 		B5A70F162477A993003923EA /* ArrayEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A70F152477A993003923EA /* ArrayEx.swift */; };
-		B5A70F1B2477BA91003923EA /* DaoInAnyWhere.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A70F1A2477BA91003923EA /* DaoInAnyWhere.swift */; };
 		B5A70F1D2477BFD4003923EA /* DBEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A70F1C2477BFD4003923EA /* DBEntity.swift */; };
 		B5A70F1F2477BFF2003923EA /* RemoteEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A70F1E2477BFF2003923EA /* RemoteEntity.swift */; };
 		B5C69FF12479F26D00BC4D62 /* SegmentFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C69FF02479F26D00BC4D62 /* SegmentFilter.swift */; };
@@ -110,7 +110,6 @@
 		B57DAC8924766B18000FED15 /* UserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTableViewCell.swift; sourceTree = "<group>"; };
 		B57DAC8B24766CBF000FED15 /* ResultEx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultEx.swift; sourceTree = "<group>"; };
 		B57DAC8D24767093000FED15 /* HUDEx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDEx.swift; sourceTree = "<group>"; };
-		B57DAC8F24767364000FED15 /* Dao.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dao.swift; sourceTree = "<group>"; };
 		B57DAC9124767A83000FED15 /* UserTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTableViewModel.swift; sourceTree = "<group>"; };
 		B57DAC96247689D2000FED15 /* DBUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBUser.swift; sourceTree = "<group>"; };
 		B57DAC9824768AFB000FED15 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
@@ -127,7 +126,6 @@
 		B5A70F0924772C5B003923EA /* UIImageViewEx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewEx.swift; sourceTree = "<group>"; };
 		B5A70F0F24778BC6003923EA /* StringEx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringEx.swift; sourceTree = "<group>"; };
 		B5A70F152477A993003923EA /* ArrayEx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayEx.swift; sourceTree = "<group>"; };
-		B5A70F1A2477BA91003923EA /* DaoInAnyWhere.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaoInAnyWhere.swift; sourceTree = "<group>"; };
 		B5A70F1C2477BFD4003923EA /* DBEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBEntity.swift; sourceTree = "<group>"; };
 		B5A70F1E2477BFF2003923EA /* RemoteEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteEntity.swift; sourceTree = "<group>"; };
 		B5C69FF02479F26D00BC4D62 /* SegmentFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentFilter.swift; sourceTree = "<group>"; };
@@ -154,7 +152,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A6B59EA32601E0D700C62ED5 /* MBProgressHUD in Frameworks */,
+				A6B59EA92601E0F400C62ED5 /* FlagKit in Frameworks */,
+				A6B59EAF2601E10F00C62ED5 /* SwiftInKotlinStyle in Frameworks */,
 				BDDE98B0969D17BD30D95457 /* Pods_Contacts.framework in Frameworks */,
+				A6B59E9D2601E0C100C62ED5 /* AlamofireImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -281,7 +283,6 @@
 			children = (
 				B58BF3932476461A003D9D49 /* AppDelegate.swift */,
 				B55DA11724793E78006D240C /* Static.swift */,
-				B5A70F172477BA4C003923EA /* Dao */,
 				B57DAC95247689C7000FED15 /* CoreData */,
 				B57DAC882476673F000FED15 /* Extension */,
 				B57DAC82247664F6000FED15 /* UI */,
@@ -323,15 +324,6 @@
 				B5A70F0424772245003923EA /* ProfileTableViewController.swift */,
 			);
 			path = Profile;
-			sourceTree = "<group>";
-		};
-		B5A70F172477BA4C003923EA /* Dao */ = {
-			isa = PBXGroup;
-			children = (
-				B57DAC8F24767364000FED15 /* Dao.swift */,
-				B5A70F1A2477BA91003923EA /* DaoInAnyWhere.swift */,
-			);
-			path = Dao;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -388,6 +380,12 @@
 			dependencies = (
 			);
 			name = Contacts;
+			packageProductDependencies = (
+				A6B59E9C2601E0C100C62ED5 /* AlamofireImage */,
+				A6B59EA22601E0D700C62ED5 /* MBProgressHUD */,
+				A6B59EA82601E0F400C62ED5 /* FlagKit */,
+				A6B59EAE2601E10F00C62ED5 /* SwiftInKotlinStyle */,
+			);
 			productName = Contacts;
 			productReference = B58BF3902476461A003D9D49 /* Contacts.app */;
 			productType = "com.apple.product-type.application";
@@ -424,6 +422,12 @@
 				Base,
 			);
 			mainGroup = B58BF3872476461A003D9D49;
+			packageReferences = (
+				A6B59E9B2601E0C100C62ED5 /* XCRemoteSwiftPackageReference "AlamofireImage" */,
+				A6B59EA12601E0D700C62ED5 /* XCRemoteSwiftPackageReference "MBProgressHUD" */,
+				A6B59EA72601E0F400C62ED5 /* XCRemoteSwiftPackageReference "FlagKit" */,
+				A6B59EAD2601E10F00C62ED5 /* XCRemoteSwiftPackageReference "SwiftInKotlinStyle" */,
+			);
 			productRefGroup = B58BF3912476461A003D9D49 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -530,11 +534,9 @@
 				B524DC572479E5D100D8312D /* CoreDataStack.swift in Sources */,
 				B524DC4C2479E2E800D8312D /* RemoteEntity.swift in Sources */,
 				B524DC6B2479E95200D8312D /* UserTableViewModel.swift in Sources */,
-				B524DC582479E5EB00D8312D /* Dao.swift in Sources */,
 				B524DC4D2479E2E800D8312D /* RemoteUser.swift in Sources */,
 				B524DC682479E5F800D8312D /* OptionalEx.swift in Sources */,
 				B524DC652479E5F800D8312D /* StringEx.swift in Sources */,
-				B524DC592479E5EB00D8312D /* DaoInAnyWhere.swift in Sources */,
 				B524DC532479E4F500D8312D /* DBUser.swift in Sources */,
 				B524DC562479E5BC00D8312D /* Contacts.xcdatamodel in Sources */,
 				B524DC4B2479E25E00D8312D /* Static.swift in Sources */,
@@ -568,11 +570,9 @@
 				B57DAC7F24766049000FED15 /* ApiConfig.swift in Sources */,
 				B5A70F1024778BC6003923EA /* StringEx.swift in Sources */,
 				B5A70F0524772245003923EA /* ProfileTableViewController.swift in Sources */,
-				B5A70F1B2477BA91003923EA /* DaoInAnyWhere.swift in Sources */,
 				B55DA116247936D6006D240C /* RemoteUserResponse.swift in Sources */,
 				B5A70F162477A993003923EA /* ArrayEx.swift in Sources */,
 				B524DC6E2479EB8A00D8312D /* DBUserUIEx.swift in Sources */,
-				B57DAC9024767365000FED15 /* Dao.swift in Sources */,
 				B58BF3942476461A003D9D49 /* AppDelegate.swift in Sources */,
 				B57DAC7C24765E04000FED15 /* RemoteUser.swift in Sources */,
 				B5A70F1F2477BFF2003923EA /* RemoteEntity.swift in Sources */,
@@ -820,7 +820,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Contacts/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -840,7 +840,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Contacts/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -892,6 +892,64 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A6B59E9B2601E0C100C62ED5 /* XCRemoteSwiftPackageReference "AlamofireImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/AlamofireImage";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.1.0;
+			};
+		};
+		A6B59EA12601E0D700C62ED5 /* XCRemoteSwiftPackageReference "MBProgressHUD" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jdg/MBProgressHUD";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.0;
+			};
+		};
+		A6B59EA72601E0F400C62ED5 /* XCRemoteSwiftPackageReference "FlagKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/madebybowtie/FlagKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.3.0;
+			};
+		};
+		A6B59EAD2601E10F00C62ED5 /* XCRemoteSwiftPackageReference "SwiftInKotlinStyle" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/tonnylitao/SwiftInKotlinStyle";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A6B59E9C2601E0C100C62ED5 /* AlamofireImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A6B59E9B2601E0C100C62ED5 /* XCRemoteSwiftPackageReference "AlamofireImage" */;
+			productName = AlamofireImage;
+		};
+		A6B59EA22601E0D700C62ED5 /* MBProgressHUD */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A6B59EA12601E0D700C62ED5 /* XCRemoteSwiftPackageReference "MBProgressHUD" */;
+			productName = MBProgressHUD;
+		};
+		A6B59EA82601E0F400C62ED5 /* FlagKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A6B59EA72601E0F400C62ED5 /* XCRemoteSwiftPackageReference "FlagKit" */;
+			productName = FlagKit;
+		};
+		A6B59EAE2601E10F00C62ED5 /* SwiftInKotlinStyle */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A6B59EAD2601E10F00C62ED5 /* XCRemoteSwiftPackageReference "SwiftInKotlinStyle" */;
+			productName = SwiftInKotlinStyle;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B58BF3882476461A003D9D49 /* Project object */;
 }
