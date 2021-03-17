@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import CoreData
 import SwiftInKotlinStyle
+import Combine
 
 typealias IntResultCompletion = ResultCompletion<Int>
 
@@ -17,7 +18,52 @@ typealias DBEntityResultCompletion = ResultCompletion<[DBEntity]>
 
 typealias Search = (segmentFilter: SegmentFilter, text: String)
 
+enum TableViewStatus {
+    case `default`, initializing, refreshing, loadingMore
+}
+
 class UserTableViewModel: NSObject {
+    @Published var status: TableViewStatus = .default
+    @Published var enableLoadMore: Bool = false
+    
+    func initialData() {
+        status = .initializing
+        
+        loadData(page: ApiConfig.firstPageIndex)
+    }
+    
+    func refresh() {
+        status = .refreshing
+        
+        loadData(page: ApiConfig.firstPageIndex)
+    }
+    
+    func loadMore() {
+        status = .loadingMore
+        
+        loadData(page: currentPage + 1)
+    }
+    
+    private func loadData(page: Int) {
+        loadData(page, dbCompletion: { [weak self] result in
+            
+            /*
+            enable infinite scrolling if local has enough data
+            */
+            self?.enableLoadMore = result.wrappedResult == ApiConfig.defaultPagingSize
+            
+        }) { [weak self] result in
+            
+            /*
+            enable infinite scrolling
+            */
+            result.onSuccess {
+                self?.enableLoadMore = $0.count == ApiConfig.defaultPagingSize
+            }
+            
+            self?.status = .default
+        }
+    }
     
     weak var tableView: UITableView?
     
@@ -38,7 +84,7 @@ class UserTableViewModel: NSObject {
         
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: DBUser.entity().name ?? "User").also {
             $0.fetchLimit = ApiConfig.defaultPagingSize
-            $0.sortDescriptors = [NSSortDescriptor(key: #keyPath(DBUser.id), ascending: true)]
+            $0.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
         }
         
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
