@@ -7,10 +7,8 @@
 //
 
 import Foundation
-import UIKit
 import CoreData
 import SwiftInKotlinStyle
-import Combine
 
 typealias IntResultCompletion = ResultCompletion<Int>
 
@@ -18,62 +16,66 @@ typealias DBEntityResultCompletion = ResultCompletion<[DBEntity]>
 
 typealias Search = (segmentFilter: SegmentFilter, text: String)
 
-enum TableViewStatus {
-    case `default`, initializing, refreshing, loadingMore
+enum LoadResourceStatus: Equatable {
+    case `default`, loading, success, error(AppError)
+}
+
+class Status {
+    let hudStatus = Box<LoadResourceStatus>(.default)
+    let refreshStatus = Box<LoadResourceStatus>(.default)
+    let loadMoreStatus = Box<LoadResourceStatus>(.default)
+    
+    let enableLoadMore = Box<Bool>(false)
 }
 
 class UserTableViewModel: NSObject {
-    @Published var status: TableViewStatus = .default
-    @Published var enableLoadMore: Bool = false
+    let status = Status()
+    let fetchedFromDB = Box<[IndexPath]>([])
     
     func initialData() {
-        status = .initializing
+        status.hudStatus.value = .loading
         
-        loadData(page: ApiConfig.firstPageIndex)
-    }
-    
-    func refresh() {
-        status = .refreshing
-        
-        loadData(page: ApiConfig.firstPageIndex)
-    }
-    
-    func loadMore() {
-        status = .loadingMore
-        
-        loadData(page: currentPage + 1)
-    }
-    
-    private func loadData(page: Int) {
-        loadData(page, dbCompletion: { [weak self] result in
-            
-            /*
-            enable infinite scrolling if local has enough data
-            */
-            self?.enableLoadMore = result.wrappedResult == ApiConfig.defaultPagingSize
-            
-        }) { [weak self] result in
-            
-            /*
-            enable infinite scrolling
-            */
-            result.onSuccess {
-                self?.enableLoadMore = $0.count == ApiConfig.defaultPagingSize
+        loadData { [weak self] result in
+            switch result {
+            case .success(_):
+                self?.status.hudStatus.value = .success
+            case .failure(let err):
+                self?.status.hudStatus.value = .error(err)
             }
-            
-            self?.status = .default
         }
     }
     
-    weak var tableView: UITableView?
+    func refresh() {
+        status.refreshStatus.value = .loading
+        
+        loadData { [weak self] result in
+            switch result {
+            case .success(_):
+                self?.status.refreshStatus.value = .success
+            case .failure(let err):
+                self?.status.refreshStatus.value = .error(err)
+            }
+        }
+    }
+    
+    func loadMore() {
+        status.loadMoreStatus.value = .loading
+        
+        loadData(currentPage + 1) { [weak self] result in
+            switch result {
+            case .success(_):
+                self?.status.loadMoreStatus.value = .success
+            case .failure(let err):
+                self?.status.loadMoreStatus.value = .error(err)
+            }
+        }
+    }
     
     var currentPage: PageIndex = ApiConfig.firstPageIndex
     private var previousPagLastId: TypeOfId?
     
     
-    private lazy var tableViewUpdater = FetchedResultsTableViewUpdater().also {
-        $0.tableView = self.tableView
-    }
+    var tableViewUpdater: FetchedResultsTableViewUpdater?
     
     var fetchedObjects: [DBUser]? {
         return fetchedResultsController.fetchedObjects
@@ -96,7 +98,7 @@ class UserTableViewModel: NSObject {
         return frc as! NSFetchedResultsController<DBUser>
     }()
     
-    func performFetch(_ pageIndex: PageIndex) throws -> Int {
+    private func performFetch(_ pageIndex: PageIndex) throws -> Int {
         
         fetchedResultsController.fetchRequest.also {
             $0.fetchLimit = max(pageIndex * ApiConfig.defaultPagingSize, $0.fetchLimit)
@@ -107,12 +109,7 @@ class UserTableViewModel: NSObject {
         let newCount = fetchedResultsController.fetchedObjects?.count ?? 0
         
         if newCount > oldCount {
-            tableView?.beginUpdates()
-            
-            let indexPathes = (oldCount..<newCount).map { IndexPath(row: $0, section: 0) }
-            tableView?.insertRows(at: indexPathes, with: .bottom)
-            
-            tableView?.endUpdates()
+            self.fetchedFromDB.value = (oldCount..<newCount).map { IndexPath(row: $0, section: 0) }
         }
         
         return newCount - oldCount
@@ -125,6 +122,21 @@ class UserTableViewModel: NSObject {
 
 extension UserTableViewModel {
     
+    func loadData(_ pageIndex: PageIndex = ApiConfig.firstPageIndex, completion: @escaping DBIdsResultCompletion) {
+        loadData(currentPage + 1, dbCompletion: { [weak self] result in
+            
+            self?.status.enableLoadMore.value = result.wrappedResult == ApiConfig.defaultPagingSize
+            
+        }) { [weak self] result in
+            
+            result.onSuccess {
+                self?.status.enableLoadMore.value = $0.count == ApiConfig.defaultPagingSize
+            }
+            
+            completion(result)
+        }
+    }
+
     func loadData(_ pageIndex: PageIndex = ApiConfig.firstPageIndex,
                   dbCompletion: @escaping IntResultCompletion,
                   apiCompletion: @escaping DBIdsResultCompletion) {
@@ -248,7 +260,6 @@ extension UserTableViewModel {
         
         do {
             try fetchedResultsController.performFetch()
-            tableView?.reloadData()
             
             print("fetched: \(fetchedResultsController.fetchedObjects?.count ?? 0)")
         } catch {

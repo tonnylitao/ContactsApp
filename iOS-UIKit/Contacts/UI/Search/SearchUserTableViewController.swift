@@ -18,11 +18,14 @@ class SearchUserTableViewController: UITableViewController {
     weak var nav: UINavigationController?
     
     lazy var viewModel = UserTableViewModel().also {
-        $0.tableView = self.tableView
+        $0.tableViewUpdater = FetchedResultsTableViewUpdater().also {
+            $0.tableView = self.tableView
+        }
     }
     
     @IBAction func filterChanged(_ sender: UISegmentedControl) {
         viewModel.searchWith(filters[sender.selectedSegmentIndex])
+        tableView.reloadData()
     }
     
     // MARK: - Table view data source

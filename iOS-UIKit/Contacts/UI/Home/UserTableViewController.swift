@@ -8,17 +8,16 @@
 
 import UIKit
 import CoreData
-import Combine
 import SVPullToRefresh
 import SwiftInKotlinStyle
 import MBProgressHUD
 
 class UserTableViewController: UITableViewController {
     
-    lazy var disposables = Set<AnyCancellable>()
-    
     private lazy var viewModel = UserTableViewModel().also {
-        $0.tableView = self.tableView
+        $0.tableViewUpdater = FetchedResultsTableViewUpdater().also {
+            $0.tableView = self.tableView
+        }
     }
     
     private lazy var mRefreshControl = UIRefreshControl().also {
@@ -47,26 +46,56 @@ class UserTableViewController: UITableViewController {
     
     private func bind() {
         var hud: MBProgressHUD?
-        viewModel.$status.sink { [weak self] value in
+        viewModel.status.hudStatus.bind { [weak self] value in
             
-            if value == .initializing {
-                hud = self?.navigationController?.view?.showHUD()
-            }else {
+            switch value {
+            case .default:
+                break
+            case .loading:
                 hud?.hide(animated: false)
-            }
-            
-            if value == .default {
+                hud = self?.navigationController?.view?.showHUD()
+            case .success:
                 self?.tableView.reloadData()
-                self?.refreshControl?.endRefreshing()
-                self?.tableView.infiniteScrollingView.stopAnimating()
+                hud?.hide(animated: false)
+            case .error(let err):
+                hud?.hideWith(err)
             }
-        }.store(in: &disposables)
+        }
         
+        viewModel.status.refreshStatus.bind { [weak self] value in
+            switch value {
+            case .default, .loading:
+                break
+            case .success:
+                self?.refreshControl?.endRefreshing()
+                self?.tableView.reloadData()
+            case .error(let err):
+                self?.refreshControl?.endRefreshing()
+                self?.view.showHUDMessage(err.humanReadableMessage)
+            }
+        }
         
-        viewModel.$enableLoadMore.sink { [weak self] enableLoadMore in
+        viewModel.status.loadMoreStatus.bind { [weak self] value in
+            switch value {
+            case .default, .loading:
+                break
+            case .success:
+                self?.tableView.infiniteScrollingView.stopAnimating()
+            case .error(let err):
+                self?.tableView.infiniteScrollingView.stopAnimating()
+                self?.view.showHUDMessage(err.humanReadableMessage)
+            }
+        }
+        
+        viewModel.status.enableLoadMore.bind { [weak self] enableLoadMore in
             self?.tableView.infiniteScrollingView?.enabled = enableLoadMore
         }
-        .store(in: &disposables)
+        
+        viewModel.fetchedFromDB.bind { [weak self] indexPathes in
+            self?.tableView?.beginUpdates()
+            self?.tableView?.insertRows(at: indexPathes, with: .bottom)
+            self?.tableView?.endUpdates()
+        }
     }
     
     @objc func refresh(refresh: UIRefreshControl){
@@ -117,5 +146,6 @@ extension UserTableViewController: UISearchResultsUpdating {
         
         let vc = searchController.searchResultsController as? SearchUserTableViewController
         vc?.viewModel.searchWith(text)
+        tableView.reloadData()
     }
 }
