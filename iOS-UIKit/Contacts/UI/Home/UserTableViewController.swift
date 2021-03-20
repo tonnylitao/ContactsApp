@@ -14,15 +14,9 @@ import MBProgressHUD
 
 class UserTableViewController: UITableViewController {
     
-    private lazy var viewModel = UserTableViewModel().also {
-        $0.tableViewUpdater = FetchedResultsTableViewUpdater().also {
-            $0.tableView = self.tableView
-        }
-    }
-    
-    private lazy var mRefreshControl = UIRefreshControl().also {
-        $0.addTarget(self, action: .refresh, for: .valueChanged)
-    }
+    private lazy var viewModel = UserTableViewModel(FetchedResultsTableViewUpdater().also {
+        $0.tableView = self.tableView
+    })
     
     private lazy var searchController = UISearchController(searchResultsController: SearchUserTableViewController.buildWith(self.navigationController)).also {
         $0.searchResultsUpdater = self
@@ -35,9 +29,12 @@ class UserTableViewController: UITableViewController {
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
         
-        tableView.refreshControl = mRefreshControl
+        tableView.refreshControl = UIRefreshControl().also {
+            $0.addTarget(self.viewModel, action: #selector(UserTableViewModel.refresh), for: .valueChanged)
+        }
         
-        setupInfiniteScrolling()
+        tableView.addInfiniteScrolling(actionHandler: viewModel.loadMore)
+        tableView.infiniteScrollingView.enabled = false
         
         bind()
         
@@ -46,7 +43,7 @@ class UserTableViewController: UITableViewController {
     
     private func bind() {
         var hud: MBProgressHUD?
-        viewModel.status.hudStatus.bind { [weak self] value in
+        viewModel.tableViewState.hudStatus.bind { [weak self] value in
             
             switch value {
             case .default:
@@ -62,7 +59,7 @@ class UserTableViewController: UITableViewController {
             }
         }
         
-        viewModel.status.refreshStatus.bind { [weak self] value in
+        viewModel.tableViewState.refreshStatus.bind { [weak self] value in
             switch value {
             case .default, .loading:
                 break
@@ -75,7 +72,7 @@ class UserTableViewController: UITableViewController {
             }
         }
         
-        viewModel.status.loadMoreStatus.bind { [weak self] value in
+        viewModel.tableViewState.loadMoreStatus.bind { [weak self] value in
             switch value {
             case .default, .loading:
                 break
@@ -87,7 +84,7 @@ class UserTableViewController: UITableViewController {
             }
         }
         
-        viewModel.status.enableLoadMore.bind { [weak self] enableLoadMore in
+        viewModel.tableViewState.enableLoadMore.bind { [weak self] enableLoadMore in
             self?.tableView.infiniteScrollingView?.enabled = enableLoadMore
         }
         
@@ -97,20 +94,6 @@ class UserTableViewController: UITableViewController {
             self?.tableView?.endUpdates()
         }
     }
-    
-    @objc func refresh(refresh: UIRefreshControl){
-        viewModel.refresh()
-    }
-    
-    private func setupInfiniteScrolling() {
-        
-        tableView.addInfiniteScrolling { [unowned self] in
-            self.viewModel.loadMore()
-        }
-        
-        tableView.infiniteScrollingView.enabled = false
-    }
-    
     
     // MARK: - Table view data source
     
@@ -133,10 +116,6 @@ class UserTableViewController: UITableViewController {
         vc?.thumbnailImage = (cell as? UserTableViewCell)?.avatarImgView.image
         vc?.data = viewModel.fetchedObjects?[indexPath.row]
     }
-}
-
-extension Selector {
-    fileprivate static let refresh = #selector(UserTableViewController.refresh)
 }
 
 extension UserTableViewController: UISearchResultsUpdating {

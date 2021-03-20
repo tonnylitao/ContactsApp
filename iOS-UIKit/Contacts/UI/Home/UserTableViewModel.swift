@@ -20,7 +20,7 @@ enum LoadResourceStatus: Equatable {
     case `default`, loading, success, error(AppError)
 }
 
-class Status {
+class TableViewState {
     let hudStatus = Box<LoadResourceStatus>(.default)
     let refreshStatus = Box<LoadResourceStatus>(.default)
     let loadMoreStatus = Box<LoadResourceStatus>(.default)
@@ -29,44 +29,46 @@ class Status {
 }
 
 class UserTableViewModel: NSObject {
-    let status = Status()
+    /* State */
+    let tableViewState = TableViewState()
     let fetchedFromDB = Box<[IndexPath]>([])
     
+    /* Task methods */
     func initialData() {
-        status.hudStatus.value = .loading
+        tableViewState.hudStatus.value = .loading
         
         loadData { [weak self] result in
             switch result {
             case .success(_):
-                self?.status.hudStatus.value = .success
+                self?.tableViewState.hudStatus.value = .success
             case .failure(let err):
-                self?.status.hudStatus.value = .error(err)
+                self?.tableViewState.hudStatus.value = .error(err)
             }
         }
     }
     
-    func refresh() {
-        status.refreshStatus.value = .loading
+    @objc func refresh(refresh: Any) {
+        tableViewState.refreshStatus.value = .loading
         
         loadData { [weak self] result in
             switch result {
             case .success(_):
-                self?.status.refreshStatus.value = .success
+                self?.tableViewState.refreshStatus.value = .success
             case .failure(let err):
-                self?.status.refreshStatus.value = .error(err)
+                self?.tableViewState.refreshStatus.value = .error(err)
             }
         }
     }
     
     func loadMore() {
-        status.loadMoreStatus.value = .loading
+        tableViewState.loadMoreStatus.value = .loading
         
         loadData(currentPage + 1) { [weak self] result in
             switch result {
             case .success(_):
-                self?.status.loadMoreStatus.value = .success
+                self?.tableViewState.loadMoreStatus.value = .success
             case .failure(let err):
-                self?.status.loadMoreStatus.value = .error(err)
+                self?.tableViewState.loadMoreStatus.value = .error(err)
             }
         }
     }
@@ -74,8 +76,12 @@ class UserTableViewModel: NSObject {
     var currentPage: PageIndex = ApiConfig.firstPageIndex
     private var previousPagLastId: TypeOfId?
     
-    
+    /* Dependency */
     var tableViewUpdater: FetchedResultsTableViewUpdater?
+    
+    init(_ tableViewUpdater: FetchedResultsTableViewUpdater?) {
+        self.tableViewUpdater = tableViewUpdater
+    }
     
     var fetchedObjects: [DBUser]? {
         return fetchedResultsController.fetchedObjects
@@ -125,12 +131,12 @@ extension UserTableViewModel {
     func loadData(_ pageIndex: PageIndex = ApiConfig.firstPageIndex, completion: @escaping DBIdsResultCompletion) {
         loadData(currentPage + 1, dbCompletion: { [weak self] result in
             
-            self?.status.enableLoadMore.value = result.wrappedResult == ApiConfig.defaultPagingSize
+            self?.tableViewState.enableLoadMore.value = result.wrappedResult == ApiConfig.defaultPagingSize
             
         }) { [weak self] result in
             
             result.onSuccess {
-                self?.status.enableLoadMore.value = $0.count == ApiConfig.defaultPagingSize
+                self?.tableViewState.enableLoadMore.value = $0.count == ApiConfig.defaultPagingSize
             }
             
             completion(result)
