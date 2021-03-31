@@ -21,17 +21,17 @@ enum LoadResourceStatus: Equatable {
 }
 
 class TableViewState {
-    let hudStatus = Box<LoadResourceStatus>(.default)
-    let refreshStatus = Box<LoadResourceStatus>(.default)
-    let loadMoreStatus = Box<LoadResourceStatus>(.default)
+    let hudStatus = LiveData<LoadResourceStatus>(.default)
+    let refreshStatus = LiveData<LoadResourceStatus>(.default)
+    let loadMoreStatus = LiveData<LoadResourceStatus>(.default)
     
-    let enableLoadMore = Box<Bool>(false)
+    let enableLoadMore = LiveData<Bool>(false)
 }
 
 class UserTableViewModel: NSObject {
     /* State */
     let tableViewState = TableViewState()
-    let fetchedFromDB = Box<[IndexPath]>([])
+    let fetchedFromDB = LiveData<[IndexPath]>([])
     
     /* Task methods */
     func initialData() {

@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Box<T> {
+class LiveData<T> {
     var value: T {
         didSet {
             listener?(value)
@@ -22,7 +22,7 @@ class Box<T> {
     typealias Listener = (T) -> ()
     private var listener: Listener?
     
-    func bind(listener: Listener?) {
+    func observe(listener: Listener?) {
         self.listener = listener
     }
 }

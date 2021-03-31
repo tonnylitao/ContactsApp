@@ -43,55 +43,67 @@ class UserTableViewController: UITableViewController {
     
     private func bind() {
         var hud: MBProgressHUD?
-        viewModel.tableViewState.hudStatus.bind { [weak self] value in
+        viewModel.tableViewState.hudStatus.observe { [weak self] value in
+            guard let self = self else {
+                hud?.hide(animated: false)
+                return
+            }
             
             switch value {
             case .default:
                 break
             case .loading:
                 hud?.hide(animated: false)
-                hud = self?.navigationController?.view?.showHUD()
+                hud = self.navigationController?.view?.showHUD()
             case .success:
-                self?.tableView.reloadData()
+                self.tableView.reloadData()
                 hud?.hide(animated: false)
             case .error(let err):
                 hud?.hideWith(err)
             }
         }
         
-        viewModel.tableViewState.refreshStatus.bind { [weak self] value in
+        viewModel.tableViewState.refreshStatus.observe { [weak self] value in
+            guard let self = self else { return }
+            
             switch value {
             case .default, .loading:
                 break
             case .success:
-                self?.refreshControl?.endRefreshing()
-                self?.tableView.reloadData()
+                self.refreshControl?.endRefreshing()
+                self.tableView.reloadData()
             case .error(let err):
-                self?.refreshControl?.endRefreshing()
-                self?.view.showHUDMessage(err.humanReadableMessage)
+                self.refreshControl?.endRefreshing()
+                self.view.showHUDMessage(err.humanReadableMessage)
             }
         }
         
-        viewModel.tableViewState.loadMoreStatus.bind { [weak self] value in
+        viewModel.tableViewState.loadMoreStatus.observe { [weak self] value in
+            guard let self = self else { return }
+            
             switch value {
             case .default, .loading:
                 break
             case .success:
-                self?.tableView.infiniteScrollingView.stopAnimating()
+                self.tableView.infiniteScrollingView.stopAnimating()
             case .error(let err):
-                self?.tableView.infiniteScrollingView.stopAnimating()
-                self?.view.showHUDMessage(err.humanReadableMessage)
+                self.tableView.infiniteScrollingView.stopAnimating()
+                self.view.showHUDMessage(err.humanReadableMessage)
             }
         }
         
-        viewModel.tableViewState.enableLoadMore.bind { [weak self] enableLoadMore in
-            self?.tableView.infiniteScrollingView?.enabled = enableLoadMore
+        viewModel.tableViewState.enableLoadMore.observe { [weak self] enableLoadMore in
+            guard let self = self else { return }
+            
+            self.tableView.infiniteScrollingView?.enabled = enableLoadMore
         }
         
-        viewModel.fetchedFromDB.bind { [weak self] indexPathes in
-            self?.tableView?.beginUpdates()
-            self?.tableView?.insertRows(at: indexPathes, with: .bottom)
-            self?.tableView?.endUpdates()
+        viewModel.fetchedFromDB.observe { [weak self] indexPathes in
+            guard let self = self else { return }
+            
+            self.tableView?.beginUpdates()
+            self.tableView?.insertRows(at: indexPathes, with: .bottom)
+            self.tableView?.endUpdates()
         }
     }
     
