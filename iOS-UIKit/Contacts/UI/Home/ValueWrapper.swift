@@ -8,7 +8,7 @@
 
 import Foundation
 
-class LiveData<T> {
+class ValueWrapper<T> {
     var value: T {
         didSet {
             listener?(value)

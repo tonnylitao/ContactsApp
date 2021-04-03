@@ -39,11 +39,3 @@ struct RemoteUserResponse: Decodable, CustomStringConvertible {
         }
     }
 }
-
-extension RemoteUserResponse: RemoteResource {
-    
-    static var path: ApiPath {
-        return .users
-    }
-}
-

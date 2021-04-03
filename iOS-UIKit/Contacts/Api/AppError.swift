@@ -7,8 +7,10 @@
 //
 
 import Foundation
+import Alamofire
 
 enum AppError: Error, Equatable {
+    
     case networking(String)
     case invalidApiPath
     case invalidResponse

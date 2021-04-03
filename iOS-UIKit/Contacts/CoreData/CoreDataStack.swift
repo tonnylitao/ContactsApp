@@ -73,7 +73,7 @@ class CoreDataStack: NSObject {
 extension CoreDataStack {
     
     static func performBackgroundTask(_ task: @escaping (NSManagedObjectContext) throws -> Result<[TypeOfId], AppError>,
-                                      completion: @escaping DBIdsResultCompletion) {
+                                      completion: @escaping ResultCompletion<[TypeOfId]>) {
         
         if #available(iOS 10.0, *) {
             shared.persistentContainer.performBackgroundTask { context in

@@ -10,9 +10,7 @@ import Foundation
 import CoreData
 import SwiftInKotlinStyle
 
-typealias IntResultCompletion = ResultCompletion<Int>
-
-typealias DBEntityResultCompletion = ResultCompletion<[DBEntity]>
+typealias ResultCompletion<T> = (Result<T, AppError>) -> Void
 
 typealias Search = (segmentFilter: SegmentFilter, text: String)
 
@@ -21,17 +19,17 @@ enum LoadResourceStatus: Equatable {
 }
 
 class TableViewState {
-    let hudStatus = LiveData<LoadResourceStatus>(.default)
-    let refreshStatus = LiveData<LoadResourceStatus>(.default)
-    let loadMoreStatus = LiveData<LoadResourceStatus>(.default)
+    let hudStatus = ValueWrapper<LoadResourceStatus>(.default)
+    let refreshStatus = ValueWrapper<LoadResourceStatus>(.default)
+    let loadMoreStatus = ValueWrapper<LoadResourceStatus>(.default)
     
-    let enableLoadMore = LiveData<Bool>(false)
+    let enableLoadMore = ValueWrapper<Bool>(false)
 }
 
 class UserTableViewModel: NSObject {
     /* State */
     let tableViewState = TableViewState()
-    let fetchedFromDB = LiveData<[IndexPath]>([])
+    let fetchedFromDB = ValueWrapper<[IndexPath]>([])
     
     /* Task methods */
     func initialData() {
@@ -128,7 +126,7 @@ class UserTableViewModel: NSObject {
 
 extension UserTableViewModel {
     
-    func loadData(_ pageIndex: PageIndex = ApiConfig.firstPageIndex, completion: @escaping DBIdsResultCompletion) {
+    func loadData(_ pageIndex: PageIndex = ApiConfig.firstPageIndex, completion: @escaping ResultCompletion<[TypeOfId]>) {
         loadData(currentPage + 1, dbCompletion: { [weak self] result in
             
             self?.tableViewState.enableLoadMore.value = result.wrappedResult == ApiConfig.defaultPagingSize
@@ -144,8 +142,8 @@ extension UserTableViewModel {
     }
 
     func loadData(_ pageIndex: PageIndex = ApiConfig.firstPageIndex,
-                  dbCompletion: @escaping IntResultCompletion,
-                  apiCompletion: @escaping DBIdsResultCompletion) {
+                  dbCompletion: @escaping ResultCompletion<Int>,
+                  apiCompletion: @escaping ResultCompletion<[TypeOfId]>) {
         
         /*
          load data from local db
@@ -166,13 +164,13 @@ extension UserTableViewModel {
         /*
          load from api
          */
-        let para: Parameters = ["page": "\(pageIndex)", "results": "\(ApiConfig.defaultPagingSize)", "seed": ApiConfig.defaultSeed]
+        let para: [String: Any] = ["page": "\(pageIndex)", "results": "\(ApiConfig.defaultPagingSize)", "seed": ApiConfig.defaultSeed]
         
         weak var weakSelf = self
         
         let previousPagLastId = self.previousPagLastId
-        RemoteUserResponse.get(parameters: para) { apiResult in
-
+        RemoteUserResponse.request(ApiConfig.apiHost + ApiPath.users.rawValue, parameters: para) { apiResult in
+         
             DispatchQueue.global().async {
                 
                 /*
@@ -221,7 +219,7 @@ extension UserTableViewModel {
 
 extension Result where Success == RemoteUserResponse, Failure == AppError {
     
-    func syncWithDB(_ pageIndex: PageIndex, _ previousPagLastId: TypeOfId?, completion: @escaping DBIdsResultCompletion) {
+    func syncWithDB(_ pageIndex: PageIndex, _ previousPagLastId: TypeOfId?, completion: @escaping ResultCompletion<[TypeOfId]>) {
         
         self.onSuccess { remoteUserResponse in
             

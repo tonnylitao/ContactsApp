@@ -7,15 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A62F08A026191E6B00B9710F /* Decodable+Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = A62F089F26191E6B00B9710F /* Decodable+Networking.swift */; };
 		A6B59E9D2601E0C100C62ED5 /* AlamofireImage in Frameworks */ = {isa = PBXBuildFile; productRef = A6B59E9C2601E0C100C62ED5 /* AlamofireImage */; };
 		A6B59EA32601E0D700C62ED5 /* MBProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = A6B59EA22601E0D700C62ED5 /* MBProgressHUD */; };
 		A6B59EA92601E0F400C62ED5 /* FlagKit in Frameworks */ = {isa = PBXBuildFile; productRef = A6B59EA82601E0F400C62ED5 /* FlagKit */; };
 		A6B59EAF2601E10F00C62ED5 /* SwiftInKotlinStyle in Frameworks */ = {isa = PBXBuildFile; productRef = A6B59EAE2601E10F00C62ED5 /* SwiftInKotlinStyle */; };
-		A6E3BAF7260400B8007CFE39 /* LiveData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6E3BAF6260400B8007CFE39 /* LiveData.swift */; };
+		A6E3BAF7260400B8007CFE39 /* ValueWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6E3BAF6260400B8007CFE39 /* ValueWrapper.swift */; };
 		B524DC2B2479DFA300D8312D /* ContactsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B524DC2A2479DFA300D8312D /* ContactsUITests.swift */; };
 		B524DC472479E1C000D8312D /* ApiConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57DAC7E24766049000FED15 /* ApiConfig.swift */; };
-		B524DC482479E1C000D8312D /* RemoteResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58BF3AA2476488A003D9D49 /* RemoteResource.swift */; };
-		B524DC492479E1C000D8312D /* ApiDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58BF3AF2476495C003D9D49 /* ApiDecodable.swift */; };
 		B524DC4A2479E1C000D8312D /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58BF3B1247649A2003D9D49 /* AppError.swift */; };
 		B524DC4B2479E25E00D8312D /* Static.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55DA11724793E78006D240C /* Static.swift */; };
 		B524DC4C2479E2E800D8312D /* RemoteEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A70F1E2477BFF2003923EA /* RemoteEntity.swift */; };
@@ -53,8 +52,6 @@
 		B58BF39B2476461A003D9D49 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B58BF3992476461A003D9D49 /* Main.storyboard */; };
 		B58BF3A02476461E003D9D49 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B58BF39F2476461E003D9D49 /* Assets.xcassets */; };
 		B58BF3A32476461E003D9D49 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B58BF3A12476461E003D9D49 /* LaunchScreen.storyboard */; };
-		B58BF3AB2476488A003D9D49 /* RemoteResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58BF3AA2476488A003D9D49 /* RemoteResource.swift */; };
-		B58BF3B02476495C003D9D49 /* ApiDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58BF3AF2476495C003D9D49 /* ApiDecodable.swift */; };
 		B58BF3B2247649A2003D9D49 /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58BF3B1247649A2003D9D49 /* AppError.swift */; };
 		B5A70F0524772245003923EA /* ProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A70F0424772245003923EA /* ProfileTableViewController.swift */; };
 		B5A70F0A24772C5B003923EA /* UIImageViewEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A70F0924772C5B003923EA /* UIImageViewEx.swift */; };
@@ -89,7 +86,8 @@
 /* Begin PBXFileReference section */
 		6DDD7FDBE919CC40E1707F6B /* Pods_Contacts.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Contacts.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8ADF9CBFB4DDFDE4457990FD /* Pods-Contacts.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Contacts.debug.xcconfig"; path = "Target Support Files/Pods-Contacts/Pods-Contacts.debug.xcconfig"; sourceTree = "<group>"; };
-		A6E3BAF6260400B8007CFE39 /* LiveData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveData.swift; sourceTree = "<group>"; };
+		A62F089F26191E6B00B9710F /* Decodable+Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decodable+Networking.swift"; sourceTree = "<group>"; };
+		A6E3BAF6260400B8007CFE39 /* ValueWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueWrapper.swift; sourceTree = "<group>"; };
 		A85003BCF909E2D87DBC8A03 /* Pods-Contacts.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Contacts.release.xcconfig"; path = "Target Support Files/Pods-Contacts/Pods-Contacts.release.xcconfig"; sourceTree = "<group>"; };
 		B524DC282479DFA300D8312D /* ContactsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ContactsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B524DC2A2479DFA300D8312D /* ContactsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsUITests.swift; sourceTree = "<group>"; };
@@ -121,8 +119,6 @@
 		B58BF39F2476461E003D9D49 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B58BF3A22476461E003D9D49 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B58BF3A42476461E003D9D49 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B58BF3AA2476488A003D9D49 /* RemoteResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteResource.swift; sourceTree = "<group>"; };
-		B58BF3AF2476495C003D9D49 /* ApiDecodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiDecodable.swift; sourceTree = "<group>"; };
 		B58BF3B1247649A2003D9D49 /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
 		B5A70F0424772245003923EA /* ProfileTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableViewController.swift; sourceTree = "<group>"; };
 		B5A70F0924772C5B003923EA /* UIImageViewEx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewEx.swift; sourceTree = "<group>"; };
@@ -180,6 +176,14 @@
 				6DDD7FDBE919CC40E1707F6B /* Pods_Contacts.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A62F089E26191E5500B9710F /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				A62F089F26191E6B00B9710F /* Decodable+Networking.swift */,
+			);
+			path = Repository;
 			sourceTree = "<group>";
 		};
 		B524DC292479DFA300D8312D /* ContactsUITests */ = {
@@ -294,6 +298,7 @@
 				B58BF39F2476461E003D9D49 /* Assets.xcassets */,
 				B58BF3A12476461E003D9D49 /* LaunchScreen.storyboard */,
 				B58BF3A42476461E003D9D49 /* Info.plist */,
+				A62F089E26191E5500B9710F /* Repository */,
 				B55DA11B2479CD69006D240C /* Contacts.xcdatamodel */,
 			);
 			path = Contacts;
@@ -303,8 +308,6 @@
 			isa = PBXGroup;
 			children = (
 				B57DAC7E24766049000FED15 /* ApiConfig.swift */,
-				B58BF3AA2476488A003D9D49 /* RemoteResource.swift */,
-				B58BF3AF2476495C003D9D49 /* ApiDecodable.swift */,
 				B58BF3B1247649A2003D9D49 /* AppError.swift */,
 			);
 			path = Api;
@@ -316,7 +319,7 @@
 				B57DAC80247664F3000FED15 /* UserTableViewController.swift */,
 				B57DAC8924766B18000FED15 /* UserTableViewCell.swift */,
 				B57DAC9124767A83000FED15 /* UserTableViewModel.swift */,
-				A6E3BAF6260400B8007CFE39 /* LiveData.swift */,
+				A6E3BAF6260400B8007CFE39 /* ValueWrapper.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -526,14 +529,12 @@
 			files = (
 				B524DC672479E5F800D8312D /* NSPredicateEx.swift in Sources */,
 				B524DC472479E1C000D8312D /* ApiConfig.swift in Sources */,
-				B524DC482479E1C000D8312D /* RemoteResource.swift in Sources */,
 				B524DC632479E5F800D8312D /* ResultEx.swift in Sources */,
 				B524DC522479E4F500D8312D /* DBEntity.swift in Sources */,
 				B524DC662479E5F800D8312D /* ArrayEx.swift in Sources */,
 				B524DC4E2479E2E800D8312D /* RemoteUserResponse.swift in Sources */,
 				B5C69FF22479F27D00BC4D62 /* SegmentFilter.swift in Sources */,
 				B524DC4A2479E1C000D8312D /* AppError.swift in Sources */,
-				B524DC492479E1C000D8312D /* ApiDecodable.swift in Sources */,
 				B524DC572479E5D100D8312D /* CoreDataStack.swift in Sources */,
 				B524DC4C2479E2E800D8312D /* RemoteEntity.swift in Sources */,
 				B524DC6B2479E95200D8312D /* UserTableViewModel.swift in Sources */,
@@ -563,14 +564,14 @@
 				B5C69FF8247BC8A800BC4D62 /* FetchedResultsTableViewUpdater.swift in Sources */,
 				B57DAC9A24768AFB000FED15 /* CoreDataStack.swift in Sources */,
 				B5A70F1D2477BFD4003923EA /* DBEntity.swift in Sources */,
-				A6E3BAF7260400B8007CFE39 /* LiveData.swift in Sources */,
+				A62F08A026191E6B00B9710F /* Decodable+Networking.swift in Sources */,
+				A6E3BAF7260400B8007CFE39 /* ValueWrapper.swift in Sources */,
 				B5C69FF4247BB96B00BC4D62 /* UITableViewEx.swift in Sources */,
 				B57DAC9224767A83000FED15 /* UserTableViewModel.swift in Sources */,
 				B55DA11C2479CD69006D240C /* Contacts.xcdatamodel in Sources */,
 				B57DAC8E24767093000FED15 /* HUDEx.swift in Sources */,
 				B57DAC8C24766CBF000FED15 /* ResultEx.swift in Sources */,
 				B57DAC8A24766B18000FED15 /* UserTableViewCell.swift in Sources */,
-				B58BF3B02476495C003D9D49 /* ApiDecodable.swift in Sources */,
 				B57DAC7F24766049000FED15 /* ApiConfig.swift in Sources */,
 				B5A70F1024778BC6003923EA /* StringEx.swift in Sources */,
 				B5A70F0524772245003923EA /* ProfileTableViewController.swift in Sources */,
@@ -580,7 +581,6 @@
 				B58BF3942476461A003D9D49 /* AppDelegate.swift in Sources */,
 				B57DAC7C24765E04000FED15 /* RemoteUser.swift in Sources */,
 				B5A70F1F2477BFF2003923EA /* RemoteEntity.swift in Sources */,
-				B58BF3AB2476488A003D9D49 /* RemoteResource.swift in Sources */,
 				B55DA11824793E78006D240C /* Static.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

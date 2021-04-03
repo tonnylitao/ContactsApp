@@ -34,8 +34,6 @@ protocol DBEntity: class {
     var uniqueId: TypeOfId { get }
 }
 
-typealias DBIdsResultCompletion = (Result<[TypeOfId], AppError>) -> ()
-
 extension DBEntity where Self: NSManagedObject {
     
     /*
@@ -45,7 +43,7 @@ extension DBEntity where Self: NSManagedObject {
     static func keepConsistencyWith<M: RemoteEntity>(previousPageLastId id: TypeOfId?,
                                                      remoteData: [M],
                                                      condition: NSPredicate?,
-                                                     completion: @escaping DBIdsResultCompletion) where M.Entity == Self {
+                                                     completion: @escaping ResultCompletion<[TypeOfId]>) where M.Entity == Self {
         
         let count = remoteData.count
         
@@ -68,7 +66,7 @@ extension DBEntity where Self: NSManagedObject {
     
     private static func deleteAllAfter(id: TypeOfId?,
                                            with condition: NSPredicate?,
-                                           completion: @escaping DBIdsResultCompletion) {
+                                           completion: @escaping ResultCompletion<[TypeOfId]>) {
         //TODO: when first page is empty, id is nil, need to delete all
         guard let id = id, let entityName = Self.entity().name else { return }
         
@@ -103,7 +101,7 @@ extension DBEntity where Self: NSManagedObject {
     
     private static func updateOrInsert<M: RemoteEntity>(remoteData: M,
                                                             with condition: NSPredicate?,
-                                                            completion: @escaping DBIdsResultCompletion) where M.Entity == Self {
+                                                            completion: @escaping ResultCompletion<[TypeOfId]>) where M.Entity == Self {
         
         guard let entityName = Self.entity().name else  {
             completion(.failure(.coredata("Self.entity().name is nil")))
@@ -146,7 +144,7 @@ extension DBEntity where Self: NSManagedObject {
     
     private static func updateOrInsertOrDeleteInRange<M: RemoteEntity>(remoteData: [M],
                                                                            with condition: NSPredicate?,
-                                                                           completion: @escaping DBIdsResultCompletion) where M.Entity == Self {
+                                                                           completion: @escaping ResultCompletion<[TypeOfId]>) where M.Entity == Self {
         
         guard remoteData.count >= 2,
             let entityName = Self.entity().name else {
