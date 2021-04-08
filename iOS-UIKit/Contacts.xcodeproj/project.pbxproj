@@ -13,7 +13,6 @@
 		A6B59EA32601E0D700C62ED5 /* MBProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = A6B59EA22601E0D700C62ED5 /* MBProgressHUD */; };
 		A6B59EA92601E0F400C62ED5 /* FlagKit in Frameworks */ = {isa = PBXBuildFile; productRef = A6B59EA82601E0F400C62ED5 /* FlagKit */; };
 		A6B59EAF2601E10F00C62ED5 /* SwiftInKotlinStyle in Frameworks */ = {isa = PBXBuildFile; productRef = A6B59EAE2601E10F00C62ED5 /* SwiftInKotlinStyle */; };
-		A6D7821A261954E900BDA2EF /* NetworkBoundResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6D78219261954E900BDA2EF /* NetworkBoundResource.swift */; };
 		A6D782BC261F141100BDA2EF /* DataSyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6D782BB261F141100BDA2EF /* DataSyncManager.swift */; };
 		A6E3BAF7260400B8007CFE39 /* ValueWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6E3BAF6260400B8007CFE39 /* ValueWrapper.swift */; };
 		B524DC2B2479DFA300D8312D /* ContactsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B524DC2A2479DFA300D8312D /* ContactsUITests.swift */; };
@@ -91,7 +90,6 @@
 		8ADF9CBFB4DDFDE4457990FD /* Pods-Contacts.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Contacts.debug.xcconfig"; path = "Target Support Files/Pods-Contacts/Pods-Contacts.debug.xcconfig"; sourceTree = "<group>"; };
 		A62F089F26191E6B00B9710F /* Decodable+Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decodable+Networking.swift"; sourceTree = "<group>"; };
 		A62F08B1261920F600B9710F /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
-		A6D78219261954E900BDA2EF /* NetworkBoundResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkBoundResource.swift; sourceTree = "<group>"; };
 		A6D782BB261F141100BDA2EF /* DataSyncManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSyncManager.swift; sourceTree = "<group>"; };
 		A6E3BAF6260400B8007CFE39 /* ValueWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueWrapper.swift; sourceTree = "<group>"; };
 		A85003BCF909E2D87DBC8A03 /* Pods-Contacts.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Contacts.release.xcconfig"; path = "Target Support Files/Pods-Contacts/Pods-Contacts.release.xcconfig"; sourceTree = "<group>"; };
@@ -328,7 +326,6 @@
 				B57DAC8924766B18000FED15 /* UserTableViewCell.swift */,
 				B57DAC9124767A83000FED15 /* UserTableViewModel.swift */,
 				A6E3BAF6260400B8007CFE39 /* ValueWrapper.swift */,
-				A6D78219261954E900BDA2EF /* NetworkBoundResource.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -581,7 +578,6 @@
 				B55DA11C2479CD69006D240C /* Contacts.xcdatamodel in Sources */,
 				B57DAC8E24767093000FED15 /* HUDEx.swift in Sources */,
 				B57DAC8C24766CBF000FED15 /* ResultEx.swift in Sources */,
-				A6D7821A261954E900BDA2EF /* NetworkBoundResource.swift in Sources */,
 				B57DAC8A24766B18000FED15 /* UserTableViewCell.swift in Sources */,
 				B57DAC7F24766049000FED15 /* ApiConfig.swift in Sources */,
 				B5A70F1024778BC6003923EA /* StringEx.swift in Sources */,
