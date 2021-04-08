@@ -8,10 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		A62F08A026191E6B00B9710F /* Decodable+Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = A62F089F26191E6B00B9710F /* Decodable+Networking.swift */; };
+		A62F08B2261920F600B9710F /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A62F08B1261920F600B9710F /* UserRepository.swift */; };
 		A6B59E9D2601E0C100C62ED5 /* AlamofireImage in Frameworks */ = {isa = PBXBuildFile; productRef = A6B59E9C2601E0C100C62ED5 /* AlamofireImage */; };
 		A6B59EA32601E0D700C62ED5 /* MBProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = A6B59EA22601E0D700C62ED5 /* MBProgressHUD */; };
 		A6B59EA92601E0F400C62ED5 /* FlagKit in Frameworks */ = {isa = PBXBuildFile; productRef = A6B59EA82601E0F400C62ED5 /* FlagKit */; };
 		A6B59EAF2601E10F00C62ED5 /* SwiftInKotlinStyle in Frameworks */ = {isa = PBXBuildFile; productRef = A6B59EAE2601E10F00C62ED5 /* SwiftInKotlinStyle */; };
+		A6D7821A261954E900BDA2EF /* NetworkBoundResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6D78219261954E900BDA2EF /* NetworkBoundResource.swift */; };
+		A6D782BC261F141100BDA2EF /* DataSyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6D782BB261F141100BDA2EF /* DataSyncManager.swift */; };
 		A6E3BAF7260400B8007CFE39 /* ValueWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6E3BAF6260400B8007CFE39 /* ValueWrapper.swift */; };
 		B524DC2B2479DFA300D8312D /* ContactsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B524DC2A2479DFA300D8312D /* ContactsUITests.swift */; };
 		B524DC472479E1C000D8312D /* ApiConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57DAC7E24766049000FED15 /* ApiConfig.swift */; };
@@ -87,6 +90,9 @@
 		6DDD7FDBE919CC40E1707F6B /* Pods_Contacts.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Contacts.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8ADF9CBFB4DDFDE4457990FD /* Pods-Contacts.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Contacts.debug.xcconfig"; path = "Target Support Files/Pods-Contacts/Pods-Contacts.debug.xcconfig"; sourceTree = "<group>"; };
 		A62F089F26191E6B00B9710F /* Decodable+Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decodable+Networking.swift"; sourceTree = "<group>"; };
+		A62F08B1261920F600B9710F /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
+		A6D78219261954E900BDA2EF /* NetworkBoundResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkBoundResource.swift; sourceTree = "<group>"; };
+		A6D782BB261F141100BDA2EF /* DataSyncManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSyncManager.swift; sourceTree = "<group>"; };
 		A6E3BAF6260400B8007CFE39 /* ValueWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueWrapper.swift; sourceTree = "<group>"; };
 		A85003BCF909E2D87DBC8A03 /* Pods-Contacts.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Contacts.release.xcconfig"; path = "Target Support Files/Pods-Contacts/Pods-Contacts.release.xcconfig"; sourceTree = "<group>"; };
 		B524DC282479DFA300D8312D /* ContactsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ContactsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -181,6 +187,8 @@
 		A62F089E26191E5500B9710F /* Repository */ = {
 			isa = PBXGroup;
 			children = (
+				A62F08B1261920F600B9710F /* UserRepository.swift */,
+				A6D782BB261F141100BDA2EF /* DataSyncManager.swift */,
 				A62F089F26191E6B00B9710F /* Decodable+Networking.swift */,
 			);
 			path = Repository;
@@ -320,6 +328,7 @@
 				B57DAC8924766B18000FED15 /* UserTableViewCell.swift */,
 				B57DAC9124767A83000FED15 /* UserTableViewModel.swift */,
 				A6E3BAF6260400B8007CFE39 /* ValueWrapper.swift */,
+				A6D78219261954E900BDA2EF /* NetworkBoundResource.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -565,12 +574,14 @@
 				B57DAC9A24768AFB000FED15 /* CoreDataStack.swift in Sources */,
 				B5A70F1D2477BFD4003923EA /* DBEntity.swift in Sources */,
 				A62F08A026191E6B00B9710F /* Decodable+Networking.swift in Sources */,
+				A62F08B2261920F600B9710F /* UserRepository.swift in Sources */,
 				A6E3BAF7260400B8007CFE39 /* ValueWrapper.swift in Sources */,
 				B5C69FF4247BB96B00BC4D62 /* UITableViewEx.swift in Sources */,
 				B57DAC9224767A83000FED15 /* UserTableViewModel.swift in Sources */,
 				B55DA11C2479CD69006D240C /* Contacts.xcdatamodel in Sources */,
 				B57DAC8E24767093000FED15 /* HUDEx.swift in Sources */,
 				B57DAC8C24766CBF000FED15 /* ResultEx.swift in Sources */,
+				A6D7821A261954E900BDA2EF /* NetworkBoundResource.swift in Sources */,
 				B57DAC8A24766B18000FED15 /* UserTableViewCell.swift in Sources */,
 				B57DAC7F24766049000FED15 /* ApiConfig.swift in Sources */,
 				B5A70F1024778BC6003923EA /* StringEx.swift in Sources */,
@@ -581,6 +592,7 @@
 				B58BF3942476461A003D9D49 /* AppDelegate.swift in Sources */,
 				B57DAC7C24765E04000FED15 /* RemoteUser.swift in Sources */,
 				B5A70F1F2477BFF2003923EA /* RemoteEntity.swift in Sources */,
+				A6D782BC261F141100BDA2EF /* DataSyncManager.swift in Sources */,
 				B55DA11824793E78006D240C /* Static.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
