@@ -20,10 +20,4 @@ extension DBUser {
     
 }
 
-extension DBUser: DBEntity {
-    
-    var uniqueId: TypeOfId {
-        return id
-    }
-    
-}
+extension DBUser: DBEntity {}

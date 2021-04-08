@@ -29,7 +29,7 @@ class DataSyncManager {
                 if !isFullPagination {
                     // batch delete
                     let maxId = remoteData.last?.uniqueId ?? self.lastIdInPreviousPage
-                    let predicate = maxId != nil ? NSPredicate(format: "id > %d", maxId!) : nil
+                    let predicate = maxId != nil ? NSPredicate(format: "%K > %d", #keyPath(DBUser.uniqueId), maxId!) : nil
                     
                     let count = try self.batchDeleteWith(predicate: predicate, context: context)
                     print("syc delete", count)
@@ -58,7 +58,7 @@ class DataSyncManager {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "User")
         
         if let predicate = predicate {
-            fetchRequest.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
+            fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(DBUser.uniqueId), ascending: true)]
             fetchRequest.predicate = predicate
         }
         
@@ -84,7 +84,8 @@ class DataSyncManager {
         if remoteData.count > 1 {
             let (minId, maxId) = (ids.first!, ids.last!)
             
-            let predicate = NSPredicate(format: "id >= %d AND id <= %d AND NOT id IN %@", minId, maxId, ids)
+            let key = #keyPath(DBUser.uniqueId)
+            let predicate = NSPredicate(format: "%K >= %d AND %K <= %d AND NOT %K IN %@", key, minId, key, maxId, key, ids)
             let count = try batchDeleteWith(predicate: predicate, context: context)
             
             print("syc delete", "\(count) entity which in [\(minId)...\(maxId)] and not in \(ids)")
@@ -92,7 +93,7 @@ class DataSyncManager {
         
         // fetch
         let toUpdateFetchRequest = NSFetchRequest<DBUser>(entityName: "User")
-        toUpdateFetchRequest.predicate = NSPredicate(format: "id IN %@", ids)
+        toUpdateFetchRequest.predicate = NSPredicate(format: "%K IN %@", #keyPath(DBUser.uniqueId), ids)
         
         let existedEntity = try context.fetch(toUpdateFetchRequest)
         let existedIdEntityMapping: [TypeOfId: DBUser] = existedEntity.dictionaryBy { $0.uniqueId }

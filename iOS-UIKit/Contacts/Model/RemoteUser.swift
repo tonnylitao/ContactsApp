@@ -149,7 +149,7 @@ extension RemoteUser: RemoteEntity {
         var updated = false
         
         //get rid of context.hasChanges is true even setting same value
-        if entity.id != uniqueId { entity.id = uniqueId; updated = true }
+        if entity.uniqueId != uniqueId { entity.uniqueId = uniqueId; updated = true }
         
         if entity.title != name.title { entity.title = name.title; updated = true }
         if entity.firstName != name.first { entity.firstName = name.first; updated = true }

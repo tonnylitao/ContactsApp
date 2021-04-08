@@ -119,7 +119,7 @@ class UserTableViewModel: NSObject {
         
         let fetchRequest = NSFetchRequest<DBUser>(entityName: "User").also {
             $0.fetchLimit = ApiConfig.defaultPagingSize
-            $0.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
+            $0.sortDescriptors = [NSSortDescriptor(key: #keyPath(DBUser.uniqueId), ascending: true)]
             $0.fetchBatchSize = 15 //double size of cells count in screen
         }
         
