@@ -15,10 +15,12 @@ extension DBUser {
     
     func nameOfAttributedString(fontSize: CGFloat) -> NSAttributedString {
         
-        let title = self.title
-        let string = NSMutableAttributedString()
+        let string = NSMutableAttributedString(string: "#\(uniqueId) ", attributes:[
+            .font: UIFont.systemFont(ofSize: fontSize-2),
+            .foregroundColor: UIColor(white: 105.0/255.0, alpha: 1 )
+        ])
         
-        if let title = title {
+        if let title = self.title {
             string.append(NSAttributedString(string: "\(title). ", attributes:[
                 .font: UIFont.systemFont(ofSize: fontSize-2),
                 .foregroundColor: UIColor(white: 105.0/255.0, alpha: 1 )

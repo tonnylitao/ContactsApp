@@ -31,9 +31,18 @@ extension Decodable {
             requestModifier: requestModifier
         )
         .validate()
-        .responseDecodable(of: Self.self) { data in
+        .responseDecodable(of: Self.self, queue: DispatchQueue.global()) { data in
             let result = data.result.mapError { AppError.networking($0.localizedDescription) }
-            completion(result)
+            
+            #if DEBUG
+            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
+                completion(result)
+            }
+            #else
+            DispatchQueue.main.async {
+                completion(result)
+            }
+            #endif
         }
     }
 }

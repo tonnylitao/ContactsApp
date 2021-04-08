@@ -28,7 +28,7 @@ extension AppError {
         case .networking:
             return "😂\nBusy\n Network"
         default:
-            return "🍺\nComeback\n later"
+            return "🍺\nCome back\n later"
         }
     }
     

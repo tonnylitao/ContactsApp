@@ -15,5 +15,5 @@ protocol RemoteEntity {
     
     associatedtype Entity: DBEntity
     
-    func importInto(_ entiry: Entity)
+    func importInto(_ entiry: Entity) -> Bool
 }

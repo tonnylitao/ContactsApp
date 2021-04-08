@@ -20,7 +20,7 @@ struct RemoteUser: Decodable, CustomStringConvertible {
     var fakeId: TypeOfId?
     
     let gender: Gender?
-    let name: Name
+    var name: Name
     let location: Location
     let email: String?
     let login: Login
@@ -144,24 +144,31 @@ extension RemoteUser: RemoteEntity {
         fatalError("id is nil")
     }
     
-    func importInto(_ entity: DBUser) {
-        entity.id = uniqueId
+    @discardableResult
+    func importInto(_ entity: DBUser) -> Bool {
+        var updated = false
         
-        entity.title = name.title
-        entity.firstName = name.first
-        entity.lastName = name.last
+        //get rid of context.hasChanges is true even setting same value
+        if entity.id != uniqueId { entity.id = uniqueId; updated = true }
+        
+        if entity.title != name.title { entity.title = name.title; updated = true }
+        if entity.firstName != name.first { entity.firstName = name.first; updated = true }
+        if entity.lastName != name.last { entity.lastName = name.last; updated = true }
+        
 
-        entity.gender = gender?.rawValue
-        entity.dayOfBirth = dob.date
+        if entity.gender != gender?.rawValue { entity.gender = gender?.rawValue; updated = true }
+        if entity.dayOfBirth != dob.date { entity.dayOfBirth = dob.date; updated = true }
 
-        entity.pictureThumbnail = picture.thumbnail
-        entity.pictureLarge = picture.large
+        if entity.pictureThumbnail != picture.thumbnail { entity.pictureThumbnail = picture.thumbnail; updated = true }
+        if entity.pictureLarge != picture.large { entity.pictureLarge = picture.large; updated = true }
 
-        entity.cell = cell
-        entity.phone = phone
-        entity.email = email
+        if entity.cell != cell { entity.cell = cell; updated = true }
+        if entity.phone != phone { entity.phone = phone; updated = true }
+        if entity.email != email { entity.email = email; updated = true }
 
-        entity.nationality = nat
-        entity.address = location.description
+        if entity.nationality != nat { entity.nationality = nat; updated = true }
+        if entity.address != location.description { entity.address = location.description; updated = true }
+        
+        return updated
     }
 }

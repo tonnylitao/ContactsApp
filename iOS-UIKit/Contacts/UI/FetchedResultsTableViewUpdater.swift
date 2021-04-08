@@ -20,7 +20,7 @@ class FetchedResultsTableViewUpdater: NSObject, NSFetchedResultsControllerDelega
     }
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-//        print("didChange at indexPath")
+        print("didChange at indexPath \([1: "insert", 2: "delete", 3: "move", 4: "update"][type.rawValue]!)")
         
         switch type {
         case .insert:
@@ -28,7 +28,7 @@ class FetchedResultsTableViewUpdater: NSObject, NSFetchedResultsControllerDelega
         case .delete:
             tableView?.deleteRows(at: [indexPath!], with: .fade)
         case .update:
-            tableView?.cellForRow(at: indexPath!)
+            tableView?.reloadRows(at: [indexPath!], with: .fade)
         case .move:
             tableView?.deleteRows(at: [indexPath!], with: .fade)
             tableView?.insertRows(at: [newIndexPath!], with: .fade)

@@ -18,79 +18,112 @@ enum LoadResourceStatus: Equatable {
     case `default`, loading, success, error(AppError)
 }
 
-class TableViewState {
+class UserTableViewModel: NSObject {
+    /* State */
     let hudStatus = ValueWrapper<LoadResourceStatus>(.default)
     let refreshStatus = ValueWrapper<LoadResourceStatus>(.default)
     let loadMoreStatus = ValueWrapper<LoadResourceStatus>(.default)
-    
     let enableLoadMore = ValueWrapper<Bool>(false)
-}
-
-class UserTableViewModel: NSObject {
-    /* State */
-    let tableViewState = TableViewState()
+    
     let fetchedFromDB = ValueWrapper<[IndexPath]>([])
+    
+    
+    /* Dependency */
+    var currentPage: PageIndex = ApiConfig.firstPageIndex
+    
+    lazy var repository: UserRepository? = {
+        let repository = UserRepositoryImpl()
+        
+        repository.remote = RemoteDataSourceImpl()
+        repository.dataSyncManager = DataSyncManager()
+        repository.dataSyncManager.container = CoreDataStack.shared.persistentContainer
+        
+        return repository
+    }()
+    
+    var tableViewUpdater: FetchedResultsTableViewUpdater?
+    
+    init(_ tableViewUpdater: FetchedResultsTableViewUpdater) {
+        self.tableViewUpdater = tableViewUpdater
+    }
     
     /* Task methods */
     func initialData() {
-        tableViewState.hudStatus.value = .loading
+        currentPage = ApiConfig.firstPageIndex
         
-        loadData { [weak self] result in
+        _ = try? performFetch(currentPage)
+        
+        hudStatus.value = .loading
+        repository?.fetchUsers(pageIndex: ApiConfig.firstPageIndex,
+                               pageSize: ApiConfig.defaultPagingSize) { [weak self] (result) in
+            guard let self = self else { return }
+            
             switch result {
-            case .success(_):
-                self?.tableViewState.hudStatus.value = .success
+            case .success(let list):
+                self.hudStatus.value = .success
+                self.enableLoadMore.value = list.count == ApiConfig.defaultPagingSize
+                
+                self.repository?.updateLastIdInPreviousPage(id: list.last?.uniqueId)
             case .failure(let err):
-                self?.tableViewState.hudStatus.value = .error(err)
+                self.hudStatus.value = .error(err)
             }
         }
     }
     
     @objc func refresh(refresh: Any) {
-        tableViewState.refreshStatus.value = .loading
-        
-        loadData { [weak self] result in
+        refreshStatus.value = .loading
+        repository?.fetchUsers(pageIndex: ApiConfig.firstPageIndex,
+                               pageSize: ApiConfig.defaultPagingSize) { [weak self] result in
+            guard let self = self else { return }
+            
             switch result {
-            case .success(_):
-                self?.tableViewState.refreshStatus.value = .success
+            case .success(let list):
+                self.refreshStatus.value = .success
+                
+                self.repository?.updateLastIdInPreviousPage(id: list.last?.uniqueId)
             case .failure(let err):
-                self?.tableViewState.refreshStatus.value = .error(err)
+                self.refreshStatus.value = .error(err)
             }
         }
     }
     
     func loadMore() {
-        tableViewState.loadMoreStatus.value = .loading
+        loadMoreStatus.value = .loading
         
-        loadData(currentPage + 1) { [weak self] result in
+        _ = try? self.performFetch(currentPage + 1)
+        
+        repository?.fetchUsers(pageIndex: currentPage + 1,
+                               pageSize: ApiConfig.defaultPagingSize) { [weak self] result in
+            guard let self = self else { return }
+            
             switch result {
-            case .success(_):
-                self?.tableViewState.loadMoreStatus.value = .success
+            case .success(let list):
+                self.currentPage += 1
+
+                self.loadMoreStatus.value = .success
+                
+                self.enableLoadMore.value = list.count == ApiConfig.defaultPagingSize
+                
+                if !list.isEmpty {
+                    self.repository?.updateLastIdInPreviousPage(id: list.last?.uniqueId)
+                }
             case .failure(let err):
-                self?.tableViewState.loadMoreStatus.value = .error(err)
+                self.loadMoreStatus.value = .error(err)
             }
         }
     }
     
-    var currentPage: PageIndex = ApiConfig.firstPageIndex
-    private var previousPagLastId: TypeOfId?
-    
-    /* Dependency */
-    var tableViewUpdater: FetchedResultsTableViewUpdater?
-    
-    init(_ tableViewUpdater: FetchedResultsTableViewUpdater?) {
-        self.tableViewUpdater = tableViewUpdater
-    }
-    
     var fetchedObjects: [DBUser]? {
-        return fetchedResultsController.fetchedObjects
+        fetchedResultsController.fetchedObjects
     }
     
     lazy var fetchedResultsController: NSFetchedResultsController<DBUser> = {
         let context = CoreDataStack.shared.mainContext
         
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: DBUser.entity().name ?? "User").also {
+        let fetchRequest = NSFetchRequest<DBUser>(entityName: "User").also {
             $0.fetchLimit = ApiConfig.defaultPagingSize
             $0.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
+            $0.fetchBatchSize = 15 //double size of cells count in screen
         }
         
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
@@ -99,13 +132,13 @@ class UserTableViewModel: NSObject {
                                              cacheName: nil)
         frc.delegate = tableViewUpdater
         
-        return frc as! NSFetchedResultsController<DBUser>
+        return frc
     }()
     
     private func performFetch(_ pageIndex: PageIndex) throws -> Int {
         
         fetchedResultsController.fetchRequest.also {
-            $0.fetchLimit = max(pageIndex * ApiConfig.defaultPagingSize, $0.fetchLimit)
+            $0.fetchLimit = pageIndex * ApiConfig.defaultPagingSize
         }
         
         let oldCount = fetchedResultsController.fetchedObjects?.count ?? 0
@@ -122,120 +155,6 @@ class UserTableViewModel: NSObject {
     /* */
     private var search: Search = (.all, "")
     static let countInSearch = 50
-}
-
-extension UserTableViewModel {
-    
-    func loadData(_ pageIndex: PageIndex = ApiConfig.firstPageIndex, completion: @escaping ResultCompletion<[TypeOfId]>) {
-        loadData(currentPage + 1, dbCompletion: { [weak self] result in
-            
-            self?.tableViewState.enableLoadMore.value = result.wrappedResult == ApiConfig.defaultPagingSize
-            
-        }) { [weak self] result in
-            
-            result.onSuccess {
-                self?.tableViewState.enableLoadMore.value = $0.count == ApiConfig.defaultPagingSize
-            }
-            
-            completion(result)
-        }
-    }
-
-    func loadData(_ pageIndex: PageIndex = ApiConfig.firstPageIndex,
-                  dbCompletion: @escaping ResultCompletion<Int>,
-                  apiCompletion: @escaping ResultCompletion<[TypeOfId]>) {
-        
-        /*
-         load data from local db
-         */
-        let countFromLocalData: Int
-        do {
-            countFromLocalData = try performFetch(pageIndex)
-        }catch {
-            apiCompletion(.failure(.coredata(error.localizedDescription)))
-            return
-        }
-        
-        /*
-         reload tableview if local data existed
-         */
-        dbCompletion(.success(countFromLocalData))
-        
-        /*
-         load from api
-         */
-        let para: [String: Any] = ["page": "\(pageIndex)", "results": "\(ApiConfig.defaultPagingSize)", "seed": ApiConfig.defaultSeed]
-        
-        weak var weakSelf = self
-        
-        let previousPagLastId = self.previousPagLastId
-        RemoteUserResponse.request(ApiConfig.apiHost + ApiPath.users.rawValue, parameters: para) { apiResult in
-         
-            DispatchQueue.global().async {
-                
-                /*
-                 sync remote data with local db
-                 may need to update, insert or delete
-                 */
-                apiResult.syncWithDB(pageIndex, previousPagLastId) { idsResult in
-                    
-                    /*
-                     cache lastId to delete local data in next page if necessory
-                     */
-                    apiResult.onSuccess { remoteUserResponse in
-                        weakSelf?.previousPagLastId = remoteUserResponse.results.last?.fakeId
-                    }
-                    
-                    DispatchQueue.main.async {
-                        
-                        if pageIndex > 1 {
-                            
-                            switch idsResult {
-                            case .success(let array)
-                                where array.count == ApiConfig.defaultPagingSize:
-                                
-                                weakSelf?.currentPage = pageIndex
-                                
-                            case .failure(let error)
-                                where countFromLocalData == ApiConfig.defaultPagingSize && !error.isCoreDataError:
-                                
-                                /*
-                                 enable infinite scrolling to load local data in next page
-                                */
-                                
-                                weakSelf?.currentPage = pageIndex
-                                
-                            default: break
-                            }
-                        }
-                        
-                        apiCompletion(idsResult)
-                    }
-                }
-            }
-        }
-    }
-}
-
-extension Result where Success == RemoteUserResponse, Failure == AppError {
-    
-    func syncWithDB(_ pageIndex: PageIndex, _ previousPagLastId: TypeOfId?, completion: @escaping ResultCompletion<[TypeOfId]>) {
-        
-        self.onSuccess { remoteUserResponse in
-            
-            //create unique id for items in api's result
-            let remoteData = remoteUserResponse.unsafeBuildFakeIds(pageIndex)
-            
-            print("Remote ids:", remoteData.map { $0.fakeId ?? TypeOfId(0) })
-            
-            DBUser.keepConsistencyWith(previousPageLastId: previousPagLastId,
-                                       remoteData: remoteData,
-                                       condition: nil,
-                                       completion: completion)
-        }.onFailure {
-            completion(.failure($0))
-        }
-    }
 }
 
 

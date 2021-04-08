@@ -51,6 +51,6 @@ extension MBProgressHUD {
         mode = .text
         label.text = message
         label.numberOfLines = 0
-        hide(animated: true, afterDelay: 2.0)
+        hide(animated: true, afterDelay: 3.0)
     }
 }

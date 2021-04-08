@@ -43,7 +43,7 @@ class UserTableViewController: UITableViewController {
     
     private func bind() {
         var hud: MBProgressHUD?
-        viewModel.tableViewState.hudStatus.observe { [weak self] value in
+        viewModel.hudStatus.observe { [weak self] value in
             guard let self = self else {
                 hud?.hide(animated: false)
                 return
@@ -63,7 +63,7 @@ class UserTableViewController: UITableViewController {
             }
         }
         
-        viewModel.tableViewState.refreshStatus.observe { [weak self] value in
+        viewModel.refreshStatus.observe { [weak self] value in
             guard let self = self else { return }
             
             switch value {
@@ -78,7 +78,7 @@ class UserTableViewController: UITableViewController {
             }
         }
         
-        viewModel.tableViewState.loadMoreStatus.observe { [weak self] value in
+        viewModel.loadMoreStatus.observe { [weak self] value in
             guard let self = self else { return }
             
             switch value {
@@ -92,7 +92,7 @@ class UserTableViewController: UITableViewController {
             }
         }
         
-        viewModel.tableViewState.enableLoadMore.observe { [weak self] enableLoadMore in
+        viewModel.enableLoadMore.observe { [weak self] enableLoadMore in
             guard let self = self else { return }
             
             self.tableView.infiniteScrollingView?.enabled = enableLoadMore
