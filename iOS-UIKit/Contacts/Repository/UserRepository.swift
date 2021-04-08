@@ -19,9 +19,14 @@ protocol UserRepository {
 }
 
 class UserRepositoryImpl: UserRepository {
-    var remote: RemoteUserDataSource!
     
+    var remoteDataSource: RemoteUserDataSource!
     var dataSyncManager: DataSyncManager!
+    
+    init(remoteDataSource: RemoteUserDataSource, dataSyncManager: DataSyncManager) {
+        self.remoteDataSource = remoteDataSource
+        self.dataSyncManager = dataSyncManager
+    }
     
     func updateLastIdInPreviousPage(id: TypeOfId?) {
         dataSyncManager.lastIdInPreviousPage = id
@@ -29,7 +34,7 @@ class UserRepositoryImpl: UserRepository {
     
     func fetchUsers(pageIndex: Int, pageSize: Int, completion: @escaping ResultCompletion<[RemoteUser]>) {
         
-        remote.fetchUsers(pageIndex: pageIndex, pageSize: pageSize, completion: { [weak self] (result) in
+        remoteDataSource.fetchUsers(pageIndex: pageIndex, pageSize: pageSize, completion: { [weak self] (result) in
             guard let self = self else { return }
             
             if case .failure(_) = result {

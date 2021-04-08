@@ -11,8 +11,13 @@ import CoreData
 
 class DataSyncManager {
     
-    var lastIdInPreviousPage: TypeOfId?
     var container: NSPersistentContainer!
+    
+    init(container: NSPersistentContainer) {
+        self.container = container
+    }
+    
+    var lastIdInPreviousPage: TypeOfId?
     
     var viewContext: NSManagedObjectContext {
         container.viewContext

@@ -32,13 +32,10 @@ class UserTableViewModel: NSObject {
     var currentPage: PageIndex = ApiConfig.firstPageIndex
     
     lazy var repository: UserRepository? = {
-        let repository = UserRepositoryImpl()
-        
-        repository.remote = RemoteDataSourceImpl()
-        repository.dataSyncManager = DataSyncManager()
-        repository.dataSyncManager.container = CoreDataStack.shared.persistentContainer
-        
-        return repository
+        UserRepositoryImpl(
+            remoteDataSource: RemoteDataSourceImpl(),
+            dataSyncManager: DataSyncManager(container: CoreDataStack.shared.persistentContainer)
+        )
     }()
     
     var tableViewUpdater: FetchedResultsTableViewUpdater?
