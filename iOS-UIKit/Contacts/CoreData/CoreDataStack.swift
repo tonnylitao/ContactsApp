@@ -17,7 +17,7 @@ class CoreDataStack: NSObject {
     
 
     @available(iOS 10.0, *)
-    private lazy var persistentContainer: NSPersistentContainer = {
+    lazy var persistentContainer: NSPersistentContainer = {
         return NSPersistentContainer(name: "Contacts").also {
             $0.loadPersistentStores(completionHandler: { (storeDescription, error) in
                 
