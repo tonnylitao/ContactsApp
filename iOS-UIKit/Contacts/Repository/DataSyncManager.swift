@@ -77,8 +77,7 @@ class DataSyncManager {
         
         // batch delete
         if remoteData.count > 1 {
-            let minId = ids.first!
-            let maxId = ids.last!
+            let (minId, maxId) = (ids.first!, ids.last!)
             
             let predicate = NSPredicate(format: "id >= %d AND id <= %d AND NOT id IN %@", minId, maxId, ids)
             let count = try batchDeleteWith(predicate: predicate, context: context)
