@@ -72,7 +72,7 @@ class UserTableViewModel: NSObject {
             guard let self = self else { return }
             
             switch result {
-            case .success(let list):
+            case .success(_):
                 self.refreshStatus.value = .success
             case .failure(let err):
                 self.refreshStatus.value = .error(err)

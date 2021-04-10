@@ -18,7 +18,7 @@ class CoreDataStack: NSObject {
 
     @available(iOS 10.0, *)
     lazy var persistentContainer: NSPersistentContainer = {
-        return NSPersistentContainer(name: "Contacts").also {
+        NSPersistentContainer(name: "Contacts").also {
             $0.loadPersistentStores(completionHandler: { (storeDescription, error) in
                 
                 error.ifSome {
@@ -66,58 +66,6 @@ class CoreDataStack: NSObject {
             TODO("persistentStoreCoordinator")
             $0.parent = self.mainContext
         }
-    }
-}
-
-
-extension CoreDataStack {
-    
-    static func performBackgroundTask(_ task: @escaping (NSManagedObjectContext) throws -> Result<[TypeOfId], AppError>,
-                                      completion: @escaping ResultCompletion<[TypeOfId]>) {
-        
-        if #available(iOS 10.0, *) {
-            shared.persistentContainer.performBackgroundTask { context in
-                
-                let result: Result<[TypeOfId], AppError>
-                do {
-                    result = try task(context)
-                }catch {
-                    completion(.failure(.coredata(error.localizedDescription)))
-                    return
-                }
-                
-                do {
-                    try context.save()
-                }catch {
-                    return completion(.failure(.coredata(error.localizedDescription)))
-                }
-                
-                completion(result)
-            }
-        } else {
-            let context = CoreDataStack.shared.backgroundContext
-            
-            let result: Result<[TypeOfId], AppError>
-            do {
-                result = try task(context)
-            }catch {
-                completion(.failure(.coredata(error.localizedDescription)))
-                return
-            }
-            
-            
-            context.performAndWait {
-                
-                do {
-                    try context.save()
-                }catch {
-                    return completion(.failure(.coredata(error.localizedDescription)))
-                }
-            }
-            
-            completion(result)
-        }
-        
     }
 }
 

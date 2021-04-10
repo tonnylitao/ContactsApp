@@ -99,6 +99,8 @@ class DataSyncEngine {
     }
     
     private func batchDelete<Remote: RemoteEntity>(type: Remote.Type, decoration: (NSFetchRequest<NSFetchRequestResult>) -> (), in context: NSManagedObjectContext) throws {
+        if container.persistentStoreDescriptions.first?.type == NSInMemoryStoreType { return }
+        
         let fetchRequest = Remote.Entity.fetchRequest()
         
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: Remote.Entity.primaryKeyName, ascending: true)]

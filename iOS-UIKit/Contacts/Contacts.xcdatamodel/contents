@@ -17,6 +17,6 @@
         <attribute name="uniqueId" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
     <elements>
-        <element name="User" positionX="-63" positionY="-18" width="128" height="239"/>
+        <element name="User" positionX="-63" positionY="-18" width="128" height="253"/>
     </elements>
 </model>
