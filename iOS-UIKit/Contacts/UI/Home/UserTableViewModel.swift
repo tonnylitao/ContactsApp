@@ -34,7 +34,7 @@ class UserTableViewModel: NSObject {
     lazy var repository: UserRepository? = {
         UserRepositoryImpl(
             remoteDataSource: RemoteDataSourceImpl(),
-            dataSyncManager: DataSyncManager(container: CoreDataStack.shared.persistentContainer)
+            dataSyncEngine: DataSyncEngine(container: CoreDataStack.shared.persistentContainer)
         )
     }()
     
@@ -59,8 +59,6 @@ class UserTableViewModel: NSObject {
             case .success(let list):
                 self.hudStatus.value = .success
                 self.enableLoadMore.value = list.count == ApiConfig.defaultPagingSize
-                
-                self.repository?.updateLastIdInPreviousPage(id: list.last?.uniqueId)
             case .failure(let err):
                 self.hudStatus.value = .error(err)
             }
@@ -76,8 +74,6 @@ class UserTableViewModel: NSObject {
             switch result {
             case .success(let list):
                 self.refreshStatus.value = .success
-                
-                self.repository?.updateLastIdInPreviousPage(id: list.last?.uniqueId)
             case .failure(let err):
                 self.refreshStatus.value = .error(err)
             }
@@ -100,10 +96,6 @@ class UserTableViewModel: NSObject {
                 self.loadMoreStatus.value = .success
                 
                 self.enableLoadMore.value = list.count == ApiConfig.defaultPagingSize
-                
-                if !list.isEmpty {
-                    self.repository?.updateLastIdInPreviousPage(id: list.last?.uniqueId)
-                }
             case .failure(let err):
                 self.loadMoreStatus.value = .error(err)
             }

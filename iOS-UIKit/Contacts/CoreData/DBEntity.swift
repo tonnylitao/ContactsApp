@@ -30,6 +30,12 @@ import SwiftInKotlinStyle
     }
  */
 
-protocol DBEntity: class {
+protocol DBEntity: AnyObject {
+    static var primaryKeyName: String { get }
+    
+    static func fetchRequest() -> NSFetchRequest<NSFetchRequestResult>
+    
     var uniqueId: TypeOfId { get }
+    
+    init(context moc: NSManagedObjectContext)
 }

@@ -12,8 +12,8 @@ import CoreData
 protocol RemoteEntity {
     var uniqueId: TypeOfId { get }
     
-    
     associatedtype Entity: DBEntity
     
+    @discardableResult
     func importInto(_ entiry: Entity) -> Bool
 }

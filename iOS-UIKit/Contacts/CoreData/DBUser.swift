@@ -20,4 +20,9 @@ extension DBUser {
     
 }
 
-extension DBUser: DBEntity {}
+extension DBUser: DBEntity {
+    
+    static var primaryKeyName: String {
+        return "uniqueId"
+    }
+}

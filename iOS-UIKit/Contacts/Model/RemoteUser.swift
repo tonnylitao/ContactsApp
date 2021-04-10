@@ -20,7 +20,7 @@ struct RemoteUser: Decodable, CustomStringConvertible {
     var fakeId: TypeOfId?
     
     let gender: Gender?
-    var name: Name
+    let name: Name
     let location: Location
     let email: String?
     let login: Login
@@ -148,7 +148,7 @@ extension RemoteUser: RemoteEntity {
     func importInto(_ entity: DBUser) -> Bool {
         var updated = false
         
-        //get rid of context.hasChanges is true even setting same value
+        //get rid of context.hasChanges is true even set same value
         if entity.uniqueId != uniqueId { entity.uniqueId = uniqueId; updated = true }
         
         if entity.title != name.title { entity.title = name.title; updated = true }

@@ -13,7 +13,7 @@
 		A6B59EA32601E0D700C62ED5 /* MBProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = A6B59EA22601E0D700C62ED5 /* MBProgressHUD */; };
 		A6B59EA92601E0F400C62ED5 /* FlagKit in Frameworks */ = {isa = PBXBuildFile; productRef = A6B59EA82601E0F400C62ED5 /* FlagKit */; };
 		A6B59EAF2601E10F00C62ED5 /* SwiftInKotlinStyle in Frameworks */ = {isa = PBXBuildFile; productRef = A6B59EAE2601E10F00C62ED5 /* SwiftInKotlinStyle */; };
-		A6D782BC261F141100BDA2EF /* DataSyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6D782BB261F141100BDA2EF /* DataSyncManager.swift */; };
+		A6D782BC261F141100BDA2EF /* DataSyncEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6D782BB261F141100BDA2EF /* DataSyncEngine.swift */; };
 		A6E3BAF7260400B8007CFE39 /* ValueWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6E3BAF6260400B8007CFE39 /* ValueWrapper.swift */; };
 		B524DC2B2479DFA300D8312D /* ContactsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B524DC2A2479DFA300D8312D /* ContactsUITests.swift */; };
 		B524DC472479E1C000D8312D /* ApiConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57DAC7E24766049000FED15 /* ApiConfig.swift */; };
@@ -90,7 +90,7 @@
 		8ADF9CBFB4DDFDE4457990FD /* Pods-Contacts.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Contacts.debug.xcconfig"; path = "Target Support Files/Pods-Contacts/Pods-Contacts.debug.xcconfig"; sourceTree = "<group>"; };
 		A62F089F26191E6B00B9710F /* Decodable+Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decodable+Networking.swift"; sourceTree = "<group>"; };
 		A62F08B1261920F600B9710F /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
-		A6D782BB261F141100BDA2EF /* DataSyncManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSyncManager.swift; sourceTree = "<group>"; };
+		A6D782BB261F141100BDA2EF /* DataSyncEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSyncEngine.swift; sourceTree = "<group>"; };
 		A6E3BAF6260400B8007CFE39 /* ValueWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueWrapper.swift; sourceTree = "<group>"; };
 		A85003BCF909E2D87DBC8A03 /* Pods-Contacts.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Contacts.release.xcconfig"; path = "Target Support Files/Pods-Contacts/Pods-Contacts.release.xcconfig"; sourceTree = "<group>"; };
 		B524DC282479DFA300D8312D /* ContactsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ContactsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -186,7 +186,7 @@
 			isa = PBXGroup;
 			children = (
 				A62F08B1261920F600B9710F /* UserRepository.swift */,
-				A6D782BB261F141100BDA2EF /* DataSyncManager.swift */,
+				A6D782BB261F141100BDA2EF /* DataSyncEngine.swift */,
 				A62F089F26191E6B00B9710F /* Decodable+Networking.swift */,
 			);
 			path = Repository;
@@ -588,7 +588,7 @@
 				B58BF3942476461A003D9D49 /* AppDelegate.swift in Sources */,
 				B57DAC7C24765E04000FED15 /* RemoteUser.swift in Sources */,
 				B5A70F1F2477BFF2003923EA /* RemoteEntity.swift in Sources */,
-				A6D782BC261F141100BDA2EF /* DataSyncManager.swift in Sources */,
+				A6D782BC261F141100BDA2EF /* DataSyncEngine.swift in Sources */,
 				B55DA11824793E78006D240C /* Static.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
