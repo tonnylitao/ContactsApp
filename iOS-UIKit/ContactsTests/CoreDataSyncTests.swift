@@ -98,7 +98,7 @@ class CoreDataSyncTests: XCTestCase {
         try test_load_second_fullfield_page()
         
         var list = mockingData(pageIndex: 2, pageSize: 7)
-        let item2 = list[2].copyWith(email: "a new Email")
+        let item2 = list[2].copyWith(newEmail: "a new Email")
         
         /*
          delete 3rd, 4th, 5th
@@ -143,9 +143,9 @@ class CoreDataSyncTests: XCTestCase {
 }
 
 extension RemoteUser {
-    func copyWith(email: String) -> RemoteUser {
+    func copyWith(newEmail: String) -> RemoteUser {
         RemoteUser(fakeId: fakeId, gender: gender, name: name, location: location,
-                   email: email,
+                   email: newEmail,
                    login: login, dob: dob, registered: registered, phone: phone, cell: cell, id: id, picture: picture, nat: nat)
     }
 }
