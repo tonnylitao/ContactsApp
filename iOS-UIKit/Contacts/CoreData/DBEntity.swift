@@ -32,6 +32,7 @@ import SwiftInKotlinStyle
 
 protocol DBEntity: AnyObject {
     static var primaryKeyName: String { get }
+    static var name: String { get }
     
     static func fetchRequest() -> NSFetchRequest<NSFetchRequestResult>
     

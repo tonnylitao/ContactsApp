@@ -72,10 +72,11 @@ class DataSyncEngine {
         }
         
         // find-or-create
-        let fetchRequest = Remote.Entity.fetchRequest()
+        //fix 'Multiple NSEntityDescriptions claim' when using in-memory type in unit testing
+        let fetchRequest = NSFetchRequest<Remote.Entity>(entityName: Remote.Entity.name)
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: key, ascending: true)]
         fetchRequest.predicate = NSPredicate(format: "%K IN %@", key, ids)
-        let existed = try context.fetch(fetchRequest) as! [Remote.Entity]
+        let existed = try context.fetch(fetchRequest) 
         
         let idEntityMapping = existed.reduce(into: [:]) { $0[$1.uniqueId] = $1 }
         
@@ -88,36 +89,48 @@ class DataSyncEngine {
                 }
             }else {
                 // create
-                let entity = Remote.Entity(context: context)
+                //fix 'Multiple NSEntityDescriptions claim' when using in-memory type in unit testing
+                let entity = NSEntityDescription.insertNewObject(forEntityName: Remote.Entity.name, into: context) as! Remote.Entity
                 item.importInto(entity)
-                context.insert(entity)
             }
         }
         
-        print("sync update", updateCount)
-        print("sync insert", remoteList.filter { idEntityMapping[$0.uniqueId] == nil } .count)
+        print("sync update", updateCount, "count")
+        print("sync insert", remoteList.filter { idEntityMapping[$0.uniqueId] == nil } .count, "count")
     }
     
-    private func batchDelete<Remote: RemoteEntity>(type: Remote.Type, decoration: (NSFetchRequest<NSFetchRequestResult>) -> (), in context: NSManagedObjectContext) throws {
-        if container.persistentStoreDescriptions.first?.type == NSInMemoryStoreType { return }
+    private func batchDelete<Remote: RemoteEntity>(type: Remote.Type, decoration: (NSFetchRequest<NSFetchRequestResult>) -> (), in context: NSManagedObjectContext) throws where Remote.Entity: NSManagedObject {
         
-        let fetchRequest = Remote.Entity.fetchRequest()
-        
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: Remote.Entity.name)
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: Remote.Entity.primaryKeyName, ascending: true)]
-        
         decoration(fetchRequest)
         
-        let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-        batchDeleteRequest.resultType = .resultTypeObjectIDs
-        
-        let result = try context.execute(batchDeleteRequest) as? NSBatchDeleteResult
-        
-        var count = 0
-        if let ids = result?.result as? [NSManagedObjectID], !ids.isEmpty {
-            NSManagedObjectContext.mergeChanges(fromRemoteContextSave: [NSDeletedObjectsKey: ids], into: [self.viewContext])
-            count = ids.count
+        if container.persistentStoreDescriptions.first?.type == NSInMemoryStoreType {
+            fetchRequest.resultType = .managedObjectIDResultType
+            let result = try context.fetch(fetchRequest) as! [NSManagedObjectID]
+            
+            if !result.isEmpty {
+                result.forEach { id in
+                    context.delete(context.object(with: id))
+                }
+                NSManagedObjectContext.mergeChanges(fromRemoteContextSave: [NSDeletedObjectsKey: result], into: [self.viewContext])
+            }
+            
+            print("syc delete", result.count, "count", fetchRequest.predicate as Any)
+        }else {
+            
+            let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+            batchDeleteRequest.resultType = .resultTypeObjectIDs
+            
+            let result = try context.execute(batchDeleteRequest) as? NSBatchDeleteResult
+            
+            var count = 0
+            if let ids = result?.result as? [NSManagedObjectID], !ids.isEmpty {
+                NSManagedObjectContext.mergeChanges(fromRemoteContextSave: [NSDeletedObjectsKey: ids], into: [self.viewContext])
+                count = ids.count
+            }
+            
+            print("syc delete", count, "count", fetchRequest.predicate as Any)
         }
-        
-        print("syc delete", count, fetchRequest.predicate as Any)
     }
 }

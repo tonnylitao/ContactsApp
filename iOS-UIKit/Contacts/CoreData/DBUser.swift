@@ -25,4 +25,9 @@ extension DBUser: DBEntity {
     static var primaryKeyName: String {
         return "uniqueId"
     }
+    
+    static var name: String {
+        return "User"
+    }
+    
 }
