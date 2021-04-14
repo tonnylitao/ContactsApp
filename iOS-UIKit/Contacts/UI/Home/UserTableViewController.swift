@@ -35,6 +35,7 @@ class UserTableViewController: UITableViewController {
         
         tableView.addInfiniteScrolling(actionHandler: viewModel.loadMore)
         tableView.infiniteScrollingView.enabled = false
+        tableView.prefetchDataSource = self
         
         bind()
         
@@ -138,5 +139,22 @@ extension UserTableViewController: UISearchResultsUpdating {
         let vc = searchController.searchResultsController as? SearchUserTableViewController
         vc?.viewModel.searchWith(text)
         tableView.reloadData()
+    }
+}
+
+extension UserTableViewController: UITableViewDataSourcePrefetching {
+    
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        let fetchRequest: NSFetchRequest<DBUser> = DBUser.fetchRequest().also {
+            $0.returnsObjectsAsFaults = false
+            
+            let items = indexPaths.map { self.viewModel.fetchedResultsController.object(at: $0) }
+            $0.predicate = NSPredicate(format: "SELF IN %@", items)
+        }
+        
+        let asyncFetchRequest = NSAsynchronousFetchRequest(fetchRequest: fetchRequest)
+        do {
+            try self.viewModel.fetchedResultsController.managedObjectContext.execute(asyncFetchRequest)
+        } catch { }
     }
 }
