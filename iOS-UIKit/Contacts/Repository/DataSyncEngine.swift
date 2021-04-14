@@ -17,13 +17,19 @@ class DataSyncEngine {
         self.container = container
     }
     
+    lazy var newBackgroundContext: NSManagedObjectContext = {
+        return container.newBackgroundContext()
+    }()
+    
     var viewContext: NSManagedObjectContext {
         container.viewContext
     }
     
-    func sync<Remote: RemoteEntity>(remoteData: [Remote], offset: Int, isFullFilled: Bool, completion: @escaping (Error?) -> ()) where Remote.Entity: NSManagedObject {
+    func sync<Remote: RemoteEntity>(from remoteData: [Remote], offset: Int, isFullFilled: Bool, completion: @escaping (Error?) -> ()) where Remote.Entity: NSManagedObject {
 
-        container.performBackgroundTask { context in
+        let context = newBackgroundContext
+        
+        context.perform {
             var err: Error?
             do {
                 if remoteData.isEmpty {
@@ -31,7 +37,7 @@ class DataSyncEngine {
                         fetchRequest.fetchOffset = offset
                     }, in: context)
                 }else {
-                    try self.deleteOrInsertOrUpdate(with: remoteData, isFullFilled: isFullFilled, in: context)
+                    try self.sync(from: remoteData, isFullFilled: isFullFilled, in: context)
                     
                     if context.hasChanges {
                         try context.save()
@@ -47,7 +53,7 @@ class DataSyncEngine {
         }
     }
     
-    private func deleteOrInsertOrUpdate<Remote: RemoteEntity>(with remoteList: [Remote], isFullFilled: Bool, in context: NSManagedObjectContext) throws where Remote.Entity: NSManagedObject {
+    private func sync<Remote: RemoteEntity>(from remoteList: [Remote], isFullFilled: Bool, in context: NSManagedObjectContext) throws where Remote.Entity: NSManagedObject {
         guard !remoteList.isEmpty else { fatalError() }
         
         let key = Remote.Entity.primaryKeyName

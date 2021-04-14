@@ -38,7 +38,7 @@ class UserRepositoryImpl: UserRepository {
             }
             
             let remoteData = try! result.get()
-            self.dataSyncEngine.sync(remoteData: remoteData, offset: (pageIndex-1) * pageSize, isFullFilled: remoteData.count == pageSize) { err in
+            self.dataSyncEngine.sync(from: remoteData, offset: (pageIndex-1) * pageSize, isFullFilled: remoteData.count == pageSize) { err in
                 if let err = err {
                     completion(.failure(.coredata(err.localizedDescription)))
                     return
