@@ -27,7 +27,7 @@ class CoreDataSyncTests: XCTestCase {
         
         let expect = expectation(description: "create 5 entities if 5 items in 1st page")
         
-        syncEngine.sync(remoteData: list, offset: 0, isFullFilled: true) { (error) in
+        syncEngine.sync(from: list, offset: 0, isFullFilled: true) { (error) in
             XCTAssertNil(error)
             expect.fulfill()
         }
@@ -46,7 +46,7 @@ class CoreDataSyncTests: XCTestCase {
         
         let expect = expectation(description: "create no entity if empty page")
         
-        syncEngine.sync(remoteData: list, offset: 5, isFullFilled: false) { (error) in
+        syncEngine.sync(from: list, offset: 5, isFullFilled: false) { (error) in
             XCTAssertNil(error)
             expect.fulfill()
         }
@@ -65,7 +65,7 @@ class CoreDataSyncTests: XCTestCase {
         
         let expect = expectation(description: "create 5 entities if 5 items in 2nd page")
         
-        syncEngine.sync(remoteData: list, offset: 5, isFullFilled: true) { (error) in
+        syncEngine.sync(from: list, offset: 5, isFullFilled: true) { (error) in
             XCTAssertNil(error)
             expect.fulfill()
         }
@@ -82,7 +82,7 @@ class CoreDataSyncTests: XCTestCase {
         
         let expect = expectation(description: "delete 5 cached entities if empty 2nd page")
         
-        syncEngine.sync(remoteData: [RemoteUser](), offset: 5, isFullFilled: false) { (error) in
+        syncEngine.sync(from: [RemoteUser](), offset: 5, isFullFilled: false) { (error) in
             XCTAssertNil(error)
             expect.fulfill()
         }
@@ -110,7 +110,7 @@ class CoreDataSyncTests: XCTestCase {
         
         let expect = expectation(description: "delete, update and insert if necessory")
         
-        syncEngine.sync(remoteData: list, offset: 5, isFullFilled: false) { (error) in
+        syncEngine.sync(from: list, offset: 5, isFullFilled: false) { (error) in
             XCTAssertNil(error)
             expect.fulfill()
         }
